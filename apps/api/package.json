@@ -1,0 +1,16 @@
+{
+  "name": "@oj-detailing/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Serverless functions — no build step required'"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.11"
+  },
+  "devDependencies": {
+    "vercel": "latest"
+  }
+}

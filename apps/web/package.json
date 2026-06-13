@@ -1,0 +1,12 @@
+{
+  "name": "@oj-detailing/web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "serve -p 8080 .",
+    "build": "echo 'Static site — no build step required'"
+  },
+  "devDependencies": {
+    "serve": "latest"
+  }
+}
