@@ -1,17 +1,11 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { SERVICES, ADDONS } from '../data/pricing.js';
-import { ok, err, preflight } from '../lib/response.js';
 import { isValidEmail, coerceStringArray } from '../lib/utils.js';
-import { sendQuoteEmail } from '../services/mailer.js';
+import { sendQuoteEmail } from './mailer.js';
 import { QuotePayload, ResolvedQuote } from '../types/index.js';
 
-function parseBody(event: APIGatewayProxyEvent): Record<string, unknown> {
-  try {
-    return JSON.parse(event.body ?? '{}');
-  } catch {
-    throw new Error('Invalid JSON payload.');
-  }
-}
+export type QuoteError = { status: number; error: string };
+export type QuoteSuccess = { success: true };
+export type QuoteResult = QuoteSuccess | QuoteError;
 
 function validate(raw: Record<string, unknown>): QuotePayload {
   const vehicleType = String(raw['vehicle_type'] ?? '').trim();
@@ -63,38 +57,27 @@ function resolveQuote(payload: QuotePayload): ResolvedQuote {
   return { payload, serviceData, selectedAddons, basePrice, estimatedTotal, isCaravan };
 }
 
-export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  if (event.httpMethod === 'OPTIONS') return preflight();
-  if (event.httpMethod !== 'POST')    return err(405, 'Method not allowed.');
-
-  let raw: Record<string, unknown>;
-  try {
-    raw = parseBody(event);
-  } catch {
-    return err(400, 'Invalid JSON payload.');
-  }
-
-  // Silently swallow bot submissions
-  if (raw['company'] && String(raw['company']).trim() !== '') {
-    return ok({ success: true });
+export async function handleQuoteRequest(body: Record<string, unknown>): Promise<QuoteResult> {
+  if (body['company'] && String(body['company']).trim() !== '') {
+    return { success: true };
   }
 
   let quote: ResolvedQuote;
   try {
-    const payload = validate(raw);
+    const payload = validate(body);
     quote = resolveQuote(payload);
   } catch (e) {
     const status  = (e as { status?: number }).status ?? 400;
     const message = e instanceof Error ? e.message : 'Bad request.';
-    return err(status, message);
+    return { status, error: message };
   }
 
   try {
     await sendQuoteEmail(quote);
-    return ok({ success: true });
+    return { success: true };
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     console.error('[quote] email send error:', message);
-    return err(500, 'Failed to send \u2014 please try again or call us directly.');
+    return { status: 500, error: 'Failed to send \u2014 please try again or call us directly.' };
   }
-};
+}

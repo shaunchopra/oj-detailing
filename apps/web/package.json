@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "serve -p 8080 .",
+    "dev": "node dev-server.mjs",
     "build": "echo 'Static site — no build step required'"
   },
   "devDependencies": {
-    "serve": "latest"
+    "express": "^4.21.2",
+    "http-proxy-middleware": "^3.0.3"
   }
 }
