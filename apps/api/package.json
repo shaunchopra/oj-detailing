@@ -2,15 +2,16 @@
   "name": "@oj-detailing/api",
   "version": "0.0.0",
   "private": true,
-  "type": "commonjs",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'Serverless functions — no build step required'"
+    "build": "tsc",
+    "dev": "tsc --watch"
   },
   "dependencies": {
     "nodemailer": "^8.0.11"
   },
   "devDependencies": {
-    "vercel": "latest"
+    "@types/aws-lambda": "^8.10.149",
+    "@types/nodemailer": "^6.4.17",
+    "typescript": "^5.8.3"
   }
 }
