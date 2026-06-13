@@ -1,0 +1,687 @@
+/* ============================================================
+   SERVICES
+   The pricing / packages section. Includes:
+   - Section wrapper and header (.services, .services__inner, etc.)
+   - The 2-column card grid (.services__grid)
+   - Individual service cards (.service-card and all sub-elements)
+   - Blue accent colour for section title and "Book this" links
+   - Responsive: 1-column stack at ≤900px and mobile padding at ≤768px
+   ============================================================ */
+
+
+/* ── Section wrapper ── */
+.services {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem 5rem;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.services__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ── Section header: title and subtitle ── */
+.services__header {
+  max-width: 52ch;
+  margin: 0 0 2.75rem;
+}
+
+/* Section heading uses brand blue */
+.services__title {
+  font-size: clamp(2rem, 4vw, 2.625rem);
+  letter-spacing: -0.025em;
+  margin-bottom: 0.75rem;
+  color: var(--color-blue);
+}
+
+.services__sub {
+  color: var(--color-text-muted);
+  font-size: 1.0625rem;
+  font-weight: 300;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+}
+
+/* ── Card grid: 2 columns, shared border forms the cell grid lines ── */
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-panel);
+  /* overflow: visible so the popular card glow renders outside the grid bounds.
+     Corner rounding is now handled by the corner cards themselves (below). */
+  overflow: visible;
+  /* Vehicle-swap fade transition */
+  transition: opacity 0.16s ease;
+}
+
+.services__grid.is-switching {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Caravan qualifier line (shown under the price in caravan mode) ── */
+.spec__qualifier {
+  display: none;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--color-text-faint);
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  margin-top: 0.25rem;
+}
+
+/* ── Caravan mode: Touch Up card fully hidden ──
+   Double-class (0,2,0) beats .service-card { display: flex } (0,1,0)
+   regardless of source order. */
+.service-card.service-card--caravan-hidden {
+  display: none;
+}
+
+/* ── Caravan mode: Tier 1 centred on the top row (desktop pyramid) ──
+   grid-column: 1 / -1 spans both columns; max-width + margin centre it
+   at the same visual width as a single card. */
+.service-card--caravan-top {
+  grid-column: 1 / -1;
+  max-width: 50%;
+  width: 100%;
+  margin: 0 auto;
+  /* Touch Up (1st child) is hidden so Tier 1 is the new visual top-left corner */
+  border-top-left-radius: var(--radius-panel);
+}
+
+/* Corner cards mirror the grid's border-radius (replaces overflow:hidden clipping) */
+.service-card:first-child       { border-top-left-radius: var(--radius-panel); }
+.service-card:nth-child(2)      { border-top-right-radius: var(--radius-panel); }
+.service-card:nth-last-child(2) { border-bottom-left-radius: var(--radius-panel); }
+.service-card:last-child        { border-bottom-right-radius: var(--radius-panel); }
+
+
+/* ── Individual service card ── */
+.service-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-panel);
+  padding: 2rem 1.75rem;
+  border-right: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+  transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+/* Right-column cards have no right border (grid handles the outer border) */
+.service-card:nth-child(2n) {
+  border-right: none;
+}
+
+/* Bottom row cards have no bottom border */
+.service-card:nth-last-child(-n+2) {
+  border-bottom: none;
+}
+
+.service-card:hover {
+  background: var(--color-bg);
+}
+
+[data-theme="light"] .service-card:hover {
+  background: var(--color-surface-hover);
+}
+
+/* ── Service card highlight — fired by Recent Work badge clicks ──────────
+   A border+glow pulse that draws the eye to the card on arrival. The
+   animation is forward-filled so the box-shadow fades completely to none. */
+@keyframes card-highlight-pulse {
+  0%   { box-shadow: inset 0 0 0 2px var(--color-accent), 0 0 0   0   transparent; }
+  25%  { box-shadow: inset 0 0 0 2px var(--color-accent), 0 0 24px 8px var(--popular-glow-hi); }
+  100% { box-shadow: inset 0 0 0 0   transparent,         0 0 0   0   transparent; }
+}
+
+.service-card--highlight {
+  animation: card-highlight-pulse 1.4s var(--ease-out) forwards;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-card--highlight {
+    animation: none;
+    /* Static accent ring for users who prefer no motion */
+    box-shadow: inset 0 0 0 2px var(--color-accent);
+  }
+}
+
+/* ── "Most Popular" badge — positioned top-right of the card ── */
+.service-card__badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.75rem;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+/* ── Optional one-liner tagline below the card name ── */
+.service-card__tagline {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  margin-top: -0.75rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+/* ── Card title (service name) ── */
+.service-card__name {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  /* Padding prevents text from overlapping the top-right badge */
+  padding-right: 1.5rem;
+}
+
+/* Glow rgba tokens — separate values for each theme so the pulse uses
+   the correct base colour without needing color-mix() browser support */
+:root,
+[data-theme="dark"] {
+  --popular-glow-lo: rgba(107, 175, 224, 0.15);
+  --popular-glow-hi: rgba(107, 175, 224, 0.28);
+}
+
+[data-theme="light"] {
+  --popular-glow-lo: rgba(26, 120, 178, 0.15);
+  --popular-glow-hi: rgba(26, 120, 178, 0.28);
+}
+
+@keyframes popular-glow-pulse {
+  0%, 100% { box-shadow: inset 0 0 0 2px var(--color-accent), 0 0 16px 4px var(--popular-glow-lo); }
+  50%       { box-shadow: inset 0 0 0 2px var(--color-accent), 0 0 28px 8px var(--popular-glow-hi); }
+}
+
+/* Popular card: 2px accent border + slow outer glow that breathes */
+.service-card--popular {
+  box-shadow: inset 0 0 0 2px var(--color-accent), 0 0 16px 4px var(--popular-glow-lo);
+  animation: popular-glow-pulse 3.5s ease-in-out infinite;
+  /* Lift above siblings so the glow renders on top of adjacent cards */
+  z-index: 1;
+}
+
+/* Disable pulse for users who prefer reduced motion — keep the static glow */
+@media (prefers-reduced-motion: reduce) {
+  .service-card--popular {
+    animation: none;
+  }
+}
+
+/* Popular card needs extra clearance for the badge */
+.service-card--popular .service-card__name {
+  padding-right: 6rem;
+}
+
+/* ── Meta row: duration spec + price spec, baseline-aligned ── */
+.service-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+/* Right-align the price spec */
+.service-card__meta .spec:last-child {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* ── Included-items bullet list ── */
+.service-card__list {
+  list-style: none;
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
+
+.service-card__list li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+.service-card__list li + li {
+  margin-top: 0.35rem;
+}
+
+/* Em-dash bullet character */
+.service-card__list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-faint);
+  line-height: 1.55;
+}
+
+/* Tier-include bullets: accent tick + slightly bolder text for the "what's inside" leads.
+   Scoped to .service-card--popular .service-card__list so specificity (0,3,1) beats
+   the base li::before rule (0,1,2). */
+.service-card--popular .service-card__list .service-card__list-item--tier {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.service-card--popular .service-card__list .service-card__list-item--tier::before {
+  content: '✓';
+  color: var(--color-accent);
+  font-size: 0.8125rem;
+}
+
+/* ── "Book this →" link — sits at the bottom of each card ── */
+.service-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: auto;
+  text-underline-offset: 3px;
+  color: var(--color-blue);
+  transition:
+    color 0.2s var(--ease-out),
+    text-decoration-color 0.2s var(--ease-out);
+}
+
+.service-card__link:hover {
+  color: var(--color-text);
+}
+
+.service-card__link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+
+/* ── Tier 3 "Most Popular" card — premium visual dominance ── */
+
+/* 1. Title: one weight step heavier + accent colour to unify with badge + outline */
+.service-card--popular .service-card__name {
+  font-weight: 800;
+  color: var(--color-accent);
+}
+
+/* 2. Price: ~18% larger than other cards' 1.75rem + max contrast */
+.service-card--popular .spec__value {
+  font-size: 2.0625rem;
+  color: #ffffff;
+}
+
+[data-theme="light"] .service-card--popular .spec__value {
+  color: var(--color-text);
+}
+
+/* 3. CTA: solid filled accent button — full-width, 44px tall, white text */
+.service-card--popular .service-card__link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 1.25rem;
+  background: var(--color-accent);
+  color: #ffffff;
+  border-radius: var(--radius-btn);
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    filter 0.2s var(--ease-out),
+    color 0.2s var(--ease-out);
+}
+
+.service-card--popular .service-card__link:hover {
+  color: #ffffff;
+  filter: brightness(0.88);
+}
+
+.service-card--popular .service-card__link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  filter: none;
+}
+
+/* 4. Value line: pill callout — accent bg tint + accent text, no bullet.
+   Scoped to .service-card--popular .service-card__list so specificity (0,3,1) beats
+   both the base li rule (0,1,1) and li::before rule (0,1,2). */
+.service-card--popular .service-card__list .service-card__list-item--value {
+  position: static;
+  display: inline-block;
+  padding: 4px 12px;
+  padding-left: 12px; /* override the 1.25rem gap reserved for ::before */
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-top: 1rem;
+}
+
+.service-card--popular .service-card__list .service-card__list-item--value::before {
+  content: none;
+}
+
+/* 5. Surface tint: ~5% accent blended into card bg — perceptibly lifted, not coloured */
+.service-card--popular {
+  background: color-mix(in srgb, var(--color-accent) 5%, var(--color-panel));
+}
+
+/* Keep the tint on hover — override the plain bg/surface-hover rules */
+.service-card--popular:hover,
+[data-theme="light"] .service-card--popular:hover {
+  background: color-mix(in srgb, var(--color-accent) 7%, var(--color-panel));
+}
+
+
+/* ── Vehicle type segmented toggle ── */
+
+/* Outer wrapper — centres the pill track above the card grid */
+.services__toggle-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.25rem;
+}
+
+/* Pill-shaped track that contains the two option pills */
+.vehicle-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--color-panel);
+  border: 1px solid var(--color-hairline);
+  border-radius: 999px;
+  padding: 4px;
+  transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+/* Individual pill button */
+.vehicle-toggle__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1.3rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.2s var(--ease-out),
+    color 0.2s var(--ease-out);
+}
+
+/* Active pill: filled with accent colour */
+.vehicle-toggle__btn[aria-selected="true"] {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* Hover on inactive pill */
+.vehicle-toggle__btn[aria-selected="false"]:hover {
+  color: var(--color-text);
+}
+
+/* Keyboard focus ring — uses accent so it always contrasts */
+.vehicle-toggle__btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+
+/* ── Responsive: tablet (≤900px) — collapse to single column ── */
+@media (max-width: 900px) {
+  .services__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Re-apply right border in single-column mode (nth-child(2n) rule removed it) */
+  .service-card:nth-child(2n) {
+    border-right: none;
+  }
+
+  /* Restore bottom borders on what was the "last row" in 2-col layout */
+  .service-card:nth-last-child(-n+2) {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  /* Actual last card never has a bottom border */
+  .service-card:last-child {
+    border-bottom: none;
+  }
+
+  /* Corner radii in 1-col: cards 2 & 3 lose their 2-col radii;
+     card 1 gains top-right and card 4 gains bottom-left */
+  .service-card:nth-child(2)      { border-top-right-radius: 0; }
+  .service-card:nth-last-child(2) { border-bottom-left-radius: 0; }
+  .service-card:first-child       { border-top-right-radius: var(--radius-panel); }
+  .service-card:last-child        { border-bottom-left-radius: var(--radius-panel); }
+}
+
+/* ── Responsive: mobile (≤768px) — tighter section padding ── */
+@media (max-width: 768px) {
+  .services {
+    padding: 4rem 1.25rem 3rem;
+  }
+}
+
+/* ── Caravan pyramid reset at ≤900px — single column, no pyramid ──
+   Double-class specificity (0,2,0) beats :nth-child(2) rules in the
+   900px block above so the top-left/right radii can be restored. */
+@media (max-width: 900px) {
+  .service-card.service-card--caravan-top {
+    grid-column: auto;
+    max-width: none;
+    margin: 0;
+    /* Tier 1 is visually the first card in single-column caravan mode */
+    border-top-left-radius: var(--radius-panel);
+    border-top-right-radius: var(--radius-panel);
+  }
+}
+
+
+/* ============================================================
+   ADD-ONS & EXTRAS — collapsible panel below the service grid
+   ============================================================ */
+
+/* Wrapper — matches the max-width of the card grid */
+.addons {
+  margin-top: 1rem;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-panel);
+  background: var(--color-panel);
+  overflow: hidden;
+  transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+/* ── Trigger button (header row) ── */
+.addons__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.125rem 1.75rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  /* min 44 px touch target */
+  min-height: 44px;
+  transition: background-color 0.2s var(--ease-out);
+}
+
+.addons__trigger:hover {
+  background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+}
+
+.addons__trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.addons__trigger-label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Chevron — rotates 180° when the panel is open */
+.addons__chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease-out), color 0.2s var(--ease-out);
+}
+
+.addons__trigger[aria-expanded="true"] .addons__chevron {
+  transform: rotate(180deg);
+  color: var(--color-accent);
+}
+
+/* ── Panel — height + opacity collapse ── */
+.addons__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.35s var(--ease-out),
+    opacity 0.3s var(--ease-out);
+  /* Separate the panel from the trigger row */
+  border-top: 0px solid var(--color-hairline);
+}
+
+/* Intermediate wrapper required for grid-template-rows trick.
+   Padding MUST be 0 in the collapsed state — even with overflow:hidden the
+   vertical padding contributes to the element's box and leaves a visible strip.
+   We restore it only when the panel is open and animate it in sync. */
+.addons__panel > ul {
+  overflow: hidden;
+  min-height: 0;
+  padding: 0;
+  transition: padding 0.35s var(--ease-out);
+}
+
+.addons__panel.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  border-top-width: 1px;
+}
+
+.addons__panel.is-open > ul {
+  padding: 1.25rem 1.75rem 1.5rem;
+}
+
+/* ── Chip list ── */
+.addons__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  list-style: none;
+  /* padding is controlled by .addons__panel > ul / .addons__panel.is-open > ul */
+}
+
+/* ── Individual chip ── */
+.addon-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--color-hairline);
+  border-radius: 999px;
+  background: var(--color-bg);
+  transition:
+    background-color 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out);
+  /* chips with a desc line need a slightly larger radius */
+}
+
+/* Chips with a description line lose the pill shape to accommodate two lines */
+.addon-chip:has(.addon-chip__desc) {
+  border-radius: var(--radius-panel);
+}
+
+.addon-chip:hover {
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-bg));
+  border-color: color-mix(in srgb, var(--color-accent) 30%, var(--color-hairline));
+}
+
+/* Name + price row */
+.addon-chip__main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.addon-chip__name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+.addon-chip__price {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+/* Optional description line */
+.addon-chip__desc {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+/* ── Mobile: full-width chips ── */
+@media (max-width: 480px) {
+  .addons__list {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .addons__panel.is-open > ul {
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .addon-chip,
+  .addon-chip:has(.addon-chip__desc) {
+    border-radius: var(--radius-panel);
+    width: 100%;
+  }
+
+  .addons__trigger {
+    padding: 1rem 1.25rem;
+  }
+}

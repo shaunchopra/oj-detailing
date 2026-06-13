@@ -1,0 +1,211 @@
+/* ============================================================
+   PROGRESS SLIDER
+   4-stage draggable cleaning-progress reveal component.
+   Used in the Recent Work section. Fits the same footprint
+   as .work-card. Reusable: create a new <article class="progress-slider">
+   with different data-label-N attributes and different <img> srcs.
+   ============================================================ */
+
+
+/* ── Outer wrapper ── */
+.progress-slider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ── Image stack frame (4:5 ratio, rounded top corners) ── */
+.progress-slider__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+  border: 1px solid var(--color-hairline);
+  border-bottom: none;
+  overflow: hidden;
+  background: var(--color-panel);
+  transition:
+    background-color var(--duration-theme) var(--ease-out),
+    border-color var(--duration-theme) var(--ease-out);
+}
+
+
+/* ── Placeholder: visible through unloaded/transparent layers ── */
+.progress-slider__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.progress-slider__placeholder svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-text-faint);
+}
+
+.progress-slider__placeholder span {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--color-text-faint);
+  letter-spacing: 0.02em;
+}
+
+
+/* ── The 4 stacked image layers — all full-size, opacity-blended ──
+   position:absolute + inset:0 + explicit object-position ensures every
+   layer is anchored to the full frame, not relative to any clip wrapper */
+.progress-slider__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  will-change: opacity;
+  z-index: 1;
+  /* No CSS transition — JS drives opacity directly so there's no lag */
+}
+
+
+/* ── Bottom controls bar (rounded bottom corners, no top border) ── */
+.progress-slider__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem 0.9rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-hairline);
+  border-top: none;
+  border-radius: 0 0 var(--radius-panel) var(--radius-panel);
+  transition:
+    background-color var(--duration-theme) var(--ease-out),
+    border-color var(--duration-theme) var(--ease-out);
+}
+
+
+/* ── Live status label ── */
+.progress-slider__label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: none;
+  color: var(--color-accent);
+  line-height: 1;
+  min-height: 0.6875rem;
+  transition: color var(--duration-theme) var(--ease-out);
+}
+
+
+/* ── Horizontal drag track ── */
+.progress-slider__track {
+  position: relative;
+  height: 3px;
+  background: var(--color-hairline);
+  border-radius: 2px;
+  cursor: pointer;
+  /* Vertical margin gives the handle room to overflow without clipping */
+  margin: 14px 0 2px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+
+/* ── Accent-coloured fill, grows left → right as handle moves ── */
+.progress-slider__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--color-accent);
+  border-radius: 2px;
+  pointer-events: none;
+  transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+
+/* ── Draggable handle — centred on the track position ── */
+.progress-slider__handle {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 30px;
+  height: 30px;
+  /* translate(-50%, -50%) keeps the handle's centre on the track position */
+  transform: translate(-50%, -50%);
+  background: var(--color-accent);
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 0 0 3px var(--color-blue-border);
+  transition:
+    background-color var(--duration-theme) var(--ease-out),
+    box-shadow 0.15s var(--ease-out);
+  z-index: 2;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.progress-slider__handle:hover {
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.5),
+    0 0 0 5px var(--color-blue-border);
+}
+
+/* Active / dragging state */
+.progress-slider.is-dragging .progress-slider__handle,
+.progress-slider__handle:active {
+  cursor: grabbing;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    0 0 0 6px var(--color-blue-border);
+}
+
+.progress-slider__handle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Bidirectional arrow icon inside the handle */
+.progress-slider__handle svg {
+  width: 13px;
+  height: 13px;
+  color: #fff;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+
+/* ── Reduced motion: kill any transitions ── */
+@media (prefers-reduced-motion: reduce) {
+  .progress-slider__handle,
+  .progress-slider__fill {
+    transition: none;
+  }
+}
+
+
+/* ── Responsive: mobile ── */
+@media (max-width: 768px) {
+  .progress-slider__controls {
+    padding: 0.75rem 0.875rem 0.8rem;
+  }
+}

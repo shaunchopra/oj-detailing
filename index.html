@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-AU">
+
 <head>
   <script>
     (function () {
@@ -13,1829 +14,37 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Premium mobile car detailing in North Melbourne, VIC.">
-  <title>OJ Auto Detailing | Premium Car Detailing North Melbourne</title>
+  <meta name="description" content="Mobile car detailing in Melbourne, VIC.">
+  <title>OJ Auto Detailing | Car Detailing Melbourne</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <style>
-    /* ── Design tokens (dark default) ── */
-    :root,
-    [data-theme="dark"] {
-      --color-bg: #07090d;
-      --color-panel: #0f141d;
-      --color-accent-start: #2e9fe6;
-      --color-accent-end: #5cc6ff;
-      --color-text: #e8ecf2;
-      --color-text-muted: #8b95a8;
-      --color-border: rgba(255, 255, 255, 0.08);
-      --color-on-accent: #ffffff;
-
-      --glass-bg: rgba(15, 20, 29, 0.72);
-      --glass-bg-scrolled: rgba(7, 9, 13, 0.88);
-      --glass-border-scrolled: rgba(255, 255, 255, 0.12);
-      --glass-blur: 16px;
-
-      --surface-raised: rgba(15, 20, 29, 0.6);
-      --surface-overlay: rgba(7, 9, 13, 0.97);
-      --surface-footer: rgba(15, 20, 29, 0.5);
-      --surface-control: rgba(15, 20, 29, 0.6);
-
-      --grain-opacity: 0.035;
-      --glow-primary: radial-gradient(circle, rgba(46, 159, 230, 0.18) 0%, transparent 70%);
-      --glow-secondary: radial-gradient(circle, rgba(92, 198, 255, 0.12) 0%, transparent 70%);
-      --hero-grid-line: rgba(255, 255, 255, 0.03);
-      --hero-glow: radial-gradient(circle, rgba(46, 159, 230, 0.22) 0%, rgba(92, 198, 255, 0.08) 40%, transparent 70%);
-
-      --shadow-card: none;
-      --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(46, 159, 230, 0.12), 0 8px 32px rgba(46, 159, 230, 0.15);
-      --shadow-card-accent: 0 0 0 1px rgba(46, 159, 230, 0.08);
-      --shadow-btn: 0 4px 24px rgba(46, 159, 230, 0.3);
-      --shadow-btn-hover: 0 8px 32px rgba(46, 159, 230, 0.45);
-      --shadow-toggle: 0 2px 12px rgba(46, 159, 230, 0.35);
-
-      --accent-border: rgba(46, 159, 230, 0.28);
-      --accent-border-strong: rgba(46, 159, 230, 0.35);
-      --accent-surface: rgba(46, 159, 230, 0.1);
-      --accent-surface-border: rgba(46, 159, 230, 0.2);
-      --accent-badge-bg: rgba(46, 159, 230, 0.12);
-      --accent-badge-border: rgba(46, 159, 230, 0.25);
-      --ghost-border-hover: rgba(92, 198, 255, 0.4);
-      --control-hover-bg: rgba(46, 159, 230, 0.08);
-      --control-hover-border: rgba(92, 198, 255, 0.35);
-
-      --work-before-bg: linear-gradient(135deg, rgba(0, 0, 0, 0.15) 0%, transparent 60%), #0a0e14;
-      --work-after-bg: linear-gradient(135deg, rgba(46, 159, 230, 0.06) 0%, transparent 50%), var(--color-panel);
-      --work-texture-line: rgba(255, 255, 255, 0.04);
-      --why-number-opacity: 0.35;
-      --logo-ring-opacity: 0.35;
-      --link-hover: var(--color-accent-end);
-    }
-
-    [data-theme="light"] {
-      --color-bg: #f5f7fa;
-      --color-panel: #ffffff;
-      --color-accent-start: #0f6dc2;
-      --color-accent-end: #1a7fc4;
-      --color-text: #0e1420;
-      --color-text-muted: #5a6578;
-      --color-border: rgba(14, 20, 32, 0.1);
-      --color-on-accent: #ffffff;
-
-      --glass-bg: rgba(255, 255, 255, 0.82);
-      --glass-bg-scrolled: rgba(255, 255, 255, 0.94);
-      --glass-border-scrolled: rgba(14, 20, 32, 0.08);
-      --glass-blur: 18px;
-
-      --surface-raised: rgba(255, 255, 255, 0.92);
-      --surface-overlay: rgba(245, 247, 250, 0.98);
-      --surface-footer: rgba(255, 255, 255, 0.85);
-      --surface-control: rgba(255, 255, 255, 0.95);
-
-      --grain-opacity: 0.012;
-      --glow-primary: radial-gradient(circle, rgba(15, 109, 194, 0.07) 0%, transparent 72%);
-      --glow-secondary: radial-gradient(circle, rgba(26, 127, 196, 0.05) 0%, transparent 72%);
-      --hero-grid-line: rgba(14, 20, 32, 0.07);
-      --hero-glow: radial-gradient(circle, rgba(15, 109, 194, 0.1) 0%, rgba(26, 127, 196, 0.04) 45%, transparent 72%);
-
-      --shadow-card: 0 1px 2px rgba(14, 20, 32, 0.04), 0 4px 16px rgba(14, 20, 32, 0.05);
-      --shadow-card-hover: 0 8px 28px rgba(14, 20, 32, 0.08), 0 2px 8px rgba(14, 20, 32, 0.04), 0 0 0 1px rgba(15, 109, 194, 0.12);
-      --shadow-card-accent: 0 1px 3px rgba(14, 20, 32, 0.06), 0 6px 20px rgba(15, 109, 194, 0.08);
-      --shadow-btn: 0 4px 14px rgba(15, 109, 194, 0.28);
-      --shadow-btn-hover: 0 8px 24px rgba(15, 109, 194, 0.35);
-      --shadow-toggle: 0 2px 10px rgba(15, 109, 194, 0.25);
-
-      --accent-border: rgba(15, 109, 194, 0.22);
-      --accent-border-strong: rgba(15, 109, 194, 0.32);
-      --accent-surface: rgba(15, 109, 194, 0.08);
-      --accent-surface-border: rgba(15, 109, 194, 0.18);
-      --accent-badge-bg: rgba(15, 109, 194, 0.1);
-      --accent-badge-border: rgba(15, 109, 194, 0.22);
-      --ghost-border-hover: rgba(15, 109, 194, 0.45);
-      --control-hover-bg: rgba(15, 109, 194, 0.06);
-      --control-hover-border: rgba(15, 109, 194, 0.28);
-
-      --work-before-bg: linear-gradient(135deg, rgba(14, 20, 32, 0.06) 0%, transparent 60%), #e8ecf2;
-      --work-after-bg: linear-gradient(135deg, rgba(15, 109, 194, 0.08) 0%, transparent 50%), var(--color-panel);
-      --work-texture-line: rgba(14, 20, 32, 0.06);
-      --why-number-opacity: 0.55;
-      --logo-ring-opacity: 0.45;
-      --link-hover: var(--color-accent-start);
-    }
-
-    :root {
-      --font-display: 'Sora', sans-serif;
-      --font-body: 'Urbanist', sans-serif;
-
-      --gradient-accent: linear-gradient(135deg, var(--color-accent-start), var(--color-accent-end));
-
-      --radius-pill: 9999px;
-      --radius-panel: 12px;
-
-      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-      --duration-reveal: 0.7s;
-      --duration-theme: 0.4s;
-
-      --space-xs: 0.25rem;
-      --space-sm: 0.5rem;
-      --space-md: 1rem;
-      --space-lg: 1.5rem;
-      --space-xl: 2rem;
-      --space-2xl: 3rem;
-      --space-3xl: 4rem;
-
-      --max-width: 1200px;
-    }
-
-    /* ── Reset ── */
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      min-height: 100vh;
-      scroll-behavior: smooth;
-      scroll-padding-top: 5rem;
-      color-scheme: dark;
-    }
-
-    html[data-theme="light"] {
-      color-scheme: light;
-    }
-
-    body {
-      min-height: 100vh;
-      background: var(--color-bg);
-      color: var(--color-text);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      position: relative;
-      overflow-x: hidden;
-      transition:
-        background-color var(--duration-theme) var(--ease-out),
-        color var(--duration-theme) var(--ease-out);
-    }
-
-    /* ── Typography ── */
-    h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-display);
-      font-weight: 700;
-      line-height: 1.15;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-      transition: color 0.2s var(--ease-out);
-    }
-
-    a:hover {
-      color: var(--link-hover);
-    }
-
-    .text-muted {
-      color: var(--color-text-muted);
-    }
-
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    /* ── Layout ── */
-    main {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── Atmosphere: grain overlay ── */
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: var(--grain-opacity);
-      transition: opacity var(--duration-theme) var(--ease-out);
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-size: 180px 180px;
-    }
-
-    /* ── Atmosphere: radial blue glows ── */
-    .glow {
-      position: fixed;
-      pointer-events: none;
-      z-index: 0;
-      border-radius: 50%;
-      filter: blur(80px);
-    }
-
-    .glow--primary {
-      width: 600px;
-      height: 600px;
-      top: -200px;
-      right: -150px;
-      background: var(--glow-primary);
-      transition: background var(--duration-theme) var(--ease-out);
-    }
-
-    .glow--secondary {
-      width: 500px;
-      height: 500px;
-      bottom: -150px;
-      left: -100px;
-      background: var(--glow-secondary);
-      transition: background var(--duration-theme) var(--ease-out);
-    }
-
-    /* ── Glassmorphism nav ── */
-    .nav-glass {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--glass-bg);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      border-bottom: 1px solid var(--color-border);
-      transition:
-        background 0.35s var(--ease-out),
-        background-color var(--duration-theme) var(--ease-out),
-        border-color 0.35s var(--ease-out),
-        backdrop-filter 0.35s var(--ease-out),
-        -webkit-backdrop-filter 0.35s var(--ease-out);
-    }
-
-    .nav-glass.is-scrolled {
-      background: var(--glass-bg-scrolled);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom-color: var(--glass-border-scrolled);
-    }
-
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-sm);
-      font-family: var(--font-body);
-      font-size: 0.9375rem;
-      font-weight: 600;
-      line-height: 1;
-      border-radius: var(--radius-pill);
-      padding: 0.75rem 1.5rem;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      transition:
-        transform 0.2s var(--ease-out),
-        box-shadow 0.2s var(--ease-out),
-        border-color 0.2s var(--ease-out),
-        color 0.2s var(--ease-out),
-        background 0.2s var(--ease-out);
-    }
-
-    .btn-primary {
-      background: var(--gradient-accent);
-      color: var(--color-on-accent);
-      box-shadow: var(--shadow-btn);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-btn-hover);
-      color: var(--color-on-accent);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0) scale(0.98);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--color-text-muted);
-      border: 1px solid var(--color-border);
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--ghost-border-hover);
-      color: var(--color-text);
-    }
-
-    .btn-ghost:active {
-      transform: scale(0.98);
-    }
-
-    /* ── Scroll reveal (JS observer toggles .is-visible later) ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition:
-        opacity var(--duration-reveal) var(--ease-out),
-        transform var(--duration-reveal) var(--ease-out);
-    }
-
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-
-    /* ── Hero load-in stagger ── */
-    .hero-in {
-      opacity: 0;
-      transform: translateY(28px);
-      transition:
-        opacity var(--duration-reveal) var(--ease-out),
-        transform var(--duration-reveal) var(--ease-out);
-    }
-
-    .hero.is-ready .hero-in {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .hero-in--1 { transition-delay: 0.15s; }
-    .hero-in--2 { transition-delay: 0.3s; }
-    .hero-in--3 { transition-delay: 0.45s; }
-    .hero-in--4 { transition-delay: 0.6s; }
-    .hero-in--5 { transition-delay: 0.75s; }
-
-    /* ── Nav layout ── */
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-lg);
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: var(--space-md) var(--space-xl);
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      flex-shrink: 0;
-    }
-
-    .nav-logo:hover {
-      color: var(--color-text);
-    }
-
-    .nav-logo__mark {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-    }
-
-    .logo-ring {
-      opacity: var(--logo-ring-opacity);
-      transition: opacity var(--duration-theme) var(--ease-out);
-    }
-
-    .nav-logo__text {
-      font-family: var(--font-display);
-      font-size: 1.0625rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    .nav-logo__text span {
-      color: var(--color-text-muted);
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 0.75rem;
-      display: block;
-      margin-top: 2px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: var(--space-xl);
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.9375rem;
-      font-weight: 500;
-      color: var(--color-text-muted);
-    }
-
-    .nav-links a:hover {
-      color: var(--color-text);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      flex-shrink: 0;
-    }
-
-    .nav-actions .btn {
-      padding: 0.625rem 1.25rem;
-      font-size: 0.875rem;
-    }
-
-    .theme-toggle {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      padding: 0;
-      flex-shrink: 0;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-panel);
-      background: var(--surface-control);
-      color: var(--color-text);
-      cursor: pointer;
-      transition:
-        background-color var(--duration-theme) var(--ease-out),
-        border-color var(--duration-theme) var(--ease-out),
-        color var(--duration-theme) var(--ease-out),
-        transform 0.2s var(--ease-out);
-    }
-
-    .theme-toggle:hover {
-      border-color: var(--control-hover-border);
-      background: var(--control-hover-bg);
-      color: var(--color-accent-start);
-    }
-
-    .theme-toggle:focus-visible {
-      outline: 2px solid var(--color-accent-end);
-      outline-offset: 2px;
-    }
-
-    .theme-toggle:active {
-      transform: scale(0.96);
-    }
-
-    .theme-toggle svg {
-      width: 18px;
-      height: 18px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.75;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .theme-toggle__icon--sun {
-      display: none;
-    }
-
-    .theme-toggle__icon--moon {
-      display: block;
-    }
-
-    [data-theme="dark"] .theme-toggle__icon--sun {
-      display: block;
-    }
-
-    [data-theme="dark"] .theme-toggle__icon--moon {
-      display: none;
-    }
-
-    [data-theme="light"] .theme-toggle__icon--sun {
-      display: none;
-    }
-
-    [data-theme="light"] .theme-toggle__icon--moon {
-      display: block;
-    }
-
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-panel);
-      background: var(--surface-control);
-      cursor: pointer;
-      flex-shrink: 0;
-      transition:
-        border-color 0.2s var(--ease-out),
-        background-color var(--duration-theme) var(--ease-out);
-    }
-
-    .nav-toggle:hover {
-      border-color: var(--control-hover-border);
-      background: var(--control-hover-bg);
-    }
-
-    .nav-toggle:focus-visible {
-      outline: 2px solid var(--color-accent-end);
-      outline-offset: 2px;
-    }
-
-    .nav-toggle__bar {
-      display: block;
-      width: 18px;
-      height: 2px;
-      background: var(--color-text);
-      border-radius: 1px;
-      transition:
-        transform 0.3s var(--ease-out),
-        opacity 0.3s var(--ease-out);
-    }
-
-    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-
-    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0);
-    }
-
-    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    .nav-links__cta {
-      display: none;
-    }
-
-    body.is-nav-open {
-      overflow: hidden;
-    }
-
-    /* ── Hero ── */
-    .hero {
-      position: relative;
-      display: flex;
-      align-items: center;
-      min-height: 100vh;
-      min-height: 100dvh;
-      padding: calc(80px + var(--space-3xl)) var(--space-xl) var(--space-3xl);
-      overflow: hidden;
-    }
-
-    .hero__bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .hero__grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--hero-grid-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--hero-grid-line) 1px, transparent 1px);
-      transition: background-image var(--duration-theme) var(--ease-out);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
-      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
-    }
-
-    .hero__glow {
-      position: absolute;
-      width: 700px;
-      height: 700px;
-      top: 50%;
-      left: 50%;
-      margin-top: -385px;
-      margin-left: -350px;
-      border-radius: 50%;
-      background: var(--hero-glow);
-      filter: blur(40px);
-      transition: background var(--duration-theme) var(--ease-out);
-      animation: heroGlowPulse 8s var(--ease-out) infinite alternate;
-    }
-
-    @keyframes heroGlowPulse {
-      0% {
-        transform: scale(1);
-        opacity: 0.85;
-      }
-      100% {
-        transform: scale(1.15) translate(3%, -2%);
-        opacity: 1;
-      }
-    }
-
-    .hero__content {
-      position: relative;
-      z-index: 1;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .hero__rating {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-lg);
-      padding: var(--space-sm) var(--space-md);
-      background: var(--surface-raised);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-pill);
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-
-    .hero__stars {
-      display: inline-flex;
-      gap: 2px;
-      color: var(--color-accent-end);
-    }
-
-    .hero__stars svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
-    }
-
-    .hero__rating strong {
-      color: var(--color-text);
-      font-weight: 600;
-    }
-
-    .hero__title {
-      font-size: clamp(2.75rem, 7vw, 5rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      max-width: 14ch;
-      margin-bottom: var(--space-lg);
-    }
-
-    .hero__title em {
-      font-style: normal;
-      background: var(--gradient-accent);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero__sub {
-      font-size: clamp(1.0625rem, 2vw, 1.25rem);
-      color: var(--color-text-muted);
-      max-width: 42ch;
-      margin-bottom: var(--space-2xl);
-      line-height: 1.65;
-    }
-
-    .hero__actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-md);
-    }
-
-    .hero__actions .btn {
-      padding: 0.875rem 1.75rem;
-      font-size: 1rem;
-    }
-
-    .hero__actions .btn-primary:hover,
-    .nav-actions .btn-primary:hover {
-      color: var(--color-on-accent);
-    }
-
-    /* ── Marquee ── */
-    .marquee {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
-      background: var(--surface-footer);
-      overflow: hidden;
-      padding: var(--space-md) 0;
-      transition:
-        background-color var(--duration-theme) var(--ease-out),
-        border-color var(--duration-theme) var(--ease-out);
-    }
-
-    .marquee__track {
-      display: flex;
-      width: max-content;
-      animation: marqueeScroll 40s linear infinite;
-    }
-
-    .marquee__content {
-      display: flex;
-      align-items: center;
-      gap: var(--space-xl);
-      padding-right: var(--space-xl);
-      white-space: nowrap;
-      font-family: var(--font-display);
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-    }
-
-    .marquee__dot {
-      color: var(--color-accent-start);
-      opacity: 0.6;
-    }
-
-    @keyframes marqueeScroll {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* ── Services ── */
-    .services {
-      position: relative;
-      z-index: 1;
-      padding: var(--space-3xl) var(--space-xl);
-    }
-
-    .services__inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .services__header {
-      text-align: center;
-      max-width: 52ch;
-      margin: 0 auto var(--space-3xl);
-    }
-
-    .services__eyebrow {
-      display: inline-block;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-accent-end);
-      margin-bottom: var(--space-md);
-    }
-
-    .services__title {
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      letter-spacing: -0.02em;
-      margin-bottom: var(--space-md);
-    }
-
-    .services__sub {
-      color: var(--color-text-muted);
-      font-size: 1.0625rem;
-      line-height: 1.65;
-    }
-
-    .services__grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-lg);
-    }
-
-    .service-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      background: var(--color-panel);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-panel);
-      padding: var(--space-xl);
-      box-shadow: var(--shadow-card);
-      transition:
-        transform 0.3s var(--ease-out),
-        box-shadow 0.3s var(--ease-out),
-        border-color 0.3s var(--ease-out),
-        background-color var(--duration-theme) var(--ease-out);
-    }
-
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: var(--space-xl);
-      right: var(--space-xl);
-      height: 2px;
-      border-radius: 0 0 2px 2px;
-      background: var(--gradient-accent);
-      opacity: 0.55;
-      transition: opacity 0.3s var(--ease-out);
-    }
-
-    .service-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--accent-border-strong);
-      box-shadow: var(--shadow-card-hover);
-    }
-
-    .service-card:hover::before {
-      opacity: 1;
-    }
-
-    .service-card--popular {
-      border-color: var(--accent-border);
-      box-shadow: var(--shadow-card-accent);
-    }
-
-    .service-card--popular::before {
-      opacity: 1;
-    }
-
-    .service-card__badge {
-      position: absolute;
-      top: var(--space-md);
-      right: var(--space-md);
-      font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--color-on-accent);
-      background: var(--gradient-accent);
-      padding: 0.35rem 0.65rem;
-      border-radius: var(--radius-pill);
-      line-height: 1;
-    }
-
-    .service-card__name {
-      font-family: var(--font-display);
-      font-size: 1.125rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.3;
-      margin-bottom: var(--space-md);
-      padding-right: var(--space-xl);
-    }
-
-    .service-card--popular .service-card__name {
-      padding-right: 6.5rem;
-    }
-
-    .service-card__meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: var(--space-sm) var(--space-md);
-      margin-bottom: var(--space-lg);
-      padding-bottom: var(--space-lg);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .service-card__duration {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--color-text-muted);
-    }
-
-    .service-card__price {
-      font-family: var(--font-display);
-      font-size: 1.75rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      background: var(--gradient-accent);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-left: auto;
-    }
-
-    .service-card__list {
-      list-style: none;
-      flex: 1;
-      margin-bottom: var(--space-xl);
-    }
-
-    .service-card__list li {
-      position: relative;
-      padding-left: 1.25rem;
-      font-size: 0.9375rem;
-      color: var(--color-text-muted);
-      line-height: 1.5;
-    }
-
-    .service-card__list li + li {
-      margin-top: var(--space-sm);
-    }
-
-    .service-card__list li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.55em;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--color-accent-start);
-      opacity: 0.7;
-    }
-
-    .service-card__link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: var(--color-accent-end);
-      margin-top: auto;
-      transition:
-        gap 0.2s var(--ease-out),
-        color 0.2s var(--ease-out);
-    }
-
-    .service-card__link:hover {
-      gap: 0.55rem;
-      color: var(--color-accent-start);
-    }
-
-    /* ── Why Us ── */
-    .why-us {
-      position: relative;
-      z-index: 1;
-      padding: var(--space-3xl) var(--space-xl);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .why-us__inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .why-us__header {
-      text-align: center;
-      max-width: 52ch;
-      margin: 0 auto var(--space-3xl);
-    }
-
-    .why-us__eyebrow {
-      display: inline-block;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-accent-end);
-      margin-bottom: var(--space-md);
-    }
-
-    .why-us__title {
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      letter-spacing: -0.02em;
-      margin-bottom: var(--space-md);
-    }
-
-    .why-us__sub {
-      color: var(--color-text-muted);
-      font-size: 1.0625rem;
-      line-height: 1.65;
-    }
-
-    .why-us__grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-    }
-
-    .why-card {
-      position: relative;
-      background: var(--color-panel);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-panel);
-      padding: var(--space-xl);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-      transition:
-        border-color 0.3s var(--ease-out),
-        transform 0.3s var(--ease-out),
-        background-color var(--duration-theme) var(--ease-out),
-        box-shadow var(--duration-theme) var(--ease-out);
-    }
-
-    .why-card:hover {
-      border-color: var(--accent-border);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-card-hover);
-    }
-
-    .why-card__number {
-      display: block;
-      font-family: var(--font-display);
-      font-size: clamp(2.75rem, 5vw, 3.5rem);
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      background: var(--gradient-accent);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      opacity: var(--why-number-opacity);
-      margin-bottom: var(--space-md);
-      transition: opacity var(--duration-theme) var(--ease-out);
-    }
-
-    .why-card__title {
-      font-family: var(--font-display);
-      font-size: 1.125rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: var(--space-sm);
-    }
-
-    .why-card__text {
-      font-size: 0.9375rem;
-      color: var(--color-text-muted);
-      line-height: 1.65;
-    }
-
-    /* ── Recent Work ── */
-    .recent-work {
-      position: relative;
-      z-index: 1;
-      padding: var(--space-3xl) var(--space-xl);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .recent-work__inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .recent-work__header {
-      text-align: center;
-      max-width: 52ch;
-      margin: 0 auto var(--space-3xl);
-    }
-
-    .recent-work__eyebrow {
-      display: inline-block;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-accent-end);
-      margin-bottom: var(--space-md);
-    }
-
-    .recent-work__title {
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      letter-spacing: -0.02em;
-      margin-bottom: 0;
-    }
-
-    .recent-work__grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-    }
-
-    /* ── Work card (before/after toggle) ── */
-    .work-card {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-    }
-
-    .work-card__media {
-      position: relative;
-      aspect-ratio: 4 / 3;
-      border-radius: var(--radius-panel);
-      border: 1px solid var(--color-border);
-      overflow: hidden;
-      background: var(--color-panel);
-      box-shadow: var(--shadow-card);
-      transition:
-        background-color var(--duration-theme) var(--ease-out),
-        border-color var(--duration-theme) var(--ease-out),
-        box-shadow var(--duration-theme) var(--ease-out);
-    }
-
-    .work-card__slot {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      z-index: 0;
-      transition: opacity 0.35s var(--ease-out);
-    }
-
-    .work-card__slot.is-active {
-      opacity: 1;
-      z-index: 1;
-    }
-
-    .work-card__slot--before {
-      background: var(--work-before-bg);
-      transition: background var(--duration-theme) var(--ease-out);
-    }
-
-    .work-card__slot--after {
-      background: var(--work-after-bg);
-      transition: background var(--duration-theme) var(--ease-out);
-    }
-
-    .work-card__slot img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .work-card__texture {
-      position: absolute;
-      inset: 0;
-      opacity: 0.4;
-      background-image:
-        linear-gradient(var(--work-texture-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--work-texture-line) 1px, transparent 1px);
-      background-size: 32px 32px;
-      pointer-events: none;
-      transition: background-image var(--duration-theme) var(--ease-out);
-    }
-
-    .work-card__placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-sm);
-      padding: var(--space-lg);
-      text-align: center;
-      pointer-events: none;
-    }
-
-    .work-card__placeholder svg {
-      width: 32px;
-      height: 32px;
-      color: var(--color-text-muted);
-      opacity: 0.5;
-    }
-
-    .work-card__placeholder span {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--color-text-muted);
-      letter-spacing: 0.02em;
-    }
-
-    .work-card__toggle {
-      display: flex;
-      gap: var(--space-sm);
-      padding: 3px;
-      background: var(--color-panel);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-panel);
-      box-shadow: var(--shadow-card);
-      transition:
-        background-color var(--duration-theme) var(--ease-out),
-        border-color var(--duration-theme) var(--ease-out),
-        box-shadow var(--duration-theme) var(--ease-out);
-    }
-
-    .work-card__btn {
-      flex: 1;
-      font-family: var(--font-body);
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      line-height: 1;
-      padding: 0.625rem 1rem;
-      border: none;
-      border-radius: calc(var(--radius-panel) - 3px);
-      background: transparent;
-      color: var(--color-text-muted);
-      cursor: pointer;
-      transition:
-        background 0.2s var(--ease-out),
-        color 0.2s var(--ease-out),
-        box-shadow 0.2s var(--ease-out);
-    }
-
-    .work-card__btn:hover:not(.is-active) {
-      color: var(--color-text);
-    }
-
-    .work-card__btn.is-active {
-      background: var(--gradient-accent);
-      color: var(--color-on-accent);
-      box-shadow: var(--shadow-toggle);
-    }
-
-    .work-card__btn:focus-visible {
-      outline: 2px solid var(--color-accent-end);
-      outline-offset: 2px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .work-card__slot {
-        transition: none;
-      }
-    }
-
-    /* ── Testimonial ── */
-    .testimonial {
-      position: relative;
-      z-index: 1;
-      padding: var(--space-3xl) var(--space-xl);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .testimonial__inner {
-      max-width: 52rem;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .testimonial__stars {
-      display: inline-flex;
-      gap: 4px;
-      margin-bottom: var(--space-lg);
-      color: var(--color-accent-end);
-    }
-
-    .testimonial__stars svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-    }
-
-    .testimonial__quote {
-      font-family: var(--font-display);
-      font-size: clamp(1.25rem, 2.5vw, 1.625rem);
-      font-weight: 600;
-      line-height: 1.55;
-      letter-spacing: -0.02em;
-      color: var(--color-text);
-      margin-bottom: var(--space-xl);
-    }
-
-    .testimonial__quote::before {
-      content: '\201C';
-      color: var(--color-accent-start);
-      opacity: 0.6;
-    }
-
-    .testimonial__quote::after {
-      content: '\201D';
-      color: var(--color-accent-start);
-      opacity: 0.6;
-    }
-
-    .testimonial__author {
-      font-size: 0.9375rem;
-      font-weight: 500;
-      color: var(--color-text-muted);
-    }
-
-    .testimonial__author strong {
-      color: var(--color-text);
-      font-weight: 600;
-    }
-
-    .testimonial__badge {
-      display: inline-block;
-      margin-left: var(--space-sm);
-      font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--color-accent-end);
-      background: var(--accent-badge-bg);
-      border: 1px solid var(--accent-badge-border);
-      padding: 0.25rem 0.5rem;
-      border-radius: var(--radius-pill);
-      vertical-align: middle;
-    }
-
-    /* ── Contact ── */
-    .contact {
-      position: relative;
-      z-index: 1;
-      padding: var(--space-3xl) var(--space-xl);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .contact__inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .contact__header {
-      text-align: center;
-      max-width: 52ch;
-      margin: 0 auto var(--space-3xl);
-    }
-
-    .contact__eyebrow {
-      display: inline-block;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--color-accent-end);
-      margin-bottom: var(--space-md);
-    }
-
-    .contact__title {
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      letter-spacing: -0.02em;
-      margin-bottom: 0;
-    }
-
-    .contact__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-lg);
-      align-items: stretch;
-    }
-
-    .contact__info {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-    }
-
-    .contact__row {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--space-md);
-      padding: var(--space-lg) var(--space-xl);
-      background: var(--color-panel);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-panel);
-      box-shadow: var(--shadow-card);
-      transition:
-        border-color 0.3s var(--ease-out),
-        background-color var(--duration-theme) var(--ease-out),
-        box-shadow var(--duration-theme) var(--ease-out);
-    }
-
-    .contact__row:hover {
-      border-color: var(--accent-border);
-    }
-
-    .contact__row-icon {
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: var(--radius-panel);
-      background: var(--accent-surface);
-      border: 1px solid var(--accent-surface-border);
-      color: var(--color-accent-end);
-    }
-
-    .contact__row-icon svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .contact__row-label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-      margin-bottom: 0.25rem;
-    }
-
-    .contact__row-value {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--color-text);
-    }
-
-    a.contact__row-value:hover {
-      color: var(--color-accent-end);
-    }
-
-    .contact__book {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: var(--space-2xl) var(--space-xl);
-      background: var(--color-panel);
-      border: 1px solid var(--accent-border);
-      border-radius: var(--radius-panel);
-      box-shadow: var(--shadow-card-accent);
-      transition:
-        background-color var(--duration-theme) var(--ease-out),
-        border-color var(--duration-theme) var(--ease-out),
-        box-shadow var(--duration-theme) var(--ease-out);
-    }
-
-    .contact__book::before {
-      content: '';
-      display: block;
-      width: 48px;
-      height: 2px;
-      background: var(--gradient-accent);
-      border-radius: 2px;
-      margin-bottom: var(--space-lg);
-    }
-
-    .contact__book-title {
-      font-family: var(--font-display);
-      font-size: 1.375rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: var(--space-sm);
-    }
-
-    .contact__book-text {
-      font-size: 0.9375rem;
-      color: var(--color-text-muted);
-      line-height: 1.6;
-      margin-bottom: var(--space-xl);
-      max-width: 28ch;
-    }
-
-    .contact__book .btn {
-      width: 100%;
-      max-width: 240px;
-    }
-
-    .contact__note {
-      margin-top: var(--space-xl);
-      padding: var(--space-lg) var(--space-xl);
-      background: var(--surface-raised);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-panel);
-      font-size: 0.875rem;
-      color: var(--color-text-muted);
-      line-height: 1.65;
-      text-align: center;
-    }
-
-    .contact__note strong {
-      color: var(--color-text);
-      font-weight: 600;
-    }
-
-    /* ── Footer ── */
-    .site-footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--color-border);
-      background: var(--surface-footer);
-      padding: var(--space-2xl) var(--space-xl) var(--space-xl);
-      transition:
-        background-color var(--duration-theme) var(--ease-out),
-        border-color var(--duration-theme) var(--ease-out);
-    }
-
-    .site-footer__inner {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: var(--space-xl);
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      justify-self: start;
-    }
-
-    .footer-logo:hover {
-      color: var(--color-text);
-    }
-
-    .footer-logo__mark {
-      width: 32px;
-      height: 32px;
-      flex-shrink: 0;
-    }
-
-    .footer-logo__text {
-      font-family: var(--font-display);
-      font-size: 0.9375rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-    }
-
-    .footer-logo__text span {
-      display: block;
-      font-family: var(--font-body);
-      font-size: 0.6875rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-      margin-top: 1px;
-    }
-
-    .footer-nav {
-      justify-self: center;
-    }
-
-    .footer-nav__links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: var(--space-md) var(--space-xl);
-      list-style: none;
-    }
-
-    .footer-nav__links a {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--color-text-muted);
-    }
-
-    .footer-nav__links a:hover {
-      color: var(--color-accent-end);
-    }
-
-    .site-footer__copy {
-      justify-self: end;
-      font-size: 0.8125rem;
-      color: var(--color-text-muted);
-      text-align: right;
-      line-height: 1.5;
-    }
-
-    /* ── Focus & motion ── */
-    .btn:focus-visible,
-    .nav-links a:focus-visible,
-    .footer-nav__links a:focus-visible,
-    .service-card__link:focus-visible {
-      outline: 2px solid var(--color-accent-end);
-      outline-offset: 2px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      .reveal,
-      .hero-in {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-
-      .marquee__track {
-        animation: none;
-      }
-
-      .hero__glow {
-        animation: none;
-      }
-
-      .service-card:hover,
-      .why-card:hover {
-        transform: none;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .services__grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 1024px) {
-      .why-us__grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .why-us__grid .why-card:last-child {
-        grid-column: 1 / -1;
-        max-width: 480px;
-        margin: 0 auto;
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-toggle {
-        display: flex;
-      }
-
-      .nav-actions .btn-primary {
-        display: none;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 65px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        padding: var(--space-lg);
-        background: var(--surface-overlay);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-top: 1px solid var(--color-border);
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-12px);
-        transition:
-          opacity 0.35s var(--ease-out),
-          visibility 0.35s var(--ease-out),
-          transform 0.35s var(--ease-out);
-        pointer-events: none;
-        overflow-y: auto;
-      }
-
-      .nav-glass.is-menu-open .nav-links {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        pointer-events: auto;
-      }
-
-      .nav-links li {
-        border-bottom: 1px solid var(--color-border);
-      }
-
-      .nav-links a {
-        display: block;
-        padding: var(--space-lg) var(--space-md);
-        font-size: 1.0625rem;
-        color: var(--color-text);
-      }
-
-      .nav-links a:hover {
-        color: var(--color-accent-end);
-      }
-
-      .nav-links__cta {
-        display: block;
-        margin-top: var(--space-md);
-        padding-top: var(--space-md);
-        border-bottom: none;
-      }
-
-      .nav-links__cta .btn {
-        width: 100%;
-        padding: 0.875rem 1.5rem;
-      }
-
-      .nav-inner {
-        padding: var(--space-md) var(--space-lg);
-      }
-
-      .hero {
-        padding: calc(72px + var(--space-2xl)) var(--space-lg) var(--space-2xl);
-        min-height: auto;
-      }
-
-      .hero__title {
-        max-width: none;
-      }
-
-      .hero__rating {
-        flex-wrap: wrap;
-      }
-
-      .hero__actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .hero__actions .btn {
-        width: 100%;
-      }
-
-      .services {
-        padding: var(--space-2xl) var(--space-lg);
-      }
-
-      .services__header,
-      .why-us__header,
-      .recent-work__header,
-      .contact__header {
-        margin-bottom: var(--space-2xl);
-      }
-
-      .services__grid {
-        grid-template-columns: 1fr;
-      }
-
-      .service-card--popular .service-card__name {
-        padding-right: var(--space-xl);
-      }
-
-      .why-us,
-      .recent-work,
-      .testimonial,
-      .contact,
-      .site-footer {
-        padding: var(--space-2xl) var(--space-lg);
-      }
-
-      .why-us__grid,
-      .recent-work__grid {
-        grid-template-columns: 1fr;
-      }
-
-      .why-us__grid .why-card:last-child {
-        grid-column: auto;
-        max-width: none;
-      }
-
-      .contact__grid {
-        grid-template-columns: 1fr;
-      }
-
-      .site-footer__inner {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: var(--space-lg);
-      }
-
-      .footer-logo,
-      .footer-nav,
-      .site-footer__copy {
-        justify-self: center;
-      }
-
-      .site-footer__copy {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .nav-inner {
-        padding: var(--space-sm) var(--space-md);
-      }
-
-      .nav-logo__text {
-        font-size: 0.9375rem;
-      }
-
-      .glow--primary {
-        width: 400px;
-        height: 400px;
-      }
-
-      .glow--secondary {
-        width: 320px;
-        height: 320px;
-      }
-
-      .testimonial__badge {
-        display: block;
-        margin: var(--space-sm) auto 0;
-        width: fit-content;
-      }
-    }
-  </style>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@400;600;700;800&family=Urbanist:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Stylesheet load order matters: base tokens must come first -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/buttons.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/services.css">
+  <link rel="stylesheet" href="css/why-us.css">
+  <link rel="stylesheet" href="css/recent-work.css">
+  <link rel="stylesheet" href="css/progress-slider.css">
+  <link rel="stylesheet" href="css/testimonial.css">
+  <link rel="stylesheet" href="css/quote.css">
+  <link rel="stylesheet" href="css/contact.css">
+  <link rel="stylesheet" href="css/footer.css">
 </head>
+
 <body>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="glow glow--primary" aria-hidden="true"></div>
-  <div class="glow glow--secondary" aria-hidden="true"></div>
 
   <header class="nav-glass" id="nav">
     <div class="nav-inner">
       <a href="#" class="nav-logo" aria-label="OJ Auto Detailing — home">
-        <svg class="nav-logo__mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="logoGrad" x1="8" y1="4" x2="32" y2="36" gradientUnits="userSpaceOnUse">
-              <stop stop-color="var(--color-accent-start)"/>
-              <stop offset="1" stop-color="var(--color-accent-end)"/>
-            </linearGradient>
-          </defs>
-          <circle class="logo-ring" cx="20" cy="20" r="17" stroke="url(#logoGrad)" stroke-width="2.5" fill="none"/>
-          <path d="M28 12C22 8 14 10 10 16C8 19 8 24 10 27" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <circle cx="20" cy="20" r="5" fill="url(#logoGrad)"/>
-        </svg>
+        <img class="nav-logo__mark" src="images/oj-logo.png" alt="OJ Auto Detailing logo">
         <div class="nav-logo__text">
           OJ Auto
           <span>Detailing</span>
@@ -1844,13 +53,15 @@
 
       <nav aria-label="Primary">
         <ul class="nav-links" id="nav-menu">
-          <li><a href="#services">Services</a></li>
           <li><a href="#why-us">Why Us</a></li>
           <li><a href="#recent-work">Recent Work</a></li>
+          <li><a href="#services">Services</a></li>
           <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#quote">Quote</a></li>
           <li><a href="#contact">Contact</a></li>
           <li class="nav-links__cta">
-            <a href="https://ojautodetailing.setmore.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Book Now</a>
+            <a href="https://ojautodetailing.setmore.com" class="btn btn-primary" target="_blank"
+              rel="noopener noreferrer">Book Now</a>
           </li>
         </ul>
       </nav>
@@ -1858,15 +69,18 @@
       <div class="nav-actions">
         <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode">
           <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
           </svg>
           <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21 14.5A8.5 8.5 0 1112.5 6 7 7 0 0021 14.5z"/>
+            <path d="M21 14.5A8.5 8.5 0 1112.5 6 7 7 0 0021 14.5z" />
           </svg>
         </button>
-        <a href="https://ojautodetailing.setmore.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Book Now</a>
-        <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+        <a href="https://ojautodetailing.setmore.com" class="btn btn-primary" target="_blank"
+          rel="noopener noreferrer">Book Now</a>
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu"
+          aria-label="Open menu">
           <span class="nav-toggle__bar" aria-hidden="true"></span>
           <span class="nav-toggle__bar" aria-hidden="true"></span>
           <span class="nav-toggle__bar" aria-hidden="true"></span>
@@ -1877,129 +91,23 @@
 
   <main id="main">
     <section class="hero" id="hero" aria-labelledby="hero-title">
-      <div class="hero__bg" aria-hidden="true">
-        <div class="hero__grid"></div>
-        <div class="hero__glow"></div>
-      </div>
-
+      <img class="hero__bg" src="images/merc-car.png" alt="" aria-hidden="true" draggable="false">
+      <div class="hero__overlay" aria-hidden="true"></div>
       <div class="hero__content">
-        <div class="hero__rating hero-in hero-in--1">
-          <span class="hero__stars" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-            <svg viewBox="0 0 16 16"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-            <svg viewBox="0 0 16 16"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-            <svg viewBox="0 0 16 16"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-            <svg viewBox="0 0 16 16"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-          </span>
-          <strong>5.0</strong>
-          <span class="text-muted">Rated by North Melbourne clients</span>
-        </div>
+        <p class="hero__rating hero-in hero-in--1">
+          <span class="stars" aria-hidden="true">★★★★★</span> 5.0 · Rated by Melbourne clients
+        </p>
 
-        <h1 class="hero__title hero-in hero-in--2" id="hero-title">Detailed to <em>Perfection</em></h1>
+        <h1 class="hero__title hero-in hero-in--2" id="hero-title">Detailed to <span
+            class="hero__title__accent">Perfection</span></h1>
 
-        <p class="hero__sub hero-in hero-in--3">Quality interior and exterior detailing in North Melbourne. We do the job properly, charge a fair price, and make booking easy.</p>
+        <p class="hero__sub hero-in hero-in--3">Quality interior and exterior detailing in Melbourne. We do the
+          job properly, charge a fair price, and make booking easy.</p>
 
         <div class="hero__actions">
-          <a href="https://ojautodetailing.setmore.com" class="btn btn-primary hero-in hero-in--4" target="_blank" rel="noopener noreferrer">Book Your Detail</a>
-          <a href="#services" class="btn btn-ghost hero-in hero-in--5">View Services</a>
-        </div>
-      </div>
-    </section>
-
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee__track">
-        <div class="marquee__content">
-          <span>Exterior Deep Wash</span><span class="marquee__dot">·</span>
-          <span>Foam Cleanse</span><span class="marquee__dot">·</span>
-          <span>Interior Detail</span><span class="marquee__dot">·</span>
-          <span>Wash &amp; Wax</span><span class="marquee__dot">·</span>
-          <span>Tyre Shine</span><span class="marquee__dot">·</span>
-          <span>Window Clean</span><span class="marquee__dot">·</span>
-          <span>Finishing Touch</span><span class="marquee__dot">·</span>
-        </div>
-        <div class="marquee__content">
-          <span>Exterior Deep Wash</span><span class="marquee__dot">·</span>
-          <span>Foam Cleanse</span><span class="marquee__dot">·</span>
-          <span>Interior Detail</span><span class="marquee__dot">·</span>
-          <span>Wash &amp; Wax</span><span class="marquee__dot">·</span>
-          <span>Tyre Shine</span><span class="marquee__dot">·</span>
-          <span>Window Clean</span><span class="marquee__dot">·</span>
-          <span>Finishing Touch</span><span class="marquee__dot">·</span>
-        </div>
-      </div>
-    </div>
-
-    <section class="services" id="services" aria-labelledby="services-title">
-      <div class="services__inner">
-        <header class="services__header reveal">
-          <p class="services__eyebrow">Packages</p>
-          <h2 class="services__title" id="services-title">Our Services</h2>
-          <p class="services__sub">Transparent pricing, clear inclusions, and easy online booking. Pick the package that fits your car and schedule.</p>
-        </header>
-
-        <div class="services__grid">
-          <article class="service-card reveal reveal-delay-1">
-            <h3 class="service-card__name">'Touch Up' Service <span class="text-muted">(Interior + Exterior)</span></h3>
-            <div class="service-card__meta">
-              <span class="service-card__duration">1 hr</span>
-              <span class="service-card__price">$75</span>
-            </div>
-            <ul class="service-card__list">
-              <li>Quick interior tidy</li>
-              <li>Exterior wash &amp; dry</li>
-              <li>Glass cleaned</li>
-              <li>Great between full details</li>
-            </ul>
-            <a href="https://ojautodetailing.setmore.com" class="service-card__link" target="_blank" rel="noopener noreferrer">Book this <span aria-hidden="true">→</span></a>
-          </article>
-
-          <article class="service-card reveal reveal-delay-2">
-            <h3 class="service-card__name">Tier 1 — Clean Finish <span class="text-muted">(Exterior)</span></h3>
-            <div class="service-card__meta">
-              <span class="service-card__duration">1 hr</span>
-              <span class="service-card__price">$70</span>
-            </div>
-            <ul class="service-card__list">
-              <li>Exterior deep pressure wash</li>
-              <li>Foam cleanse</li>
-              <li>Tyre wash</li>
-              <li>Wash + wax + hand dry</li>
-              <li>Finishing shine</li>
-            </ul>
-            <a href="https://ojautodetailing.setmore.com" class="service-card__link" target="_blank" rel="noopener noreferrer">Book this <span aria-hidden="true">→</span></a>
-          </article>
-
-          <article class="service-card reveal reveal-delay-3">
-            <h3 class="service-card__name">Tier 2 — Polished Finish <span class="text-muted">(Interior)</span></h3>
-            <div class="service-card__meta">
-              <span class="service-card__duration">2 hrs</span>
-              <span class="service-card__price">$130</span>
-            </div>
-            <ul class="service-card__list">
-              <li>Full interior deep clean</li>
-              <li>Vacuum / seats / carpets</li>
-              <li>Dash + console + trim detailed</li>
-              <li>Interior glass</li>
-              <li>Finishing touch</li>
-            </ul>
-            <a href="https://ojautodetailing.setmore.com" class="service-card__link" target="_blank" rel="noopener noreferrer">Book this <span aria-hidden="true">→</span></a>
-          </article>
-
-          <article class="service-card service-card--popular reveal reveal-delay-3">
-            <span class="service-card__badge">Most Popular</span>
-            <h3 class="service-card__name">Tier 3 — Complete Detail <span class="text-muted">(Interior + Exterior)</span></h3>
-            <div class="service-card__meta">
-              <span class="service-card__duration">3 hrs</span>
-              <span class="service-card__price">$175</span>
-            </div>
-            <ul class="service-card__list">
-              <li>Everything in Tier 1 &amp; 2</li>
-              <li>Full detail</li>
-              <li>Wax / polish / tyre shine</li>
-              <li>Showroom-ready</li>
-            </ul>
-            <a href="https://ojautodetailing.setmore.com" class="service-card__link" target="_blank" rel="noopener noreferrer">Book this <span aria-hidden="true">→</span></a>
-          </article>
+          <a href="https://ojautodetailing.setmore.com" class="btn btn-blue hero-in hero-in--4" target="_blank"
+            rel="noopener noreferrer">Book Your Detail</a>
+          <a href="#recent-work" class="btn btn-ghost hero-in hero-in--5">See Our Work</a>
         </div>
       </div>
     </section>
@@ -2007,28 +115,26 @@
     <section class="why-us" id="why-us" aria-labelledby="why-us-title">
       <div class="why-us__inner">
         <header class="why-us__header reveal">
-          <p class="why-us__eyebrow">Why choose us</p>
           <h2 class="why-us__title" id="why-us-title">Why Us</h2>
-          <p class="why-us__sub">Premium results, fair pricing, and a booking experience that respects your time.</p>
+          <p class="why-us__sub">No franchises, no hidden fees. Just a local detailer who takes real pride in getting it
+            right.</p>
         </header>
 
-        <div class="why-us__grid">
-          <article class="why-card reveal reveal-delay-1">
-            <span class="why-card__number" aria-hidden="true">01</span>
-            <h3 class="why-card__title">Premium for less</h3>
-            <p class="why-card__text">Competitive rates for a deluxe finish, top-tier results without the top-tier price.</p>
+        <div class="why-strip reveal">
+          <article class="why-strip__item">
+            <h3 class="why-strip__lead">Fair price, real work.</h3>
+            <p class="why-strip__text">Competitive rates without cutting corners. You get the same attention whether
+              it's a $70 wash or the full detail.</p>
           </article>
 
-          <article class="why-card reveal reveal-delay-2">
-            <span class="why-card__number" aria-hidden="true">02</span>
-            <h3 class="why-card__title">Every detail counts</h3>
-            <p class="why-card__text">Hard-to-reach spots and every surface, your car treated like it's our own.</p>
+          <article class="why-strip__item">
+            <h3 class="why-strip__lead">Every surface, every time.</h3>
+            <p class="why-strip__text">Hard-to-reach spots aren't skipped. Your car gets treated like it's our own.</p>
           </article>
 
-          <article class="why-card reveal reveal-delay-3">
-            <span class="why-card__number" aria-hidden="true">03</span>
-            <h3 class="why-card__title">Easy booking</h3>
-            <p class="why-card__text">Book online in seconds, pick your time, we handle the rest.</p>
+          <article class="why-strip__item">
+            <h3 class="why-strip__lead">Book in 30 seconds.</h3>
+            <p class="why-strip__text">Pick your service and time online. Julian confirms and comes to you in Melbourne.</p>
           </article>
         </div>
       </div>
@@ -2037,125 +143,503 @@
     <section class="recent-work" id="recent-work" aria-labelledby="recent-work-title">
       <div class="recent-work__inner">
         <header class="recent-work__header reveal">
-          <p class="recent-work__eyebrow">Portfolio</p>
           <h2 class="recent-work__title" id="recent-work-title">Recent Work</h2>
         </header>
 
         <div class="recent-work__grid">
-          <article class="work-card reveal reveal-delay-1">
-            <div class="work-card__media" data-view="before">
-              <div class="work-card__slot work-card__slot--before is-active">
-                <div class="work-card__texture" aria-hidden="true"></div>
-                <div class="work-card__placeholder">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/>
-                  </svg>
-                  <span>Your photo here</span>
+          <article class="progress-slider reveal reveal-delay-1"
+              data-label1="Where we started"
+              data-label2="Better… but still grubby"
+              data-label3="Way cleaner now"
+              data-label4="OJ-level cleaned"
+              data-threshold2="0.25"
+              data-threshold3="0.55"
+              data-threshold4="0.85"
+              aria-label="Kia cleaning progress reveal">
+
+              <a href="#service-tier-2" class="work-badge" aria-label="See Tier 2 — Interior package">Tier 2 — Interior</a>
+
+              <!-- ── Image stack ─────────────────────────────────────── -->
+              <div class="progress-slider__frame">
+
+                <!-- ① STAGE 0 — dirtiest -->
+                <img class="progress-slider__layer" src="images/kia-before.png" alt="Kia before detail — dirtiest condition">
+
+                <!-- ② STAGE 1 — 33% clean -->
+                <img class="progress-slider__layer" src="images/kia-trans-thirty-three.png" alt="Kia detail stage 2 — starting to clean">
+
+                <!-- ③ STAGE 2 — 66% clean -->
+                <img class="progress-slider__layer" src="images/kia-trans-sixty-six.png" alt="Kia detail stage 3 — nearly there">
+
+                <!-- ④ STAGE 3 — fully detailed -->
+                <img class="progress-slider__layer" src="images/kia-after.png" alt="Kia after detail — OJ-level clean">
+              </div>
+
+              <!-- ── Drag controls ────────────────────────────────────── -->
+              <div class="progress-slider__controls">
+                <p class="progress-slider__label" aria-live="polite">Where we started</p>
+                <div class="progress-slider__track" aria-hidden="true">
+                  <div class="progress-slider__fill"></div>
+                  <button class="progress-slider__handle" type="button" role="slider" tabindex="0"
+                    aria-label="Drag to reveal Kia cleaning progress" aria-valuemin="0" aria-valuemax="100"
+                    aria-valuenow="0">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"
+                      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="5,4 2,8 5,12" />
+                      <polyline points="11,4 14,8 11,12" />
+                    </svg>
+                  </button>
                 </div>
               </div>
-              <div class="work-card__slot work-card__slot--after">
-                <div class="work-card__texture" aria-hidden="true"></div>
-                <div class="work-card__placeholder">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/>
-                  </svg>
-                  <span>Your photo here</span>
-                </div>
-              </div>
-            </div>
-            <div class="work-card__toggle" role="group" aria-label="Exterior detail — before or after">
-              <button type="button" class="work-card__btn is-active" data-view="before" aria-pressed="true">Before</button>
-              <button type="button" class="work-card__btn" data-view="after" aria-pressed="false">After</button>
-            </div>
-          </article>
+
+            </article>
 
           <article class="work-card reveal reveal-delay-2">
+            <a href="#service-tier-1" class="work-badge" aria-label="See Tier 1 — Exterior package">Tier 1 — Exterior</a>
             <div class="work-card__media" data-view="before">
               <div class="work-card__slot work-card__slot--before is-active">
-                <div class="work-card__texture" aria-hidden="true"></div>
-                <div class="work-card__placeholder">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/>
-                  </svg>
-                  <span>Your photo here</span>
-                </div>
+                <img src="images/raptor-before.png" alt="Ford Raptor before exterior detail">
               </div>
               <div class="work-card__slot work-card__slot--after">
-                <div class="work-card__texture" aria-hidden="true"></div>
-                <div class="work-card__placeholder">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/>
-                  </svg>
-                  <span>Your photo here</span>
-                </div>
+                <img src="images/raptor-after.png" alt="Ford Raptor after exterior detail">
               </div>
             </div>
-            <div class="work-card__toggle" role="group" aria-label="Interior detail — before or after">
-              <button type="button" class="work-card__btn is-active" data-view="before" aria-pressed="true">Before</button>
-              <button type="button" class="work-card__btn" data-view="after" aria-pressed="false">After</button>
+            <div class="work-card__toggle" role="group" aria-label="Raptor exterior detail — before or after">
+              <div class="work-card__toggle-inner">
+                <button type="button" class="work-card__btn is-active" data-view="before"
+                  aria-pressed="true">Before</button>
+                <button type="button" class="work-card__btn" data-view="after" aria-pressed="false">After</button>
+              </div>
             </div>
           </article>
 
-          <article class="work-card reveal reveal-delay-3">
-            <div class="work-card__media" data-view="before">
-              <div class="work-card__slot work-card__slot--before is-active">
-                <div class="work-card__texture" aria-hidden="true"></div>
-                <div class="work-card__placeholder">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/>
+          <!--
+            ╔══════════════════════════════════════════════════════════╗
+            ║  PROGRESS SLIDER — reusable 4-stage cleaning reveal     ║
+            ║                                                          ║
+            ║  TO WIRE UP A NEW CAR SET:                               ║
+            ║  1. Copy this entire <article> block                     ║
+            ║  2. Replace the four img src="" values below             ║
+            ║     (stage 1 = dirtiest → stage 4 = fully cleaned)      ║
+            ║  3. Optionally change data-label-N for custom text       ║
+            ║  4. Drop the copied article into .recent-work__grid      ║
+            ╚══════════════════════════════════════════════════════════╝
+          -->
+
+          <article class="progress-slider reveal reveal-delay-3" data-label1="Where we started"
+              data-label2="Better… but still grubby" data-label3="Way cleaner now" data-label4="OJ-level cleaned"
+              aria-label="Cleaning progress reveal">
+
+              <a href="#service-tier-2" class="work-badge" aria-label="See Tier 2 — Interior package">Tier 2 — Interior</a>
+
+              <!-- ── Image stack ─────────────────────────────────────── -->
+              <div class="progress-slider__frame">
+
+                <!-- Placeholder shown while images are not yet set -->
+                <div class="progress-slider__placeholder" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
                   </svg>
-                  <span>Your photo here</span>
+                  <span>Drag to reveal the clean</span>
+                </div>
+
+                <!-- ① STAGE 1 — dirtiest. Plug in your first image src -->
+                <img class="progress-slider__layer" src="images/skoda-before.png" alt="Stage 1 — Looking at the condtion of the car">
+
+                <!-- ② STAGE 2 — mid-dirty. Plug in your second image src -->
+                <img class="progress-slider__layer" src="images/skoda-trans-thirty-three.png" alt="Stage 2 — Removing rubbish from the car">
+
+                <!-- ③ STAGE 3 — nearly clean. Plug in your third image src -->
+                <img class="progress-slider__layer" src="images/skoda-trans-sixty-six.png" alt="Stage 3 — Vaccuming ensuring everything's spotless">
+
+                <!-- ④ STAGE 4 — fully detailed. Plug in your fourth image src -->
+                <img class="progress-slider__layer" src="images/skoda-after.png"
+                  alt="Stage 4 — Adding stripes and making it perfect like the OJ way">
+              </div>
+
+              <!-- ── Drag controls ────────────────────────────────────── -->
+              <div class="progress-slider__controls">
+                <p class="progress-slider__label" aria-live="polite">Where we started</p>
+                <div class="progress-slider__track" aria-hidden="true">
+                  <div class="progress-slider__fill"></div>
+                  <button class="progress-slider__handle" type="button" role="slider" tabindex="0"
+                    aria-label="Drag to reveal cleaning progress" aria-valuemin="0" aria-valuemax="100"
+                    aria-valuenow="0">
+                    <!-- Bidirectional drag arrow -->
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"
+                      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="5,4 2,8 5,12" />
+                      <polyline points="11,4 14,8 11,12" />
+                    </svg>
+                  </button>
                 </div>
               </div>
-              <div class="work-card__slot work-card__slot--after">
-                <div class="work-card__texture" aria-hidden="true"></div>
-                <div class="work-card__placeholder">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/>
-                  </svg>
-                  <span>Your photo here</span>
+
+            </article>
+
+          <article class="progress-slider reveal reveal-delay-4"
+              data-label1="Where we started"
+              data-label2="Better… but still grubby"
+              data-label3="Way cleaner now"
+              data-label4="OJ-level cleaned"
+              aria-label="GLC interior detail progress reveal">
+
+              <a href="#service-tier-2" class="work-badge" aria-label="See Tier 2 — Interior package">Tier 2 — Interior</a>
+
+              <!-- ── Image stack ─────────────────────────────────────── -->
+              <div class="progress-slider__frame">
+
+                <!-- ① STAGE 1 — dirtiest -->
+                <img class="progress-slider__layer" src="images/glc-merc-before.png"
+                  alt="GLC interior before detail — where we started">
+
+                <!-- ② STAGE 2 — mid dirty -->
+                <img class="progress-slider__layer" src="images/glc-merc-thirty-three.png"
+                  alt="GLC interior detail stage 2 — better but still grubby">
+
+                <!-- ③ STAGE 3 — nearly clean -->
+                <img class="progress-slider__layer" src="images/glc-merc-sixty-six.png"
+                  alt="GLC interior detail stage 3 — way cleaner now">
+
+                <!-- ④ STAGE 4 — fully detailed -->
+                <img class="progress-slider__layer" src="images/glc-merc-after.png"
+                  alt="GLC interior after detail — OJ-level cleaned">
+              </div>
+
+              <!-- ── Drag controls ────────────────────────────────────── -->
+              <div class="progress-slider__controls">
+                <p class="progress-slider__label" aria-live="polite">Where we started</p>
+                <div class="progress-slider__track" aria-hidden="true">
+                  <div class="progress-slider__fill"></div>
+                  <button class="progress-slider__handle" type="button" role="slider" tabindex="0"
+                    aria-label="Drag to reveal GLC interior detail progress" aria-valuemin="0"
+                    aria-valuemax="100" aria-valuenow="0">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75"
+                      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="5,4 2,8 5,12" />
+                      <polyline points="11,4 14,8 11,12" />
+                    </svg>
+                  </button>
                 </div>
               </div>
+
+            </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="services" aria-labelledby="services-title" data-vehicle="car">
+      <div class="services__inner">
+        <header class="services__header reveal">
+          <h2 class="services__title" id="services-title">Our Services</h2>
+          <p class="services__sub">Pick the package that fits your car and schedule.</p>
+        </header>
+
+        <div class="services__toggle-wrap">
+          <div class="vehicle-toggle" role="tablist" aria-label="Filter services by vehicle type">
+            <button class="vehicle-toggle__btn" role="tab" aria-selected="true" data-vehicle="car">Car</button>
+            <button class="vehicle-toggle__btn" role="tab" aria-selected="false" data-vehicle="caravan">Caravan</button>
+          </div>
+        </div>
+
+        <div class="services__grid">
+          <article class="service-card reveal reveal-delay-1" data-caravan-unavailable data-quote-service="touch-up">
+            <h3 class="service-card__name">Touch Up</h3>
+            <p class="service-card__tagline">Takes clean to perfect again.</p>
+            <div class="service-card__meta">
+              <div class="spec spec--lg">
+                <span class="spec__label">From</span>
+                <span class="spec__value">$80</span>
+              </div>
             </div>
-            <div class="work-card__toggle" role="group" aria-label="Full detail — before or after">
-              <button type="button" class="work-card__btn is-active" data-view="before" aria-pressed="true">Before</button>
-              <button type="button" class="work-card__btn" data-view="after" aria-pressed="false">After</button>
+            <ul class="service-card__list">
+              <li>Exterior clean</li>
+              <li>Interior clean (vacuum + light steam clean)</li>
+              <li>Scented accessories</li>
+            </ul>
+            <a href="https://ojautodetailing.setmore.com" class="service-card__link" target="_blank"
+              rel="noopener noreferrer">Book this →</a>
+          </article>
+
+          <article class="service-card reveal reveal-delay-2" id="service-tier-1" data-caravan-top data-quote-service="tier-1-exterior">
+            <h3 class="service-card__name">Tier 1 — Exterior</h3>
+            <p class="service-card__tagline">Street presence, restored.</p>
+            <div class="service-card__meta">
+              <div class="spec spec--lg">
+                <span class="spec__label">From</span>
+                <span class="spec__value">$65</span>
+                <span class="spec__qualifier">May vary by caravan size</span>
+              </div>
             </div>
+            <ul class="service-card__list">
+              <li>Deep pressure wash</li>
+              <li>Tyre acid clean</li>
+              <li>Pre-soak</li>
+              <li>Foam cleanse</li>
+              <li>Exterior windows cleaned</li>
+              <li>Finishing shine touch</li>
+            </ul>
+            <a href="https://ojautodetailing.setmore.com" class="service-card__link" target="_blank"
+              rel="noopener noreferrer">Book this →</a>
+          </article>
+
+          <article class="service-card reveal reveal-delay-3" id="service-tier-2" data-quote-service="tier-2-interior">
+            <h3 class="service-card__name">Tier 2 — Interior</h3>
+            <p class="service-card__tagline">Feels like the day you bought it.</p>
+            <div class="service-card__meta">
+              <div class="spec spec--lg">
+                <span class="spec__label">From</span>
+                <span class="spec__value">$150</span>
+                <span class="spec__qualifier">May vary by caravan size</span>
+              </div>
+            </div>
+            <ul class="service-card__list">
+              <li>Heavy vacuum</li>
+              <li>Rubbish collection</li>
+              <li>Stain removal</li>
+              <li>Screen + window cleanse</li>
+              <li>Steam cleaning</li>
+              <li>Car protectant</li>
+              <li>Leather conditioning</li>
+              <li>Panel cleaning</li>
+              <li>Rail scrub</li>
+            </ul>
+            <a href="https://ojautodetailing.setmore.com" class="service-card__link" target="_blank"
+              rel="noopener noreferrer">Book this →</a>
+          </article>
+
+          <article class="service-card service-card--popular reveal reveal-delay-4" id="service-tier-3" data-quote-service="tier-3-complete">
+            <span class="service-card__badge">Most Popular</span>
+            <h3 class="service-card__name">Tier 3 — Complete Detail</h3>
+            <p class="service-card__tagline">The full works — inside and out.</p>
+            <div class="service-card__meta">
+              <div class="spec spec--lg">
+                <span class="spec__label">From</span>
+                <span class="spec__value">$200</span>
+                <span class="spec__qualifier">May vary by caravan size</span>
+              </div>
+            </div>
+            <ul class="service-card__list">
+              <li class="service-card__list-item--tier">Everything in Tier 1 (full exterior detail)</li>
+              <li class="service-card__list-item--tier">Everything in Tier 2 (full interior detail)</li>
+              <li class="service-card__list-item--value" data-caravan-save="Save $25 vs. booking Tier 1 + Tier 2 separately">Save $15 vs. booking Tier 1 + Tier 2 separately</li>
+            </ul>
+            <a href="https://ojautodetailing.setmore.com" class="service-card__link" target="_blank"
+              rel="noopener noreferrer">Book this →</a>
           </article>
         </div>
+
+        <!-- ── Add-ons & Extras collapsible panel ── -->
+        <div class="addons">
+          <button
+            class="addons__trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls="addons-panel"
+            id="addons-trigger"
+          >
+            <span class="addons__trigger-label">Add-ons &amp; Extras</span>
+            <svg class="addons__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+
+          <div
+            class="addons__panel"
+            id="addons-panel"
+            role="region"
+            aria-labelledby="addons-trigger"
+          >
+            <ul class="addons__list">
+              <li class="addon-chip">
+                <div class="addon-chip__main">
+                  <span class="addon-chip__name">Scratch removal</span>
+                  <span class="addon-chip__price">FROM $45</span>
+                </div>
+                <p class="addon-chip__desc">Knock out light scratches</p>
+              </li>
+              <li class="addon-chip">
+                <div class="addon-chip__main">
+                  <span class="addon-chip__name">Trim restoration</span>
+                  <span class="addon-chip__price">FROM $50</span>
+                </div>
+                <p class="addon-chip__desc">Bring faded trims and plastics back to life</p>
+              </li>
+              <li class="addon-chip">
+                <div class="addon-chip__main">
+                  <span class="addon-chip__name">Water repellent</span>
+                  <span class="addon-chip__price">FROM $30</span>
+                </div>
+                <p class="addon-chip__desc">Rain beads run off glass for safer driving</p>
+              </li>
+              <li class="addon-chip">
+                <div class="addon-chip__main">
+                  <span class="addon-chip__name">Anti-fog</span>
+                  <span class="addon-chip__price">FROM $35</span>
+                </div>
+                <p class="addon-chip__desc">Remove fog from windows for safer driving</p>
+              </li>
+              <li class="addon-chip">
+                <div class="addon-chip__main">
+                  <span class="addon-chip__name">Headlight restoration</span>
+                  <span class="addon-chip__price">FROM $100</span>
+                </div>
+                <p class="addon-chip__desc">Foggy, yellowed lenses restored to crystal clear, bringing your car many years back.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
       </div>
     </section>
 
     <section class="testimonial" id="reviews" aria-labelledby="testimonial-title">
       <div class="testimonial__inner reveal">
-        <h2 class="visually-hidden" id="testimonial-title">Client review</h2>
-        <div class="testimonial__stars" aria-label="5 out of 5 stars">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.92L8 10.67l-3.52 1.85.67-3.92L2.3 5.64l3.94-.57L8 1.5z"/></svg>
-        </div>
-        <blockquote class="testimonial__quote">
-          I couldn't be happier with the service — top tier from start to finish. My car looks and feels better than the day I got it. The interior is spotless with every surface cleaned to perfection, and even the hard-to-reach areas look brand new.
-        </blockquote>
-        <p class="testimonial__author">
-          <strong>Janie Murrone</strong><span class="testimonial__badge">Verified client</span>
+        <h2 class="visually-hidden" id="testimonial-title">Client reviews</h2>
+
+        <p class="review-section-header">
+          Rated <strong class="review-section-header__score">5.0</strong>
+          <span class="review-section-header__label">by Melbourne customers</span>
         </p>
+
+        <div class="review-carousel" aria-roledescription="carousel" aria-label="Client reviews">
+          <button class="review-carousel__arrow review-carousel__arrow--prev" type="button" aria-label="Previous review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+
+          <div class="review-carousel__track" aria-live="polite" aria-atomic="true">
+            <!-- Slides injected by JS -->
+          </div>
+
+          <button class="review-carousel__arrow review-carousel__arrow--next" type="button" aria-label="Next review">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="review-carousel__dots" role="group" aria-label="Review navigation">
+          <!-- Dots injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <section class="quote" id="quote" aria-labelledby="quote-title">
+      <div class="quote__inner">
+
+        <header class="quote__header reveal">
+          <h2 class="quote__title" id="quote-title">Get a Quote</h2>
+          <p class="quote__sub">Build your detail and we'll send it to Julian — he confirms your final price.</p>
+        </header>
+
+        <form class="quote__body" name="quote" method="POST" novalidate>
+
+          <!-- Honeypot: visually hidden, never filled by real users -->
+          <input class="visually-hidden" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <!-- ── Left panel: configurator ── -->
+          <div class="quote__config reveal reveal-delay-1">
+
+            <!-- Vehicle type -->
+            <div class="quote__field">
+              <label class="quote__label" for="quote-vehicle">Vehicle type</label>
+              <div class="quote__select-wrap">
+                <select class="quote__select" id="quote-vehicle" name="vehicle_type">
+                  <option value="car">Car</option>
+                  <option value="caravan">Caravan</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Service -->
+            <div class="quote__field">
+              <label class="quote__label" for="quote-service">Service</label>
+              <div class="quote__select-wrap">
+                <select class="quote__select" id="quote-service" name="service">
+                  <option value="" disabled selected>Select a service</option>
+                  <!-- options populated once pricing is wired -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Add-ons -->
+            <fieldset class="quote__field quote__field--addons">
+              <legend class="quote__label">Add-ons <span class="quote__label-hint">(optional)</span></legend>
+              <button type="button" class="quote__addons-clear" id="quote-addons-clear" hidden>Clear</button>
+              <div class="quote__checkboxes">
+                <!-- Rendered from PRICING in script.js — edit prices there, not here -->
+              </div>
+            </fieldset>
+
+            <!-- Estimate summary box — wired to pricing logic next -->
+            <div class="quote__estimate" aria-live="polite" aria-label="Estimated price">
+              <p class="quote__estimate-label">Estimated price</p>
+              <p class="quote__estimate-value">—</p>
+              <p class="quote__estimate-note">Julian confirms your final price after reviewing your request.</p>
+            </div>
+
+          </div><!-- /.quote__config -->
+
+          <!-- ── Right panel: personal details ── -->
+          <div class="quote__details reveal reveal-delay-2">
+
+            <div class="quote__field">
+              <label class="quote__label" for="quote-name">Full name</label>
+              <input class="quote__input" type="text" id="quote-name" name="name"
+                placeholder="Jane Smith" autocomplete="name" required>
+            </div>
+
+            <div class="quote__field-row">
+              <div class="quote__field">
+                <label class="quote__label" for="quote-phone">Phone</label>
+                <input class="quote__input" type="tel" id="quote-phone" name="phone"
+                  placeholder="04xx xxx xxx" autocomplete="tel" required>
+              </div>
+              <div class="quote__field">
+                <label class="quote__label" for="quote-email">Email</label>
+                <input class="quote__input" type="email" id="quote-email" name="email"
+                  placeholder="you@example.com" autocomplete="email" required>
+              </div>
+            </div>
+
+            <div class="quote__field">
+              <label class="quote__label" for="quote-vehicle-model">Vehicle make &amp; model</label>
+              <input class="quote__input" type="text" id="quote-vehicle-model" name="vehicle_model"
+                placeholder="e.g. Toyota Camry 2020">
+            </div>
+
+            <div class="quote__field">
+              <label class="quote__label" for="quote-date">Preferred date</label>
+              <input class="quote__input quote__input--date" type="date" id="quote-date" name="preferred_date">
+            </div>
+
+            <div class="quote__field">
+              <label class="quote__label" for="quote-notes">Anything else</label>
+              <textarea class="quote__input quote__textarea" id="quote-notes" name="notes" rows="4"
+                placeholder="Any specific concerns, requests, or extra context..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-blue quote__submit">Send my quote to Julian</button>
+
+          </div><!-- /.quote__details -->
+
+        </form>
+
       </div>
     </section>
 
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="contact__inner">
         <header class="contact__header reveal">
-          <p class="contact__eyebrow">Get in touch</p>
-          <h2 class="contact__title" id="contact-title">Contact</h2>
+          <h2 class="contact__title" id="contact-title">Get in Touch</h2>
         </header>
 
         <div class="contact__grid">
@@ -2163,11 +647,12 @@
             <div class="contact__row">
               <div class="contact__row-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                 </svg>
               </div>
               <div>
-                <span class="contact__row-label">Call us</span>
+                <span class="contact__row-label">Phone</span>
                 <a href="tel:+61423967170" class="contact__row-value">0423 967 170</a>
               </div>
             </div>
@@ -2175,7 +660,8 @@
             <div class="contact__row">
               <div class="contact__row-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
               </div>
               <div>
@@ -2187,26 +673,30 @@
             <div class="contact__row">
               <div class="contact__row-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                 </svg>
               </div>
               <div>
                 <span class="contact__row-label">Location</span>
-                <span class="contact__row-value">North Melbourne, VIC</span>
+                <span class="contact__row-value">Melbourne, VIC</span>
               </div>
             </div>
           </div>
 
           <div class="contact__book reveal reveal-delay-2">
-            <h3 class="contact__book-title">Book Online</h3>
-            <p class="contact__book-text">Pick your service and time in seconds — we handle the rest.</p>
-            <a href="https://ojautodetailing.setmore.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Book Your Detail</a>
+            <h3 class="contact__book-title">Book with Julian</h3>
+            <p class="contact__book-text">Pick your service and time, Julian will confirm and deliver you the feeling
+              that you're sitting in a new car again!</p>
+            <a href="https://ojautodetailing.setmore.com" class="btn btn-blue" target="_blank"
+              rel="noopener noreferrer">Book Your Detail</a>
           </div>
         </div>
 
         <p class="contact__note reveal reveal-delay-3">
-          <strong>Please note:</strong> After-hours jobs incur a $20 fee. Cancellations must be made at least 1 day before your scheduled time.
+          <strong>Note:</strong> After-hours jobs incur a $20 fee. Cancellations must be made at least 1 day before your
+          scheduled time.
         </p>
       </div>
     </section>
@@ -2215,17 +705,7 @@
   <footer class="site-footer">
     <div class="site-footer__inner">
       <a href="#" class="footer-logo" aria-label="OJ Auto Detailing — home">
-        <svg class="footer-logo__mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="logoGradFooter" x1="8" y1="4" x2="32" y2="36" gradientUnits="userSpaceOnUse">
-              <stop stop-color="var(--color-accent-start)"/>
-              <stop offset="1" stop-color="var(--color-accent-end)"/>
-            </linearGradient>
-          </defs>
-          <circle class="logo-ring" cx="20" cy="20" r="17" stroke="url(#logoGradFooter)" stroke-width="2.5" fill="none"/>
-          <path d="M28 12C22 8 14 10 10 16C8 19 8 24 10 27" stroke="url(#logoGradFooter)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <circle cx="20" cy="20" r="5" fill="url(#logoGradFooter)"/>
-        </svg>
+        <img class="footer-logo__mark" src="images/oj-logo.png" alt="OJ Auto Detailing logo">
         <div class="footer-logo__text">
           OJ Auto
           <span>Detailing</span>
@@ -2234,145 +714,22 @@
 
       <nav class="footer-nav" aria-label="Footer">
         <ul class="footer-nav__links">
-          <li><a href="#services">Services</a></li>
           <li><a href="#why-us">Why Us</a></li>
           <li><a href="#recent-work">Recent Work</a></li>
+          <li><a href="#services">Services</a></li>
           <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#quote">Quote</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
 
-      <p class="site-footer__copy">&copy; <span id="footer-year"></span> OJ Auto Detailing. North Melbourne, VIC.</p>
+      <p class="site-footer__copy">&copy; <span id="footer-year"></span> OJ Auto Detailing. Melbourne, VIC.</p>
     </div>
   </footer>
 
-  <script>
-    (function () {
-      var THEME_KEY = 'oj-theme';
-      var root = document.documentElement;
-      var nav = document.getElementById('nav');
-      var navToggle = document.getElementById('nav-toggle');
-      var navMenu = document.getElementById('nav-menu');
-      var themeToggle = document.getElementById('theme-toggle');
-      var hero = document.getElementById('hero');
-      var footerYear = document.getElementById('footer-year');
-
-      function getTheme() {
-        return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-      }
-
-      function setTheme(theme) {
-        root.setAttribute('data-theme', theme);
-        localStorage.setItem(THEME_KEY, theme);
-        if (themeToggle) {
-          themeToggle.setAttribute(
-            'aria-label',
-            theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
-          );
-        }
-      }
-
-      if (themeToggle) {
-        themeToggle.addEventListener('click', function () {
-          setTheme(getTheme() === 'light' ? 'dark' : 'light');
-        });
-        setTheme(getTheme());
-      }
-
-      if (footerYear) {
-        footerYear.textContent = String(new Date().getFullYear());
-      }
-
-      function onScroll() {
-        nav.classList.toggle('is-scrolled', window.scrollY > 24);
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-
-      function setMenuOpen(open) {
-        nav.classList.toggle('is-menu-open', open);
-        document.body.classList.toggle('is-nav-open', open);
-        if (navToggle) {
-          navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-          navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        }
-      }
-
-      if (navToggle && navMenu) {
-        navToggle.addEventListener('click', function () {
-          setMenuOpen(!nav.classList.contains('is-menu-open'));
-        });
-
-        navMenu.querySelectorAll('a').forEach(function (link) {
-          link.addEventListener('click', function () {
-            setMenuOpen(false);
-          });
-        });
-
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape' && nav.classList.contains('is-menu-open')) {
-            setMenuOpen(false);
-            navToggle.focus();
-          }
-        });
-
-        window.addEventListener('resize', function () {
-          if (window.innerWidth > 768 && nav.classList.contains('is-menu-open')) {
-            setMenuOpen(false);
-          }
-        });
-      }
-
-      if (hero) {
-        requestAnimationFrame(function () {
-          hero.classList.add('is-ready');
-        });
-      }
-
-      var reveals = document.querySelectorAll('.reveal');
-      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (prefersReducedMotion) {
-        reveals.forEach(function (el) { el.classList.add('is-visible'); });
-      } else if (reveals.length && 'IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
-        reveals.forEach(function (el) { observer.observe(el); });
-      } else {
-        reveals.forEach(function (el) { el.classList.add('is-visible'); });
-      }
-
-      document.querySelectorAll('.work-card').forEach(function (card) {
-        var media = card.querySelector('.work-card__media');
-        var slots = card.querySelectorAll('.work-card__slot');
-        var buttons = card.querySelectorAll('.work-card__btn');
-
-        buttons.forEach(function (btn) {
-          btn.addEventListener('click', function () {
-            var view = btn.getAttribute('data-view');
-            if (!view || btn.classList.contains('is-active')) return;
-
-            buttons.forEach(function (b) {
-              var active = b.getAttribute('data-view') === view;
-              b.classList.toggle('is-active', active);
-              b.setAttribute('aria-pressed', active ? 'true' : 'false');
-            });
-
-            slots.forEach(function (slot) {
-              slot.classList.toggle('is-active', slot.classList.contains('work-card__slot--' + view));
-            });
-
-            media.setAttribute('data-view', view);
-          });
-        });
-      });
-    })();
-  </script>
+  <script src="js/split-type.min.js"></script>
+  <script src="js/lenis.min.js"></script>
+  <script src="js/script.js"></script>
 </body>
+
 </html>

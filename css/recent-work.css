@@ -1,0 +1,274 @@
+/* ============================================================
+   RECENT WORK
+   The before/after photo gallery section. Includes:
+   - Section wrapper and 3-column grid (.recent-work, .recent-work__grid)
+   - Work card component (.work-card): media frame, image slots,
+     placeholder state (shown while real photos are pending),
+     and the Before/After toggle button strip
+   - JS adds/removes .is-active on slots and buttons to swap views
+   - Responsive: 1-column on mobile (≤768px)
+   - Reduced-motion: disables slot crossfade transition
+   ============================================================ */
+
+
+/* ── Section wrapper ── */
+.recent-work {
+  position: relative;
+  z-index: 1;
+  padding: 5.5rem 2rem 4.5rem;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.recent-work__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ── Section header ── */
+.recent-work__header {
+  margin: 0 0 2.5rem;
+}
+
+/* Section heading uses brand blue */
+.recent-work__title {
+  font-size: clamp(2rem, 4vw, 2.625rem);
+  letter-spacing: -0.025em;
+  color: var(--color-blue);
+}
+
+/* ── Four-column card grid (collapses to 2×2 on tablet, 1-col on mobile) ── */
+.recent-work__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+
+/* ── Work card ── */
+.work-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Photo frame: fixed 4:3 aspect ratio, top rounded corners only —
+   bottom border removed so the toggle bar connects flush below.
+   flex-grow: 1 lets the frame absorb any extra height when the grid
+   row is taller than the card's natural size, keeping it visually
+   level with the adjacent progress-slider frames. */
+.work-card__media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  flex-grow: 1;
+  border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+  border: 1px solid var(--color-hairline);
+  border-bottom: none;
+  overflow: hidden;
+  background: var(--color-panel);
+  transition:
+    background-color var(--duration-theme) var(--ease-out),
+    border-color var(--duration-theme) var(--ease-out);
+}
+
+/* ── Image slots: before and after layers, opacity-crossfaded ── */
+.work-card__slot {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 0.3s var(--ease-out);
+}
+
+/* JS adds .is-active to bring the selected slot to full opacity */
+.work-card__slot.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Distinct background tints for before vs after states */
+.work-card__slot--before {
+  background: var(--work-before-bg);
+}
+
+.work-card__slot--after {
+  background: var(--work-after-bg);
+}
+
+/* Images fill the slot completely — absolutely positioned so both before
+   and after render in an identical frame regardless of natural image size. */
+.work-card__slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ── Placeholder: shown when no real photos are set yet ── */
+.work-card__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.work-card__placeholder svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-text-faint);
+}
+
+.work-card__placeholder span {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--color-text-faint);
+  letter-spacing: 0.02em;
+}
+
+/* ── Before / After footer bar — mirrors .progress-slider__controls exactly ── */
+.work-card__toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.875rem 1rem 0.9rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-hairline);
+  border-top: none;
+  border-radius: 0 0 var(--radius-panel) var(--radius-panel);
+  transition:
+    background-color var(--duration-theme) var(--ease-out),
+    border-color var(--duration-theme) var(--ease-out);
+}
+
+/* ── Segmented pill inside the footer bar ── */
+.work-card__toggle-inner {
+  display: flex;
+  width: 100%;
+  padding: 2px;
+  gap: 0;
+  background: var(--color-hairline);
+  border-radius: calc(var(--radius-panel) - 2px);
+}
+
+/* ── Toggle buttons — equal-width halves of the pill ── */
+.work-card__btn {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 0.5rem 0;
+  border: none;
+  border-radius: calc(var(--radius-panel) - 4px);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background 0.2s var(--ease-out),
+    color 0.2s var(--ease-out);
+}
+
+.work-card__btn:hover:not(.is-active) {
+  color: var(--color-text);
+}
+
+/* Active button: filled with inverted text/bg colours */
+.work-card__btn.is-active {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.work-card__btn:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+
+/* ── Reduced motion: skip the slot crossfade ── */
+@media (prefers-reduced-motion: reduce) {
+  .work-card__slot {
+    transition: none;
+  }
+}
+
+/* ── Responsive: tablet (≤1024px) — 2×2 grid ── */
+@media (max-width: 1024px) {
+  .recent-work__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Responsive: mobile (≤768px) — single column, tighter padding ── */
+@media (max-width: 768px) {
+  .recent-work {
+    padding: 4rem 1.25rem 3rem;
+  }
+
+  .recent-work__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ── Work badge — service-type label, top-left of each card ──────────────
+   Matches .service-card__badge typography; adds a glass pill shell so it
+   stays readable over the card images. Clickable anchor scrolls to the
+   matching service package. */
+.work-badge {
+  position: absolute;
+  top: 0.625rem;
+  left: 0.75rem;
+  z-index: 10;
+  /* Typography — identical to .service-card__badge */
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  line-height: 1;
+  text-decoration: none;
+  /* Pill shell — frosted so text is legible over any image */
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition:
+    color 0.2s var(--ease-out),
+    background 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out);
+}
+
+.work-badge:hover {
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-bg) 95%, transparent);
+  border-color: var(--color-accent);
+}
+
+.work-badge:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Mobile: ensure min 12px font */
+@media (max-width: 480px) {
+  .work-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+}

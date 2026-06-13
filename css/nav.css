@@ -1,0 +1,348 @@
+/* ============================================================
+   NAV
+   Sticky top navigation bar: logo, desktop links, action buttons,
+   dark/light theme toggle icon button, and the mobile hamburger menu.
+   Includes mobile breakpoint (≤768px) and smallest phones (≤480px).
+   ============================================================ */
+
+
+/* ── Sticky bar: blends with page background and transitions with theme ── */
+.nav-glass {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-hairline);
+  transition:
+    background-color var(--duration-theme) var(--ease-out),
+    border-color var(--duration-theme) var(--ease-out);
+}
+
+/* ── Inner wrapper: constrained width, flex row ── */
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+/* ── Logo: icon + wordmark side by side ── */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  opacity: 1;
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.nav-logo:hover {
+  opacity: 0.7;
+  color: var(--color-text);
+}
+
+.nav-logo__mark {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+.nav-logo__text {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* "Detailing" sub-label beneath the brand name */
+.nav-logo__text span {
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.6875rem;
+  display: block;
+  margin-top: 2px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Desktop navigation links ── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  position: relative;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+/* Animated underline via ::after — grows in from the left using scaleX */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-blue);
+  border-radius: 1px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.85s var(--ease-out);
+}
+
+.nav-links a:hover {
+  color: var(--color-text);
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Active section link highlighted with brand blue (set by JS on scroll) */
+.nav-links a.is-active {
+  color: var(--color-blue);
+}
+
+.nav-links a.is-active::after {
+  transform: scaleX(1);
+}
+
+.nav-links a:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+/* ── Right-side action group: theme toggle + CTA button + hamburger ── */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Compact size for nav-embedded buttons */
+.nav-actions .btn {
+  padding: 0.5rem 1.125rem;
+  font-size: 0.875rem;
+}
+
+/* ── Theme toggle: square icon button that swaps sun/moon SVG ── */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  flex-shrink: 0;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-panel);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-theme) var(--ease-out),
+    color 0.2s var(--ease-out);
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-text-muted);
+  color: var(--color-text);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.theme-toggle:active {
+  transform: scale(0.96);
+}
+
+.theme-toggle svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Show/hide sun vs moon icon based on current theme attribute */
+.theme-toggle__icon--sun  { display: none; }
+.theme-toggle__icon--moon { display: block; }
+[data-theme="dark"]  .theme-toggle__icon--sun  { display: block; }
+[data-theme="dark"]  .theme-toggle__icon--moon { display: none; }
+[data-theme="light"] .theme-toggle__icon--sun  { display: none; }
+[data-theme="light"] .theme-toggle__icon--moon { display: block; }
+
+/* ── Mobile hamburger toggle (hidden on desktop) ── */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-panel);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.2s var(--ease-out);
+}
+
+.nav-toggle:hover {
+  border-color: var(--color-text-muted);
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* Each bar of the hamburger icon */
+.nav-toggle__bar {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--color-text);
+  transition:
+    transform 0.3s var(--ease-out),
+    opacity 0.3s var(--ease-out);
+}
+
+/* Animate the three bars into an × when the menu is open */
+.nav-glass.is-menu-open .nav-toggle__bar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.nav-glass.is-menu-open .nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-glass.is-menu-open .nav-toggle__bar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* Mobile CTA inside the nav drawer — hidden on desktop */
+.nav-links__cta {
+  display: none;
+}
+
+/* Prevent body scroll while the mobile menu is open */
+body.is-nav-open {
+  overflow: hidden;
+}
+
+
+/* ── Responsive: mobile (≤768px) ─────────────────────────────
+   The nav links become a full-screen fixed drawer that slides
+   down when the hamburger is toggled.
+   ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Show hamburger, hide desktop CTA button */
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-actions .btn-primary {
+    display: none;
+  }
+
+  /* Nav drawer: hidden by default, full-screen overlay */
+  .nav-links {
+    position: fixed;
+    top: 61px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 1rem;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-hairline);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition:
+      opacity 0.3s var(--ease-out),
+      visibility 0.3s var(--ease-out),
+      transform 0.3s var(--ease-out);
+    pointer-events: none;
+    overflow-y: auto;
+  }
+
+  /* Nav drawer open state (toggled by JS) */
+  .nav-glass.is-menu-open .nav-links {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Row separators between nav items */
+  .nav-links li {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  /* Full-width tap targets in the drawer */
+  .nav-links a {
+    display: block;
+    padding: 1rem 0.75rem;
+    font-size: 1rem;
+    color: var(--color-text);
+  }
+
+  /* No sliding underline in the mobile drawer */
+  .nav-links a::after {
+    display: none;
+  }
+
+  .nav-links a:hover {
+    color: var(--color-text-muted);
+  }
+
+  /* Mobile-only CTA block at the bottom of the drawer */
+  .nav-links__cta {
+    display: block;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-bottom: none;
+  }
+
+  .nav-links__cta .btn {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+  }
+
+  /* Tighter nav bar padding on mobile */
+  .nav-inner {
+    padding: 0.875rem 1.25rem;
+  }
+}
+
+/* ── Responsive: smallest phones (≤480px) ── */
+@media (max-width: 480px) {
+  .nav-inner {
+    padding: 0.625rem 1rem;
+  }
+}

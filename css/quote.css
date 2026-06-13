@@ -1,0 +1,511 @@
+/* ============================================================
+   QUOTE
+   Get a Quote section. A two-panel form:
+   - Left (config): vehicle type, service, add-ons, estimate summary
+   - Right (details): personal info, preferred date, notes, submit
+   Both panels share a bordered grid that mirrors the contact
+   section's aesthetic. Mobile-first: single column on phones,
+   two-column at ≥769px.
+   ============================================================ */
+
+
+/* ── Section wrapper ── */
+.quote {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem 5rem;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.quote__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ── Section header ── */
+.quote__header {
+  max-width: 52ch;
+  margin: 0 0 3rem;
+}
+
+.quote__title {
+  font-size: clamp(2rem, 4vw, 2.625rem);
+  letter-spacing: -0.025em;
+  color: var(--color-blue);
+}
+
+.quote__sub {
+  color: var(--color-text-muted);
+  font-size: 1.0625rem;
+  font-weight: 300;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  margin-top: 0.75rem;
+}
+
+/* ── Form body: outer bordered container ── */
+.quote__body {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+
+/* ── Both panels: shared structure ── */
+.quote__config,
+.quote__details {
+  background: var(--color-panel);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+/* Config panel: border below to divide from details on mobile */
+.quote__config {
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+/* ── Field: label + control ── */
+.quote__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Two fields in a row (phone + email) — stacks below 481px */
+.quote__field-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* ── Label ── */
+.quote__label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.quote__label-hint {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--color-text-faint);
+  opacity: 0.8;
+}
+
+/* ── Shared base: input + select ── */
+.quote__input,
+.quote__select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-btn);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    border-color 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out),
+    background-color var(--duration-theme) var(--ease-out),
+    color var(--duration-theme) var(--ease-out);
+}
+
+.quote__input::placeholder {
+  color: var(--color-text-faint);
+}
+
+/* Focus ring: accent border + subtle glow */
+.quote__input:focus,
+.quote__select:focus {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-blue) 15%, transparent);
+}
+
+/* ── Select: custom chevron arrow ── */
+.quote__select-wrap {
+  position: relative;
+}
+
+/* Chevron rendered as a CSS mask so it respects the theme colour */
+.quote__select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  background-color: var(--color-text-muted);
+  /* SVG chevron-down encoded inline */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+/* Extra right padding so text never runs under the arrow */
+.quote__select {
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+/* Disabled placeholder option */
+.quote__select option:disabled {
+  color: var(--color-text-faint);
+}
+
+/* ── Textarea ── */
+.quote__textarea {
+  resize: vertical;
+  min-height: 108px;
+  line-height: 1.6;
+}
+
+/* ── Date input ── */
+.quote__input--date {
+  /* Inherit page color-scheme so the browser date picker matches the theme */
+  color-scheme: inherit;
+}
+
+/* ── Add-ons fieldset: reset browser defaults ── */
+.quote__field--addons {
+  border: none;
+  padding: 0;
+  margin: 0;
+  position: relative; /* anchor the absolute Clear button */
+}
+
+.quote__checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* ── Clear all add-ons button ── */
+.quote__addons-clear {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.6; /* match legend line-height so they sit flush */
+  color: var(--color-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.15s var(--ease-out);
+}
+
+.quote__addons-clear:hover {
+  opacity: 0.7;
+}
+
+.quote__addons-clear:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Custom checkbox row ── */
+.quote__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.4;
+  min-height: 44px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  margin: 0 -0.5rem;
+  -webkit-user-select: none;
+  user-select: none;
+  transition:
+    color 0.18s var(--ease-out),
+    background-color 0.18s var(--ease-out),
+    border-color 0.18s var(--ease-out);
+}
+
+.quote__checkbox-label:has(.quote__checkbox:checked) {
+  background: color-mix(in srgb, var(--color-blue) 10%, transparent);
+  border-left: 2px solid var(--color-blue);
+  padding-left: calc(0.5rem - 2px);
+}
+
+/* Native checkbox: visually hidden but remains in the a11y tree */
+.quote__checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* Custom checkbox box */
+.quote__checkbox-custom {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--color-hairline);
+  border-radius: 4px;
+  background: var(--color-bg);
+  position: relative;
+  transition:
+    background-color 0.18s var(--ease-out),
+    border-color 0.18s var(--ease-out);
+}
+
+/* Checkmark tick via a CSS mask */
+.quote__checkbox-custom::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.15s var(--ease-out);
+  background-color: #fff;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpolyline points='1.5,6 5,9.5 10.5,2.5' fill='none' stroke='white' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpolyline points='1.5,6 5,9.5 10.5,2.5' fill='none' stroke='white' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.quote__checkbox:checked + .quote__checkbox-custom {
+  background: var(--color-blue);
+  border-color: var(--color-blue);
+}
+
+.quote__checkbox:checked + .quote__checkbox-custom::after {
+  opacity: 1;
+}
+
+/* Keyboard focus ring on the visible custom box */
+.quote__checkbox:focus-visible + .quote__checkbox-custom {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 3px;
+}
+
+/* ── Estimate summary block ── */
+.quote__estimate {
+  margin-top: auto;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-blue) 32%, transparent);
+  border-radius: var(--radius-panel);
+  background: color-mix(in srgb, var(--color-blue) 7%, transparent);
+  transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+.quote__estimate-label {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-blue);
+  margin-bottom: 0.5rem;
+}
+
+.quote__estimate-value {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  line-height: 1.1;
+  margin-bottom: 0.625rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.quote__estimate-note {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--color-text-faint);
+  line-height: 1.55;
+}
+
+/* Placeholder state — no service selected */
+.quote__estimate-value--placeholder {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--color-text-faint);
+  letter-spacing: 0;
+  font-variant-numeric: normal;
+  line-height: 1.5;
+}
+
+/* ── Submit button: full-width solid blue ── */
+.quote__submit {
+  width: 100%;
+  justify-content: center;
+  min-height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: auto;
+  /* Filled blue — override the ghost .btn-blue variant */
+  background: var(--color-blue);
+  color: var(--color-on-accent);
+  border-color: transparent;
+}
+
+.quote__submit:hover {
+  background: var(--color-blue);
+  color: var(--color-on-accent);
+  filter: brightness(0.88);
+  opacity: 1;
+}
+
+.quote__submit:active {
+  transform: scale(0.98);
+  filter: brightness(0.82);
+}
+
+.quote__submit:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 4px;
+}
+
+/* Loading state — shown while the form POST is in-flight */
+.quote__submit--loading {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Inline error message below the submit button */
+.quote__submit-error {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: #e05454;
+  line-height: 1.5;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(224, 84, 84, 0.3);
+  border-radius: var(--radius-btn);
+  background: rgba(224, 84, 84, 0.06);
+  display: none;
+}
+
+.quote__submit-error.is-visible {
+  display: block;
+}
+
+/* ── Success state — replaces the form body after a successful send ── */
+.quote__success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  gap: 1.25rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-panel);
+  transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+.quote__success.is-visible {
+  display: flex;
+}
+
+.quote__success-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-blue) 12%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.quote__success-icon svg {
+  width: 26px;
+  height: 26px;
+  color: var(--color-blue);
+}
+
+.quote__success-heading {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+.quote__success-body {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 38ch;
+}
+
+
+/* ── Responsive: tablet and up (≥769px) — side-by-side panels ── */
+@media (min-width: 769px) {
+  .quote__body {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .quote__config {
+    border-bottom: none;
+    border-right: 1px solid var(--color-hairline);
+  }
+
+  .quote__field-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+/* ── Responsive: mobile (≤768px) — stack panels, individual borders ── */
+@media (max-width: 768px) {
+  .quote {
+    padding: 4rem 1.25rem 3rem;
+  }
+
+  /* Break the shared outer border; each panel gets its own */
+  .quote__body {
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    gap: 1px;
+  }
+
+  .quote__config {
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-panel);
+  }
+
+  .quote__details {
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-panel);
+  }
+}
+
+/* ── Responsive: small phones (≤480px) — tighter panel padding ── */
+@media (max-width: 480px) {
+  .quote__config,
+  .quote__details {
+    padding: 1.5rem 1.25rem;
+  }
+}

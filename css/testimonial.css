@@ -1,0 +1,300 @@
+/* ============================================================
+   TESTIMONIAL
+   Centred full-width quote section. Displays a star rating,
+   a pull-quote with curly-quote pseudo-elements, and the
+   reviewer attribution line.
+   ============================================================ */
+
+
+/* ── Section wrapper ── */
+.testimonial {
+  position: relative;
+  z-index: 1;
+  padding: 5.5rem 2rem;
+  border-top: 1px solid var(--color-hairline);
+}
+
+/* ── Inner content: max-width container, centred text ── */
+.testimonial__inner {
+  max-width: 50rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ── Star rating — rendered as emoji/unicode, coloured brand blue ── */
+.testimonial__stars {
+  font-size: 1.125rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  display: block;
+  color: var(--color-blue);
+}
+
+/* ── Pull quote: larger display font with curly-quote pseudo-elements ── */
+.testimonial__quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.1875rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.015em;
+  color: var(--color-text);
+  margin-bottom: 1.75rem;
+}
+
+/* Opening curly quote */
+.testimonial__quote::before {
+  content: '\201C';
+  color: var(--color-text-muted);
+}
+
+/* Closing curly quote */
+.testimonial__quote::after {
+  content: '\201D';
+  color: var(--color-text-muted);
+}
+
+/* ── Attribution line: "Name · Location" ── */
+.testimonial__author {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+/* Reviewer name is emphasised */
+.testimonial__author strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+
+/* ── Responsive: mobile (≤768px) — tighter section padding ── */
+@media (max-width: 768px) {
+  .testimonial {
+    padding: 4rem 1.25rem;
+  }
+}
+
+
+/* ============================================================
+   REVIEW CAROUSEL
+   Premium card-based carousel. Slides stack via CSS grid and
+   crossfade via opacity (0.4 s). Progress dots are pill-shaped
+   bars filled by JS-driven rAF timing. Arrows flank the track.
+   ============================================================ */
+
+
+/* ── Per-theme tokens ── */
+:root,
+[data-theme="dark"] {
+  --review-card-glow: 0 0 52px rgba(107, 175, 224, 0.09);
+  --review-dot-track: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="light"] {
+  --review-card-glow: 0 0 90px 28px rgba(26, 120, 178, 0.28);
+  --review-dot-track: rgba(0, 0, 0, 0.12);
+}
+
+
+/* ── Section rating header (stars · 5.0 · label) ── */
+.review-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.375rem 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.review-section-header__score {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+
+/* ── Carousel row: arrows on each side, track in the middle ── */
+.review-carousel {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* ── Track: CSS-grid stack so all slides occupy the same cell ── */
+.review-carousel__track {
+  flex: 1;
+  display: grid;
+  min-width: 0;
+}
+
+/* ── Slides: all sit in grid cell 1/1; inactive are transparent ── */
+.review-carousel__slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.review-carousel__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* ── Review card ── */
+.review-card {
+  background: var(--color-panel);
+  border: 1px solid var(--color-hairline);
+  border-radius: 1rem;
+  padding: 2.25rem 2.5rem 2rem;
+  box-shadow: var(--shadow-card), var(--review-card-glow);
+  text-align: center;
+}
+
+
+/* ── Author row: circular avatar + name ── */
+.review-author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+}
+
+/* Blue circle with reviewer initials */
+.review-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-blue);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+
+/* ── Arrow buttons ── */
+.review-carousel__arrow {
+  flex-shrink: 0;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-hairline);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.review-carousel__arrow:hover,
+.review-carousel__arrow:focus-visible {
+  background: var(--color-blue);
+  color: #fff;
+  border-color: var(--color-blue);
+  outline: none;
+}
+
+.review-carousel__arrow:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 3px;
+}
+
+.review-carousel__arrow svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+
+/* ── Progress-bar dots ── */
+.review-carousel__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.review-carousel__dot {
+  position: relative;
+  height: 3px;
+  width: 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  background: var(--color-text-faint);
+  opacity: 0.35;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: width 0.35s var(--ease-out), opacity 0.2s ease;
+}
+
+.review-carousel__dot:hover {
+  opacity: 0.6;
+}
+
+.review-carousel__dot.is-active {
+  width: 3rem;
+  background: var(--review-dot-track);
+  opacity: 1;
+}
+
+.review-carousel__dot:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Fill bar — width driven by JS requestAnimationFrame */
+.review-carousel__dot-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--color-blue);
+  border-radius: inherit;
+}
+
+
+/* ── Responsive: tablet ── */
+@media (max-width: 768px) {
+  .review-card {
+    padding: 1.75rem 1.75rem 1.5rem;
+  }
+}
+
+/* ── Responsive: small phone ── */
+@media (max-width: 480px) {
+  .review-carousel {
+    gap: 0.625rem;
+  }
+
+  .review-carousel__arrow {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .review-carousel__arrow svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .review-card {
+    padding: 1.5rem 1.125rem 1.25rem;
+  }
+}

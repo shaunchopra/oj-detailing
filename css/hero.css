@@ -1,0 +1,196 @@
+/* ============================================================
+   HERO
+   Full-viewport cinematic hero section with a background photo,
+   dark gradient overlay, and staggered text content.
+
+   The hero background is the page theme colour (--color-bg) so that
+   the bottom mask-fade on the image/overlay layers reveals the correct
+   colour in both light and dark mode automatically.
+   ============================================================ */
+
+
+/* ── Hero section wrapper ── */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 78vh;
+  min-height: 78dvh;
+  padding: calc(80px + 3rem) 2rem 4.5rem;
+  overflow: hidden;
+  /* Theme-responsive background — the image/overlay fade to this colour */
+  background-color: var(--color-bg);
+}
+
+/* ── Background image: covers the full hero, fades to transparent at the bottom ── */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+  filter: brightness(0.78);
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  /* Bottom fade — reveals the theme background colour underneath */
+  mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
+}
+
+/* ── Gradient overlay: darkens left side so text is always readable ── */
+/* Masked to match the image so the dark gradient also fades at the bottom */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to right, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.28) 100%);
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
+}
+
+/* ── Content wrapper: constrained width, sits above overlay ── */
+.hero__content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+/* ── Star rating line above the title ── */
+.hero__rating {
+  display: block;
+  margin-bottom: 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.hero__rating .stars {
+  letter-spacing: 0.08em;
+  margin-right: 0.2em;
+  /* Stars coloured with brand blue */
+  color: var(--color-blue);
+}
+
+/* ── Main heading ── */
+.hero__title {
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  max-width: 14ch;
+  margin-bottom: 1.5rem;
+}
+
+/* Highlighted accent word in the title (e.g. "Perfection") */
+.hero__title__accent {
+  color: var(--color-blue);
+}
+
+/* ── Subtitle / tagline ── */
+.hero__sub {
+  font-size: clamp(1rem, 2vw, 1.1875rem);
+  font-weight: 300;
+  max-width: 46ch;
+  margin-bottom: 2.5rem;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+}
+
+/* ── CTA button row ── */
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero__actions .btn {
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+}
+
+
+/* ── Locked white foreground in both themes ─────────────────────────
+   The hero photo + dark overlay means its text and buttons must
+   never pick up light-mode dark-text tokens. Colours are hardcoded
+   so they stay white-on-dark regardless of [data-theme].
+   ─────────────────────────────────────────────────────────────────── */
+.hero__title {
+  color: #ffffff;
+}
+
+.hero__sub {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.hero__rating {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Ghost button adapts for the dark hero background */
+.hero .btn-ghost {
+  color: rgba(255, 255, 255, 0.78);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.hero .btn-ghost:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* In light mode the blue btn needs the darker, more legible blue
+   (--color-blue switches to a darker value in light mode, but on the
+   always-dark hero background the original dark-theme blue reads better) */
+[data-theme="light"] .hero .btn-blue {
+  color: var(--color-blue-dark);
+  border-color: var(--color-blue-dark-hero-border);
+}
+
+[data-theme="light"] .hero .btn-blue:hover {
+  color: var(--color-blue-dark);
+  border-color: var(--color-blue-dark);
+}
+
+/* Keep the dark overlay in light mode so the photo isn't washed out;
+   the mask-fade is inherited from the base rule */
+[data-theme="light"] .hero__overlay {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.80) 0%, rgba(0, 0, 0, 0.28) 100%);
+}
+
+
+/* ── Responsive: mobile (≤768px) ── */
+@media (max-width: 768px) {
+  .hero {
+    padding: calc(68px + 2rem) 1.25rem 2.5rem;
+    min-height: auto;
+  }
+
+  /* Reposition the focal point on narrow screens */
+  .hero__bg {
+    object-position: 60% 55%;
+  }
+
+  /* Stronger left-side darken on mobile (less width = less fade room) */
+  .hero__overlay {
+    background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.50) 100%);
+  }
+
+  /* Let the title wrap naturally — no character-count cap on small screens */
+  .hero__title {
+    max-width: none;
+  }
+
+  /* Stack CTAs vertically and stretch to full width */
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+  }
+}
