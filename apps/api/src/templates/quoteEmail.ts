@@ -4,7 +4,7 @@ import { esc, stripControlChars } from '../lib/utils.js';
 export function buildEmailSubject(quote: ResolvedQuote): string {
   const { payload, serviceData, isCaravan } = quote;
   const safeName = stripControlChars(payload.name);
-  return `New quote request \u2014 ${safeName} \u2014 ${serviceData.label}${isCaravan ? ' (Caravan)' : ''}`;
+  return `New quote request, ${safeName}, ${serviceData.label}${isCaravan ? ' (Caravan)' : ''}`;
 }
 
 export function buildEmailText(quote: ResolvedQuote): string {
@@ -19,7 +19,7 @@ export function buildEmailText(quote: ResolvedQuote): string {
   ];
 
   if (selectedAddons.length > 0) {
-    lines.push('', '--- ADD-ONS ---');
+    lines.push('', '--- ADD ONS ---');
     for (const addon of selectedAddons) {
       lines.push(`${addon.label} : from $${addon.price}`);
     }
@@ -77,18 +77,18 @@ export function buildEmailHtml(quote: ResolvedQuote): string {
 <div class="wrap">
   <div class="header">
     <h1>New quote request</h1>
-    <p>OJ Auto Detailing &mdash; submitted via the website</p>
+    <p>OJ Auto Detailing, submitted via the website</p>
   </div>
   <div class="body">
 
     <h2>Service</h2>
     <table>
       <tr><td class="label">Vehicle type</td><td>${isCaravan ? 'Caravan' : 'Car'}</td></tr>
-      <tr><td class="label">Service</td><td><strong>${esc(serviceData.label)}</strong> &mdash; from $${basePrice}</td></tr>
+      <tr><td class="label">Service</td><td><strong>${esc(serviceData.label)}</strong>, from $${basePrice}</td></tr>
     </table>
 
     ${selectedAddons.length > 0 ? `
-    <h2>Add-ons</h2>
+    <h2>Add ons</h2>
     <table>${addonRows}</table>
     ` : ''}
 

@@ -155,12 +155,18 @@
   width: 100%;
   padding: 2px;
   gap: 0;
-  background: var(--color-hairline);
+  background: color-mix(in srgb, var(--color-blue) 6%, var(--color-panel));
+  border: 1px solid var(--color-blue-border);
   border-radius: calc(var(--radius-panel) - 2px);
+  transition:
+    background-color var(--duration-theme) var(--ease-out),
+    border-color var(--duration-theme) var(--ease-out);
 }
 
 /* ── Toggle buttons — equal-width halves of the pill ── */
 .work-card__btn {
+  position: relative;
+  isolation: isolate;
   flex: 1;
   text-align: center;
   font-family: var(--font-body);
@@ -169,37 +175,63 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1;
-  padding: 0.5rem 0;
-  border: none;
+  min-height: 44px;
+  padding: 0.75rem 0;
+  border: 1px solid transparent;
   border-radius: calc(var(--radius-panel) - 4px);
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
-  transition:
-    background 0.2s var(--ease-out),
-    color 0.2s var(--ease-out);
+  transition: color 1.4s var(--ease-out);
+}
+
+.work-card__btn::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 2px solid var(--color-blue);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.4s var(--ease-out);
+  pointer-events: none;
+}
+
+.work-card__btn:hover:not(.is-active)::before,
+.work-card__btn.is-active::before,
+.work-card__btn:focus-visible::before {
+  clip-path: inset(0 0 0 0);
 }
 
 .work-card__btn:hover:not(.is-active) {
-  color: var(--color-text);
+  color: var(--color-blue);
 }
 
-/* Active button: filled with inverted text/bg colours */
+/* Active button: subtle blue fill with brand accent text */
 .work-card__btn.is-active {
-  background: var(--color-text);
-  color: var(--color-bg);
+  background: color-mix(in srgb, var(--color-blue) 14%, var(--color-panel));
+  border-color: var(--color-blue-border);
+  color: var(--color-blue);
 }
 
 .work-card__btn:focus-visible {
-  outline: 2px solid var(--color-text);
+  outline: 2px solid var(--color-blue);
   outline-offset: 2px;
 }
 
 
-/* ── Reduced motion: skip the slot crossfade ── */
+/* ── Reduced motion: skip the slot crossfade and button border draw ── */
 @media (prefers-reduced-motion: reduce) {
   .work-card__slot {
     transition: none;
+  }
+
+  .work-card__btn::before {
+    transition: none;
+  }
+
+  .work-card__btn.is-active::before,
+  .work-card__btn:focus-visible::before {
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -219,6 +251,21 @@
   .recent-work__grid {
     grid-template-columns: 1fr;
   }
+
+  /* Mobile: show Raptor exterior + Skoda interior only */
+  .recent-work__grid > article:nth-child(1),
+  .recent-work__grid > article:nth-child(4) {
+    display: none;
+  }
+
+  .work-card__toggle {
+    padding: 0.75rem 0.875rem 0.8rem;
+  }
+
+  .work-card__btn {
+    font-size: 0.8125rem;
+    min-height: 44px;
+  }
 }
 
 
@@ -231,6 +278,7 @@
   top: 0.625rem;
   left: 0.75rem;
   z-index: 10;
+  isolation: isolate;
   /* Typography — identical to .service-card__badge */
   font-family: var(--font-body);
   font-size: 0.6875rem;
@@ -249,15 +297,30 @@
   -webkit-backdrop-filter: blur(6px);
   cursor: pointer;
   transition:
-    color 0.2s var(--ease-out),
-    background 0.2s var(--ease-out),
-    border-color 0.2s var(--ease-out);
+    color 1.4s var(--ease-out),
+    background 1.4s var(--ease-out);
+}
+
+.work-badge::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 2px solid var(--color-accent);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.4s var(--ease-out);
+  pointer-events: none;
+}
+
+.work-badge:hover::before,
+.work-badge:focus-visible::before {
+  clip-path: inset(0 0 0 0);
 }
 
 .work-badge:hover {
   color: var(--color-text);
   background: color-mix(in srgb, var(--color-bg) 95%, transparent);
-  border-color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
 }
 
 .work-badge:focus-visible {

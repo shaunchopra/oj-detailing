@@ -1,0 +1,82 @@
+{
+  "/Users/shaunchopra/Desktop/oj-detailing/apps/api/serverless.yml": {
+    "versionFramework": "4.37.0",
+    "servicePath": "/Users/shaunchopra/Desktop/oj-detailing/apps/api/serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "oj-detailing-api",
+      "frameworkVersion": "4",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs20.x",
+        "region": "ap-southeast-2",
+        "stage": "${opt:stage, 'prod'}",
+        "memorySize": 256,
+        "timeout": 10,
+        "environment": {
+          "NODE_ENV": "production",
+          "RESEND_API_KEY": "<REDACTED>",
+          "RESEND_FROM": "${env:RESEND_FROM}",
+          "CLOUDFRONT_ORIGIN": "${env:CLOUDFRONT_ORIGIN, ''}"
+        }
+      },
+      "functions": {
+        "api": {
+          "handler": "dist/lambda.handler",
+          "events": [
+            {
+              "httpApi": {
+                "path": "/api/{proxy+}",
+                "method": "ANY"
+              }
+            },
+            {
+              "httpApi": {
+                "path": "/api",
+                "method": "ANY"
+              }
+            }
+          ]
+        }
+      },
+      "package": {
+        "individually": true,
+        "patterns": [
+          "!**",
+          "dist/lambda.js",
+          "dist/lambda.js.map"
+        ]
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "nodejs20.x",
+      "region": "ap-southeast-2",
+      "stage": "${opt:stage, 'prod'}",
+      "memorySize": 256,
+      "timeout": 10,
+      "environment": {
+        "NODE_ENV": "production",
+        "RESEND_API_KEY": "<REDACTED>",
+        "RESEND_FROM": "${env:RESEND_FROM}",
+        "CLOUDFRONT_ORIGIN": "${env:CLOUDFRONT_ORIGIN, ''}"
+      }
+    },
+    "error": {
+      "message": "You must sign in or use a license key with Serverless Framework V.4 and later versions. Please use \"serverless login\".",
+      "stack": "Error: You must sign in or use a license key with Serverless Framework V.4 and later versions. Please use \"serverless login\".\n    at Authentication.getAuthenticatedData (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:1006:3023)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async Authentication.authenticate (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:1009:4133)\n    at async TraditionalRunner.resolveVariablesAndAuthenticate (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:1017:2394)\n    at async TraditionalRunner.run (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:2461:26390)\n    at async route (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:2632:2888)\n    at async Object.run (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:2633:3887)\n    at async run2 (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:2633:5051)"
+    },
+    "serviceRawFile": "# OJ Auto Detailing — API (AWS Lambda + API Gateway HTTP API)\n#\n# Prerequisites:\n#   1. AWS credentials configured (aws configure / IAM role)\n#   2. Export secrets before deploy:\n#        export RESEND_API_KEY=re_...\n#        export RESEND_FROM=\"OJ Auto Detailing <quotes@oj-auto-detailing.com.au>\"\n#        export CLOUDFRONT_ORIGIN=https://dxxxxxxxx.cloudfront.net\n#   3. Build the bundle: pnpm --filter @oj-detailing/api build\n#\n# Deploy:\n#   pnpm --filter @oj-detailing/api deploy\n#\n# Static site (apps/web):\n#   Build with `pnpm --filter @oj-detailing/web build`, then sync `apps/web/dist/`\n#   to an S3 bucket configured for static website hosting. Point CloudFront at the\n#   bucket and add a behavior so `/api/*` forwards to this API Gateway endpoint.\n\nservice: oj-detailing-api\n\nframeworkVersion: '4'\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: ap-southeast-2\n  stage: ${opt:stage, 'prod'}\n  memorySize: 256\n  timeout: 10\n  environment:\n    NODE_ENV: production\n    RESEND_API_KEY: ${env:RESEND_API_KEY}\n    RESEND_FROM: ${env:RESEND_FROM}\n    CLOUDFRONT_ORIGIN: ${env:CLOUDFRONT_ORIGIN, ''}\n\nfunctions:\n  api:\n    handler: dist/lambda.handler\n    events:\n      # Catch-all for Express routes under /api/*\n      - httpApi:\n          path: /api/{proxy+}\n          method: ANY\n      - httpApi:\n          path: /api\n          method: ANY\n\npackage:\n  individually: true\n  patterns:\n    - '!**'\n    - 'dist/lambda.js'\n    - 'dist/lambda.js.map'\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {
+      "stage": "prod"
+    },
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}

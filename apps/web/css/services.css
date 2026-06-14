@@ -15,6 +15,7 @@
   z-index: 1;
   padding: 6rem 2rem 5rem;
   border-top: 1px solid var(--color-hairline);
+  overflow-x: clip;
 }
 
 .services__inner {
@@ -264,9 +265,9 @@
   margin-top: 0.35rem;
 }
 
-/* Em-dash bullet character */
+/* Bullet marker */
 .service-card__list li::before {
-  content: '—';
+  content: '•';
   position: absolute;
   left: 0;
   top: 0;
@@ -289,23 +290,23 @@
   font-size: 0.8125rem;
 }
 
-/* ── "Book this →" link — sits at the bottom of each card ── */
+/* ── "Book this →" CTA — ghost blue buttons at the bottom of each card ── */
 .service-card__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.875rem;
-  font-weight: 500;
   margin-top: auto;
-  text-underline-offset: 3px;
-  color: var(--color-blue);
-  transition:
-    color 0.2s var(--ease-out),
-    text-decoration-color 0.2s var(--ease-out);
+  text-decoration: none;
 }
 
-.service-card__link:hover {
-  color: var(--color-text);
+/* Compact ghost buttons for standard service cards */
+.service-card:not(.service-card--popular) .service-card__link {
+  align-self: flex-start;
+  min-height: 38px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.service-card:not(.service-card--popular) .service-card__link.btn-blue:hover {
+  color: var(--color-blue);
 }
 
 .service-card__link:focus-visible {
@@ -332,33 +333,27 @@
   color: var(--color-text);
 }
 
-/* 3. CTA: solid filled accent button — full-width, 44px tall, white text */
+/* 3. CTA: full-width ghost blue button — larger than other tiers */
 .service-card--popular .service-card__link {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   min-height: 44px;
-  padding: 0 1.25rem;
-  background: var(--color-accent);
-  color: #ffffff;
-  border-radius: var(--radius-btn);
+  padding: 0.75rem 1.5rem;
+  margin-top: auto;
+  font-size: 0.9375rem;
   font-weight: 600;
   text-decoration: none;
-  transition:
-    filter 0.2s var(--ease-out),
-    color 0.2s var(--ease-out);
 }
 
-.service-card--popular .service-card__link:hover {
-  color: #ffffff;
-  filter: brightness(0.88);
+.service-card--popular .service-card__link.btn-blue:hover {
+  color: var(--color-blue);
 }
 
 .service-card--popular .service-card__link:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 4px;
-  filter: none;
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
 }
 
 /* 4. Value line: pill callout — accent bg tint + accent text, no bullet.
@@ -382,6 +377,22 @@
   content: none;
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0) scale(1); }
+  10% { transform: translateX(-6px) scale(1.08); }
+  22% { transform: translateX(6px) scale(1.1); }
+  34% { transform: translateX(-6px) scale(1.08); }
+  46% { transform: translateX(6px) scale(1.1); }
+  58% { transform: translateX(-5px) scale(1.06); }
+  72% { transform: translateX(5px) scale(1.04); }
+  86% { transform: translateX(-3px) scale(1.02); }
+}
+
+.service-card--popular .service-card__list .service-card__list-item--value.is-shake {
+  transform-origin: center;
+  animation: shake 0.55s ease-in-out;
+}
+
 /* 5. Surface tint: ~5% accent blended into card bg — perceptibly lifted, not coloured */
 .service-card--popular {
   background: color-mix(in srgb, var(--color-accent) 5%, var(--color-panel));
@@ -403,48 +414,45 @@
   margin-bottom: 2.25rem;
 }
 
-/* Pill-shaped track that contains the two option pills */
+/* Pill-shaped track — spacing wrapper only; buttons are ghost CTAs */
 .vehicle-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  background: var(--color-panel);
-  border: 1px solid var(--color-hairline);
-  border-radius: 999px;
-  padding: 4px;
-  transition: background-color var(--duration-theme) var(--ease-out);
-}
-
-/* Individual pill button */
-.vehicle-toggle__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.4rem 1.3rem;
-  border: none;
-  border-radius: 999px;
+  gap: 0.75rem;
   background: transparent;
-  color: var(--color-text-muted);
-  font-family: var(--font-body);
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* Ghost blue pills — same language as service-card "Book this →" buttons */
+.vehicle-toggle__btn {
+  min-height: 44px;
+  padding: 0.625rem 1.3rem;
   font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  line-height: 1;
-  cursor: pointer;
-  transition:
-    background-color 0.2s var(--ease-out),
-    color 0.2s var(--ease-out);
+  font-weight: 600;
+  border-radius: 999px;
 }
 
-/* Active pill: filled with accent colour */
+/* Selected tab: transparent with solid blue border, no underline */
 .vehicle-toggle__btn[aria-selected="true"] {
-  background: var(--color-accent);
-  color: var(--color-on-accent);
+  background: transparent;
+  color: var(--color-blue);
+  border-color: var(--color-blue);
 }
 
-/* Hover on inactive pill */
+.vehicle-toggle__btn[aria-selected="true"].btn-blue-draw::before {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Inactive tab: muted blue text, draw-in border on hover (from .btn-blue-draw) */
+.vehicle-toggle__btn[aria-selected="false"] {
+  color: var(--color-text-muted);
+  border-color: var(--color-blue-border);
+}
+
 .vehicle-toggle__btn[aria-selected="false"]:hover {
-  color: var(--color-text);
+  color: var(--color-blue);
 }
 
 /* Keyboard focus ring — uses accent so it always contrasts */
@@ -487,6 +495,14 @@
 @media (max-width: 768px) {
   .services {
     padding: 4rem 1.25rem 3rem;
+  }
+
+  .service-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .service-card--popular .service-card__name {
+    padding-right: 5rem;
   }
 }
 
@@ -669,6 +685,11 @@
   .addons__list {
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  .addon-chip__main {
+    white-space: normal;
+    flex-wrap: wrap;
   }
 
   .addons__panel.is-open > ul {

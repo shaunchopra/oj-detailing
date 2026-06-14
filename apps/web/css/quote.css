@@ -109,7 +109,7 @@
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   border: 1px solid var(--color-hairline);
@@ -176,9 +176,79 @@
 }
 
 /* ── Date input ── */
+.quote__date-wrap {
+  position: relative;
+}
+
+/* Empty-state placeholder — input[type="date"] has no placeholder on iOS */
+.quote__date-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: var(--color-text-faint);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  pointer-events: none;
+  transition: opacity 0.15s var(--ease-out);
+}
+
+.quote__date-wrap.is-filled .quote__date-placeholder,
+.quote__date-wrap:focus-within .quote__date-placeholder {
+  opacity: 0;
+}
+
+.quote__input[type="date"],
 .quote__input--date {
-  /* Inherit page color-scheme so the browser date picker matches the theme */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-btn);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 1rem;
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.5;
+  /* Match native date picker to light/dark theme */
   color-scheme: inherit;
+  min-height: calc(0.75rem * 2 + 1rem * 1.5);
+}
+
+/* WebKit (iOS Safari, Chrome): restore visible date text after appearance reset */
+.quote__input--date::-webkit-date-and-time-value {
+  text-align: left;
+  color: inherit;
+}
+
+.quote__input--date::-webkit-datetime-edit,
+.quote__input--date::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+.quote__input--date::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+/* Hide blank native segments when empty so the DD/MM/YYYY label shows through */
+.quote__date-wrap:not(.is-filled):not(:focus-within) .quote__input--date {
+  color: transparent;
+}
+
+.quote__date-wrap:not(.is-filled):not(:focus-within) .quote__input--date::-webkit-datetime-edit,
+.quote__date-wrap:not(.is-filled):not(:focus-within) .quote__input--date::-webkit-date-and-time-value {
+  color: transparent;
+}
+
+.quote__date-wrap.is-filled .quote__input--date,
+.quote__date-wrap:focus-within .quote__input--date {
+  color: var(--color-text);
 }
 
 /* ── Add-ons fieldset: reset browser defaults ── */
@@ -186,7 +256,24 @@
   border: none;
   padding: 0;
   margin: 0;
-  position: relative; /* anchor the absolute Clear button */
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 0.75rem;
+  row-gap: 0.5rem;
+  align-items: center;
+}
+
+.quote__field--addons > legend {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.quote__field--addons > .quote__checkboxes {
+  grid-column: 1 / -1;
+  grid-row: 2;
 }
 
 .quote__checkboxes {
@@ -195,34 +282,16 @@
   gap: 0.25rem;
 }
 
-/* ── Clear all add-ons button ── */
+/* ── Clear all add-ons — header row, right of label ── */
 .quote__addons-clear {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  line-height: 1.6; /* match legend line-height so they sit flush */
-  color: var(--color-blue);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: opacity 0.15s var(--ease-out);
-}
-
-.quote__addons-clear:hover {
-  opacity: 0.7;
-}
-
-.quote__addons-clear:focus-visible {
-  outline: 2px solid var(--color-blue);
-  outline-offset: 2px;
-  border-radius: 2px;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  align-self: center;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  flex-shrink: 0;
 }
 
 /* ── Custom checkbox row ── */
@@ -331,10 +400,11 @@
   align-items: flex-start;
   gap: 0.75rem;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--color-text-muted);
   line-height: 1.5;
+  min-height: 44px;
   padding: 0.5rem 0;
   -webkit-user-select: none;
   user-select: none;
@@ -542,7 +612,7 @@
     border: none;
     border-radius: 0;
     overflow: visible;
-    gap: 1px;
+    gap: 1rem;
   }
 
   .quote__config {
@@ -553,6 +623,10 @@
   .quote__details {
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-panel);
+  }
+
+  .quote__submit {
+    width: 100%;
   }
 }
 

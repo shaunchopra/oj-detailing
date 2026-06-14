@@ -7,7 +7,7 @@
     if (host === 'localhost' || host === '127.0.0.1') {
       return 'http://localhost:3001/api/quote';
     }
-    return '/api/quote';
+    return 'https://api.oj-auto-detailing.com.au/api/quote';
   })();
 
   // ── Lenis smooth scroll ───────────────────────────────────────────────────
@@ -55,15 +55,15 @@
   var PRICING = {
     services: [
       { value: 'touch-up',          label: 'Touch Up',                     car: 80,  caravan: null },
-      { value: 'tier-1-exterior',   label: 'Tier 1 \u2014 Exterior',       car: 65,  caravan: 200  },
-      { value: 'tier-2-interior',   label: 'Tier 2 \u2014 Interior',       car: 150, caravan: 320  },
-      { value: 'tier-3-complete',   label: 'Tier 3 \u2014 Complete Detail', car: 200, caravan: 495  },
+      { value: 'tier-1-exterior',   label: 'Tier 1 Exterior',       car: 65,  caravan: 200  },
+      { value: 'tier-2-interior',   label: 'Tier 2 Interior',       car: 150, caravan: 320  },
+      { value: 'tier-3-complete',   label: 'Tier 3 Complete Detail', car: 200, caravan: 495  },
     ],
     addons: [
       { value: 'scratch-removal',       label: 'Scratch removal',       price: 45,  desc: 'Knock out light scratches' },
       { value: 'trim-restoration',      label: 'Trim restoration',      price: 50,  desc: 'Bring faded trims and plastics back to life' },
       { value: 'water-repellent',       label: 'Water repellent',       price: 30,  desc: 'Rain beads run off glass for safer driving' },
-      { value: 'anti-fog',              label: 'Anti-fog',              price: 35,  desc: 'Remove fog from windows for safer driving' },
+      { value: 'anti-fog',              label: 'Anti fog',              price: 35,  desc: 'Remove fog from windows for safer driving' },
       { value: 'headlight-restoration', label: 'Headlight restoration', price: 100, desc: 'Foggy, yellowed lenses restored to crystal clear, bringing your car many years back.' },
     ],
   };
@@ -91,10 +91,8 @@
   var LINE_REVEAL_SELECTORS = [
     { sel: '.hero__title',        initialDelay: 260 },
     { sel: '.services__title',    initialDelay: 0   },
-    { sel: '.why-us__title',      initialDelay: 0   },
     { sel: '.recent-work__title', initialDelay: 0   },
     { sel: '.quote__title',       initialDelay: 0   },
-    { sel: '.contact__title',     initialDelay: 0   },
   ];
   var LINE_DURATION    = 800;
   var LINE_STAGGER     = 100;
@@ -193,6 +191,10 @@
   }
 
   if (themeToggle) {
+    themeToggle.setAttribute(
+      'aria-label',
+      getTheme() === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
+    );
     themeToggle.addEventListener('click', function () {
       setTheme(getTheme() === 'light' ? 'dark' : 'light');
     });
@@ -219,6 +221,15 @@
   }
 
   if (navToggle && navMenu) {
+    function updateNavHeight() {
+      if (nav && window.innerWidth <= 768) {
+        nav.style.setProperty('--nav-height', nav.offsetHeight + 'px');
+      }
+    }
+
+    updateNavHeight();
+    window.addEventListener('resize', updateNavHeight);
+
     navToggle.addEventListener('click', function () {
       setMenuOpen(!nav.classList.contains('is-menu-open'));
     });
@@ -303,7 +314,7 @@
     priceObserver.observe(servicesSection);
   }
 
-  var navSections = ['why-us', 'recent-work', 'services', 'reviews', 'quote', 'contact'];
+  var navSections = ['recent-work', 'services', 'reviews', 'quote'];
   var navLinkMap = {};
   navSections.forEach(function (id) {
     var link = document.querySelector('.nav-links a[href="#' + id + '"]');
@@ -330,7 +341,7 @@
 
   function applyActiveNav() {
     if (isAtPageBottom()) {
-      setActiveNavSection('contact');
+      setActiveNavSection('quote');
       return;
     }
 
@@ -501,11 +512,13 @@
 
       // Mouse
       track.addEventListener('mousedown', onPointerDown);
+      handle.addEventListener('mousedown', onPointerDown);
       document.addEventListener('mousemove', onPointerMove);
       document.addEventListener('mouseup', onPointerUp);
 
       // Touch
       track.addEventListener('touchstart', onPointerDown, { passive: false });
+      handle.addEventListener('touchstart', onPointerDown, { passive: false });
       document.addEventListener('touchmove', onPointerMove, { passive: false });
       document.addEventListener('touchend', onPointerUp);
 
@@ -582,6 +595,45 @@
         });
       }
     );
+  }
+
+  // Tier 3 save badge: shake + pop four times on scroll-in (every 2 s)
+  var tier3Card  = document.getElementById('service-tier-3');
+  var saveBadge  = tier3Card && tier3Card.querySelector('.service-card__list-item--value');
+  if (saveBadge && !prefersReducedMotion && 'IntersectionObserver' in window) {
+    var saveShakeDone = false;
+    var SAVE_SHAKE_PLAYS     = 4;
+    var SAVE_SHAKE_INTERVAL  = 2000;
+
+    function playSaveBadgeShake() {
+      saveBadge.classList.remove('is-shake');
+      void saveBadge.offsetWidth;
+      saveBadge.classList.add('is-shake');
+    }
+
+    var saveShakeObserver = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting || saveShakeDone) return;
+      saveShakeDone = true;
+      saveShakeObserver.disconnect();
+
+      var shakePlays = 0;
+
+      function onShakeEnd(e) {
+        if (e.animationName !== 'shake' || e.target !== saveBadge) return;
+        shakePlays += 1;
+        if (shakePlays >= SAVE_SHAKE_PLAYS) {
+          saveBadge.removeEventListener('animationend', onShakeEnd);
+          saveBadge.classList.remove('is-shake');
+        }
+      }
+
+      saveBadge.addEventListener('animationend', onShakeEnd);
+      for (var i = 0; i < SAVE_SHAKE_PLAYS; i++) {
+        setTimeout(playSaveBadgeShake, i * SAVE_SHAKE_INTERVAL);
+      }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+
+    saveShakeObserver.observe(tier3Card);
   }
 
   var SWAP_FADE_MS = 160; // fade-out duration before swapping content
@@ -790,6 +842,19 @@
   }
   // ─────────────────────────────────────────────────────────────────────────
 
+  // ── Footer About Us collapsible panel ────────────────────────────────────
+  var footerAboutTrigger = document.getElementById('footer-about-trigger');
+  var footerAboutPanel   = document.getElementById('footer-about-panel');
+
+  if (footerAboutTrigger && footerAboutPanel) {
+    footerAboutTrigger.addEventListener('click', function () {
+      var isOpen = footerAboutTrigger.getAttribute('aria-expanded') === 'true';
+      footerAboutTrigger.setAttribute('aria-expanded', String(!isOpen));
+      footerAboutPanel.classList.toggle('is-open', !isOpen);
+    });
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
   // ── Get a Quote form ─────────────────────────────────────────────────────
   // Populates the service <select> and add-on checkboxes from PRICING, keeps
   // the estimate block live, and assigns the real quotePreselect() so the
@@ -803,7 +868,7 @@
   var quoteAddonsClearBtn = document.getElementById('quote-addons-clear');
 
   var QUOTE_NOTE_EMPTY  = 'Julian confirms your final price after reviewing your request.';
-  var QUOTE_NOTE_FILLED = 'Estimate only \u2014 Julian confirms your final price. Very dirty or heavily soiled vehicles may cost a little more for the extra time and product.';
+  var QUOTE_NOTE_FILLED = 'Estimate only. Julian confirms your final price. Very dirty or heavily soiled vehicles may cost a little more for the extra time and product.';
   var QUOTE_PLACEHOLDER = 'Select a service to see your estimate.';
 
   // Price tween state — null means the estimate is in the empty/placeholder state
@@ -829,7 +894,7 @@
 
       label.appendChild(input);
       label.appendChild(custom);
-      label.appendChild(document.createTextNode(addon.label + ' \u2014 from $' + addon.price));
+      label.appendChild(document.createTextNode(addon.label + ' from $' + addon.price));
 
       quoteCheckboxes.appendChild(label);
     });
@@ -1016,6 +1081,17 @@
     });
   }
 
+  var quoteDateEl = document.getElementById('quote-date');
+  var quoteDateWrap = quoteDateEl && quoteDateEl.closest('.quote__date-wrap');
+  if (quoteDateEl && quoteDateWrap) {
+    function syncQuoteDatePlaceholder() {
+      quoteDateWrap.classList.toggle('is-filled', !!quoteDateEl.value);
+    }
+    quoteDateEl.addEventListener('input', syncQuoteDatePlaceholder);
+    quoteDateEl.addEventListener('change', syncQuoteDatePlaceholder);
+    syncQuoteDatePlaceholder();
+  }
+
   if (quoteForm && quoteSubmitBtn) {
     // Build and inject the success panel (hidden by default)
     var quoteSuccessEl = document.createElement('div');
@@ -1099,7 +1175,7 @@
           }
         })
         .catch(function (err) {
-          quoteErrorEl.textContent = err.message || 'Something went wrong — please try again.';
+          quoteErrorEl.textContent = err.message || 'Something went wrong. Please try again.';
           quoteErrorEl.classList.add('is-visible');
           quoteSubmitBtn.classList.remove('quote__submit--loading');
           quoteSubmitBtn.textContent = originalLabel;
@@ -1111,16 +1187,18 @@
 
   // ── Review Carousel ───────────────────────────────────────────────────────
   // JS injects slides (with card wrapper + avatar) and progress-bar dots.
-  // Auto-advance uses requestAnimationFrame so the dot fill and the 6 s timer
-  // are always in sync — pausing on hover pauses both simultaneously.
+  // Auto-advance uses wall-clock timing (setInterval) so the 6 s interval
+  // stays consistent when rAF is throttled. Hover pause only on fine-pointer
+  // devices — touch sticky hover no longer freezes the carousel on mobile.
   // Arrow keys fire when the section is centred in the viewport; swipe works
-  // on touch devices by tracking touchstart/touchend delta.
+  // on touch devices (≥ 50 px horizontal delta). Arrows are hidden on touch;
+  // desktop keeps arrow buttons. Manual navigation resets the auto-advance timer.
   // ─────────────────────────────────────────────────────────────────────────
   var REVIEWS = [
     {
       name: 'Shaun Chopra',
       stars: 5,
-      text: 'Julian did my Mazda and went above and beyond to make it as good as possible \u2014 sitting in it gives me that \u2018new car feeling\u2019. He\u2019s not just another detailer in town; his determination is what sets him apart.',
+      text: 'Julian did my Mazda and went above and beyond to make it as good as possible. Sitting in it gives me that \u2018new car feeling\u2019. He\u2019s not just another detailer in town; his determination is what sets him apart.',
     },
     {
       name: 'Bianca Jobson',
@@ -1135,12 +1213,17 @@
     {
       name: 'Andrew Portelli',
       stars: 5,
-      text: 'Julian did my car inside and out and more than exceeded my expectations \u2014 he made it spotless and added that \u2018spark\u2019 back to the car like it was new again.',
+      text: 'Julian did my car inside and out and more than exceeded my expectations. He made it spotless and added that \u2018spark\u2019 back to the car like it was new again.',
     },
     {
       name: 'Janie Murrone',
       stars: 5,
-      text: 'I couldn\u2019t be happier with the service. My car looks and feels better than the day I got it. The interior is spotless, and even the hard-to-reach areas look brand new.',
+      text: 'I couldn\u2019t be happier with the service. My car looks and feels better than the day I got it. The interior is spotless, and even the hard to reach areas look brand new.',
+    },
+    {
+      name: 'Voula Gatziouras',
+      stars: 5,
+      text: 'Professional, friendly, and incredible attention to detail. My car looks and smells brand new — highly recommend, and I\u2019ll definitely be back.',
     },
   ];
 
@@ -1150,16 +1233,20 @@
   var carouselDots   = document.querySelector('.review-carousel__dots');
   var reviewsSection = document.getElementById('reviews');
   var carouselEl     = document.querySelector('.review-carousel');
+  var swipeHint      = document.getElementById('review-swipe-hint');
 
   if (carouselTrack && carouselPrev && carouselNext && carouselDots) {
     var reviewCount   = REVIEWS.length;
     var reviewCurrent = 0;
-    var reviewHover   = false;
-    var reviewRafId   = null;
-    var reviewElapsed = 0;
-    var reviewLastTs  = null;
+    var reviewTimerStart = Date.now();
+    var reviewPausedAt   = null;
+    var reviewPausedMs   = 0;
+    var reviewIntervalId = null;
     var swipeStartX   = null;
     var REVIEW_MS     = 6000;
+    var SWIPE_MIN_PX  = 50;
+    var SLIDE_CLASSES = ['is-from-right', 'is-from-left', 'is-to-left', 'is-to-right'];
+    var reviewCanHoverPause = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     // Hidden live region — screen readers announce slide changes
     var reviewLive = document.createElement('div');
@@ -1241,61 +1328,152 @@
       return dot ? dot.querySelector('.review-carousel__dot-fill') : null;
     }
 
+    function reviewDirection(from, to) {
+      var forward  = (to - from + reviewCount) % reviewCount;
+      var backward = (from - to + reviewCount) % reviewCount;
+      return forward <= backward ? 1 : -1;
+    }
+
+    function reviewCleanSlides() {
+      reviewSlides.forEach(function (slide) {
+        slide.classList.remove.apply(slide.classList, SLIDE_CLASSES);
+      });
+    }
+
+    function reviewGetElapsed() {
+      var now = Date.now();
+      var paused = reviewPausedMs;
+      if (reviewPausedAt !== null) {
+        paused += now - reviewPausedAt;
+      }
+      return now - reviewTimerStart - paused;
+    }
+
+    function reviewPauseTimer() {
+      if (reviewPausedAt === null) {
+        reviewPausedAt = Date.now();
+      }
+    }
+
+    function reviewResumeTimer() {
+      if (reviewPausedAt !== null) {
+        reviewPausedMs += Date.now() - reviewPausedAt;
+        reviewPausedAt = null;
+      }
+    }
+
+    function reviewResetTimer() {
+      reviewTimerStart = Date.now();
+      reviewPausedMs = 0;
+      reviewPausedAt = null;
+      var fill = getActiveFill();
+      if (fill) { fill.style.width = '0%'; }
+    }
+
+    function reviewUpdateAuto() {
+      if (document.hidden) return;
+
+      var elapsed = reviewGetElapsed();
+      var fill = getActiveFill();
+      if (fill) {
+        fill.style.width = Math.min(elapsed / REVIEW_MS * 100, 100) + '%';
+      }
+
+      if (elapsed >= REVIEW_MS) {
+        reviewGoTo(reviewCurrent + 1);
+      }
+    }
+
+    function reviewStartAuto() {
+      if (reviewIntervalId !== null) return;
+      reviewResetTimer();
+      reviewIntervalId = setInterval(reviewUpdateAuto, 50);
+    }
+
+    function reviewDismissHint() {
+      if (!swipeHint || swipeHint.classList.contains('is-dismissed')) return;
+      swipeHint.classList.add('is-dismissed');
+      swipeHint.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'opacity') { swipeHint.hidden = true; }
+      }, { once: true });
+    }
+
     // ── Navigate to a slide ──────────────────────────────────────────────
     function reviewGoTo(idx) {
       var prevIdx = reviewCurrent;
+      var nextIdx = ((idx % reviewCount) + reviewCount) % reviewCount;
+      if (prevIdx === nextIdx) return;
 
-      // Deactivate outgoing slide and dot
-      reviewSlides[prevIdx].classList.remove('is-active');
-      reviewSlides[prevIdx].setAttribute('aria-hidden', 'true');
+      var dir       = reviewDirection(prevIdx, nextIdx);
+      var prevSlide = reviewSlides[prevIdx];
+      var nextSlide = reviewSlides[nextIdx];
+
+      reviewCleanSlides();
+
+      // Deactivate outgoing dot
       reviewDotEls[prevIdx].classList.remove('is-active');
       reviewDotEls[prevIdx].removeAttribute('aria-current');
       var prevFill = reviewDotEls[prevIdx].querySelector('.review-carousel__dot-fill');
       if (prevFill) { prevFill.style.width = '0%'; }
 
-      reviewCurrent = ((idx % reviewCount) + reviewCount) % reviewCount;
+      reviewCurrent = nextIdx;
 
-      // Activate incoming slide and dot
-      reviewSlides[reviewCurrent].classList.add('is-active');
-      reviewSlides[reviewCurrent].setAttribute('aria-hidden', 'false');
+      // Activate incoming dot
       reviewDotEls[reviewCurrent].classList.add('is-active');
       reviewDotEls[reviewCurrent].setAttribute('aria-current', 'true');
 
-      // Reset elapsed so the new slide gets a full 6 s interval
-      reviewElapsed = 0;
-      reviewLastTs  = null;
+      // Reset auto-advance so manual navigation never clashes with the timer
+      reviewResetTimer();
+
+      if (prefersReducedMotion) {
+        prevSlide.classList.remove('is-active');
+        prevSlide.setAttribute('aria-hidden', 'true');
+        nextSlide.classList.add('is-active');
+        nextSlide.setAttribute('aria-hidden', 'false');
+      } else {
+        var fromClass = dir === 1 ? 'is-from-right' : 'is-from-left';
+        var toClass   = dir === 1 ? 'is-to-left'    : 'is-to-right';
+
+        nextSlide.classList.add(fromClass);
+        nextSlide.setAttribute('aria-hidden', 'false');
+        void nextSlide.offsetWidth;
+
+        prevSlide.classList.remove('is-active');
+        prevSlide.classList.add(toClass);
+        nextSlide.classList.remove(fromClass);
+        nextSlide.classList.add('is-active');
+
+        function onSlideEnd(e) {
+          if (e.target !== prevSlide || e.propertyName !== 'transform') return;
+          prevSlide.classList.remove(toClass);
+          prevSlide.setAttribute('aria-hidden', 'true');
+          prevSlide.removeEventListener('transitionend', onSlideEnd);
+        }
+        prevSlide.addEventListener('transitionend', onSlideEnd);
+      }
 
       reviewLive.textContent = REVIEWS[reviewCurrent].name + ': \u201c' + REVIEWS[reviewCurrent].text + '\u201d';
     }
 
-    // ── rAF-based auto-advance ───────────────────────────────────────────
-    // reviewHover gates elapsed accumulation — the fill pauses in-place
-    // while hovered and continues exactly where it left off on mouse leave.
-    // Capping delta at 100 ms prevents a lurch after the tab is backgrounded.
-    function reviewTick(ts) {
-      reviewRafId = requestAnimationFrame(reviewTick);
-
-      if (reviewLastTs !== null && !reviewHover) {
-        reviewElapsed += Math.min(ts - reviewLastTs, 100);
-        var fill = getActiveFill();
-        if (fill) { fill.style.width = Math.min(reviewElapsed / REVIEW_MS * 100, 100) + '%'; }
-        if (reviewElapsed >= REVIEW_MS) {
-          reviewElapsed = 0;
-          reviewGoTo(reviewCurrent + 1);
-        }
-      }
-      reviewLastTs = ts;
-    }
-
-    // Start auto-advance (skip if user prefers reduced motion)
+    // ── Wall-clock auto-advance (setInterval) ────────────────────────────
+    // Uses Date.now() so timing stays consistent even when rAF is throttled.
+    // Hover pause only on devices with a fine pointer — avoids sticky touch
+    // hover on mobile freezing the carousel.
     if (!prefersReducedMotion) {
-      reviewRafId = requestAnimationFrame(reviewTick);
-    }
+      reviewStartAuto();
 
-    // ── Hover pause — sets flag only; rAF loop reads it each frame ───────
-    if (reviewsSection) {
-      reviewsSection.addEventListener('mouseenter', function () { reviewHover = true; });
-      reviewsSection.addEventListener('mouseleave', function () { reviewHover = false; });
+      if (reviewCanHoverPause && carouselEl) {
+        carouselEl.addEventListener('mouseenter', reviewPauseTimer);
+        carouselEl.addEventListener('mouseleave', reviewResumeTimer);
+      }
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          reviewPauseTimer();
+        } else {
+          reviewResumeTimer();
+        }
+      });
     }
 
     // ── Arrow buttons ────────────────────────────────────────────────────
@@ -1313,7 +1491,7 @@
       else                        { reviewGoTo(reviewCurrent + 1); }
     });
 
-    // ── Touch swipe (≥ 44 px horizontal delta) ───────────────────────────
+    // ── Touch swipe (≥ 50 px horizontal delta) ───────────────────────────
     if (carouselEl) {
       carouselEl.addEventListener('touchstart', function (e) {
         swipeStartX = e.touches[0].clientX;
@@ -1323,7 +1501,8 @@
         if (swipeStartX === null) return;
         var dx = e.changedTouches[0].clientX - swipeStartX;
         swipeStartX = null;
-        if (Math.abs(dx) > 44) {
+        if (Math.abs(dx) >= SWIPE_MIN_PX) {
+          reviewDismissHint();
           reviewGoTo(dx < 0 ? reviewCurrent + 1 : reviewCurrent - 1);
         }
       }, { passive: true });

@@ -142,6 +142,20 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
+.hero .btn-ghost-draw::before {
+  border-color: rgba(255, 255, 255, 0.78);
+}
+
+.hero .btn-ghost-draw:hover::before,
+.hero .btn-ghost-draw:focus-visible::before {
+  border-color: #ffffff;
+}
+
+.hero .btn-ghost-draw:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.78);
+}
+
 /* In light mode the blue btn needs the darker, more legible blue
    (--color-blue switches to a darker value in light mode, but on the
    always-dark hero background the original dark-theme blue reads better) */
@@ -152,6 +166,14 @@
 
 [data-theme="light"] .hero .btn-blue:hover {
   color: var(--color-blue-dark);
+  border-color: var(--color-blue-dark);
+}
+
+.hero .btn-blue-draw::before {
+  border-color: var(--color-blue);
+}
+
+[data-theme="light"] .hero .btn-blue-draw::before {
   border-color: var(--color-blue-dark);
 }
 
@@ -167,6 +189,10 @@
   .hero {
     padding: calc(68px + 2rem) 1.25rem 2.5rem;
     min-height: auto;
+  }
+
+  .hero__rating {
+    font-size: 1rem;
   }
 
   /* Reposition the focal point on narrow screens */

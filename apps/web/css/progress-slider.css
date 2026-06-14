@@ -31,35 +31,6 @@
 }
 
 
-/* ── Placeholder: visible through unloaded/transparent layers ── */
-.progress-slider__placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 1.5rem;
-  text-align: center;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.progress-slider__placeholder svg {
-  width: 28px;
-  height: 28px;
-  color: var(--color-text-faint);
-}
-
-.progress-slider__placeholder span {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--color-text-faint);
-  letter-spacing: 0.02em;
-}
-
-
 /* ── The 4 stacked image layers — all full-size, opacity-blended ──
    position:absolute + inset:0 + explicit object-position ensures every
    layer is anchored to the full frame, not relative to any clip wrapper */
@@ -207,5 +178,25 @@
 @media (max-width: 768px) {
   .progress-slider__controls {
     padding: 0.75rem 0.875rem 0.8rem;
+  }
+
+  .progress-slider__label {
+    font-size: 0.8125rem;
+    min-height: 1rem;
+  }
+
+  .progress-slider__track {
+    height: 6px;
+    margin: 20px 0 4px;
+  }
+
+  .progress-slider__handle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .progress-slider__handle svg {
+    width: 15px;
+    height: 15px;
   }
 }

@@ -66,4 +66,14 @@
     transform: none;
     transition: none;
   }
+
+  .service-card__list-item--value.is-shake {
+    animation: none;
+  }
+
+  .footer-about__panel,
+  .footer-about__content,
+  .footer-about__chevron {
+    transition: none;
+  }
 }

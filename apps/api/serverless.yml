@@ -1,0 +1,53 @@
+# OJ Auto Detailing — API (AWS Lambda + API Gateway HTTP API)
+#
+# Prerequisites:
+#   1. AWS credentials configured (aws configure / IAM role)
+#   2. Export secrets before deploy:
+#        export RESEND_API_KEY=re_...
+#        export RESEND_FROM="OJ Auto Detailing <quotes@oj-auto-detailing.com.au>"
+#        export CLOUDFRONT_ORIGIN=https://dxxxxxxxx.cloudfront.net
+#   3. Build the bundle: pnpm --filter @oj-detailing/api build
+#
+# Deploy:
+#   pnpm --filter @oj-detailing/api deploy
+#
+# Static site (apps/web):
+#   Build with `pnpm --filter @oj-detailing/web build`, then sync `apps/web/dist/`
+#   to an S3 bucket configured for static website hosting. Point CloudFront at the
+#   bucket and add a behavior so `/api/*` forwards to this API Gateway endpoint.
+
+service: oj-detailing-api
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-southeast-2
+  stage: ${opt:stage, 'prod'}
+  memorySize: 256
+  timeout: 10
+  environment:
+    NODE_ENV: production
+    RESEND_API_KEY: ${env:RESEND_API_KEY}
+    RESEND_FROM: ${env:RESEND_FROM}
+    CLOUDFRONT_ORIGIN: ${env:CLOUDFRONT_ORIGIN, ''}
+
+functions:
+  api:
+    handler: dist/lambda.handler
+    events:
+      # Catch-all for Express routes under /api/*
+      - httpApi:
+          path: /api/{proxy+}
+          method: ANY
+      - httpApi:
+          path: /api
+          method: ANY
+
+package:
+  individually: true
+  patterns:
+    - '!**'
+    - 'dist/lambda.js'
+    - 'dist/lambda.js.map'

@@ -7,31 +7,8 @@
    ============================================================ */
 
 
-/* ── Design tokens: dark theme (default) ── */
+/* ── Design tokens: light theme (default) ── */
 :root,
-[data-theme="dark"] {
-  --color-bg: #09090b;
-  --color-panel: #111113;
-  --color-accent: #6BAFE0;
-  --color-blue: #6BAFE0;
-  --color-text: #e4e4e4;
-  --color-text-muted: #a8a8a8;
-  --color-text-faint: #8a8a8a;
-  --color-hairline: rgba(255, 255, 255, 0.08);
-  --color-on-accent: #ffffff;
-
-  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.45);
-  --shadow-card-hover: 0 4px 18px rgba(0, 0, 0, 0.35);
-
-  /* Before/after card slot backgrounds */
-  --work-before-bg: #0d0d0f;
-  --work-after-bg: #111113;
-
-  /* Alpha variant of --color-blue used for the .btn-blue ghost border */
-  --color-blue-border: rgba(107, 175, 224, 0.28);
-}
-
-/* ── Design tokens: light theme overrides ── */
 [data-theme="light"] {
   --color-bg: #f8f8f6;
   --color-panel: #ffffff;
@@ -54,6 +31,29 @@
 
   /* Light-mode-only card hover surface — slightly off-white */
   --color-surface-hover: #fafafa;
+}
+
+/* ── Design tokens: dark theme overrides ── */
+[data-theme="dark"] {
+  --color-bg: #09090b;
+  --color-panel: #111113;
+  --color-accent: #6BAFE0;
+  --color-blue: #6BAFE0;
+  --color-text: #e4e4e4;
+  --color-text-muted: #a8a8a8;
+  --color-text-faint: #8a8a8a;
+  --color-hairline: rgba(255, 255, 255, 0.08);
+  --color-on-accent: #ffffff;
+
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 4px 18px rgba(0, 0, 0, 0.35);
+
+  /* Before/after card slot backgrounds */
+  --work-before-bg: #0d0d0f;
+  --work-after-bg: #111113;
+
+  /* Alpha variant of --color-blue used for the .btn-blue ghost border */
+  --color-blue-border: rgba(107, 175, 224, 0.28);
 }
 
 /* ── Theme-agnostic tokens: fonts, radii, easing, layout, fixed colours ── */
@@ -120,7 +120,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
   transition:
     background-color var(--duration-theme) var(--ease-out),
     color var(--duration-theme) var(--ease-out);
@@ -201,6 +201,21 @@ a:hover {
 main {
   position: relative;
   z-index: 1;
+}
+
+/* ── Media: never wider than their container ── */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Long URLs, emails, and unbroken strings wrap instead of overflowing ── */
+a,
+p,
+li,
+.terms-page__meta {
+  overflow-wrap: anywhere;
 }
 
 
