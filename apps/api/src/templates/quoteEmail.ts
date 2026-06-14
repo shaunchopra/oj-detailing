@@ -1,9 +1,10 @@
 import { ResolvedQuote } from '../types/index.js';
-import { esc } from '../lib/utils.js';
+import { esc, stripControlChars } from '../lib/utils.js';
 
 export function buildEmailSubject(quote: ResolvedQuote): string {
   const { payload, serviceData, isCaravan } = quote;
-  return `New quote request \u2014 ${payload.name} \u2014 ${serviceData.label}${isCaravan ? ' (Caravan)' : ''}`;
+  const safeName = stripControlChars(payload.name);
+  return `New quote request \u2014 ${safeName} \u2014 ${serviceData.label}${isCaravan ? ' (Caravan)' : ''}`;
 }
 
 export function buildEmailText(quote: ResolvedQuote): string {
@@ -32,6 +33,7 @@ export function buildEmailText(quote: ResolvedQuote): string {
     `Full name      : ${payload.name}`,
     `Phone          : ${payload.phone}`,
     `Email          : ${payload.email}`,
+    `Terms accepted : Yes`,
   );
 
   if (payload.vehicle_model)  lines.push(`Make & model   : ${payload.vehicle_model}`);
@@ -100,6 +102,7 @@ export function buildEmailHtml(quote: ResolvedQuote): string {
       <tr><td class="label">Email</td><td><a href="mailto:${esc(payload.email)}">${esc(payload.email)}</a></td></tr>
       ${payload.vehicle_model  ? `<tr><td class="label">Make &amp; model</td><td>${esc(payload.vehicle_model)}</td></tr>`  : ''}
       ${payload.preferred_date ? `<tr><td class="label">Preferred date</td><td>${esc(payload.preferred_date)}</td></tr>` : ''}
+      <tr><td class="label">Terms accepted</td><td>Yes</td></tr>
     </table>
 
     ${payload.notes ? `

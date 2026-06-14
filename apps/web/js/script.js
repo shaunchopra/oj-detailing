@@ -2,6 +2,14 @@
   var THEME_KEY = 'oj-theme';
   var root = document.documentElement;
 
+  var QUOTE_API_URL = (function () {
+    var host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') {
+      return 'http://localhost:3001/api/quote';
+    }
+    return '/api/quote';
+  })();
+
   // ── Lenis smooth scroll ───────────────────────────────────────────────────
   var lenis = null;
   var prefersReducedMotionCheck = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -993,12 +1001,20 @@
   }
 
   // ── Quote form submission ─────────────────────────────────────────────────
-  // Intercepts the native form submit, POSTs JSON to /api/quote, and shows
+  // Intercepts the native form submit, POSTs JSON to the API, and shows
   // inline loading → success / error feedback without a page reload.
   // ─────────────────────────────────────────────────────────────────────────
   var quoteForm      = document.querySelector('.quote__body');
   var quoteSubmitBtn = document.querySelector('.quote__submit');
   var quoteSection   = document.getElementById('quote');
+  var quoteNotesEl   = document.getElementById('quote-notes');
+  var quotePolicyNoteEl = document.getElementById('quote-policy-note');
+
+  if (quoteNotesEl && quotePolicyNoteEl) {
+    quoteNotesEl.addEventListener('focus', function () {
+      quotePolicyNoteEl.hidden = false;
+    });
+  }
 
   if (quoteForm && quoteSubmitBtn) {
     // Build and inject the success panel (hidden by default)
@@ -1033,9 +1049,16 @@
 
       // Gather checked add-on values into an array
       var addons = [];
-      quoteForm.querySelectorAll('.quote__checkbox:checked').forEach(function (cb) {
+      quoteForm.querySelectorAll('.quote__checkboxes .quote__checkbox:checked').forEach(function (cb) {
         addons.push(cb.value);
       });
+
+      var termsAccepted = quoteForm.querySelector('#quote-terms');
+      if (!termsAccepted || !termsAccepted.checked) {
+        quoteErrorEl.textContent = 'Please read and agree to the Terms & Conditions before submitting.';
+        quoteErrorEl.classList.add('is-visible');
+        return;
+      }
 
       var payload = {
         company:        fd.get('company')        || '',
@@ -1043,11 +1066,12 @@
         service:        fd.get('service')         || '',
         name:           fd.get('name')            || '',
         phone:          fd.get('phone')           || '',
-        email:          fd.get('email')           || '',
+        email:          fd.get('email')            || '',
         vehicle_model:  fd.get('vehicle_model')  || '',
         preferred_date: fd.get('preferred_date') || '',
         notes:          fd.get('notes')           || '',
         addons:         addons,
+        terms_accepted: true,
       };
 
       // Loading state
@@ -1056,7 +1080,7 @@
       quoteSubmitBtn.textContent = 'Sending\u2026';
       quoteSubmitBtn.disabled = true;
 
-      fetch('/api/quote', {
+      fetch(QUOTE_API_URL, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(payload),

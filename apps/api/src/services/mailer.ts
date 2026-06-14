@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 import { ResolvedQuote } from '../types/index.js';
 import { RECIPIENT } from '../data/pricing.js';
+import { formatReplyTo } from '../lib/utils.js';
 import { buildEmailSubject, buildEmailText, buildEmailHtml } from '../templates/quoteEmail.js';
 
 function getResend(): Resend {
@@ -25,7 +26,7 @@ export async function sendQuoteEmail(quote: ResolvedQuote): Promise<void> {
   const { error } = await getResend().emails.send({
     from:    getFromAddress(),
     to:      [RECIPIENT],
-    replyTo: `${payload.name} <${payload.email}>`,
+    replyTo: formatReplyTo(payload.name, payload.email),
     subject: buildEmailSubject(quote),
     text:    buildEmailText(quote),
     html:    buildEmailHtml(quote),

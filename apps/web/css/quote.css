@@ -85,7 +85,7 @@
 /* ── Label ── */
 .quote__label {
   display: block;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -93,7 +93,7 @@
 }
 
 .quote__label-hint {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: none;
@@ -304,6 +304,60 @@
   outline-offset: 3px;
 }
 
+/* ── Late notice / cancellation policy note (shown before terms) ── */
+.quote__policy-note {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: #e53935;
+}
+
+.quote__policy-note strong {
+  font-weight: 600;
+}
+
+[data-theme="light"] .quote__policy-note {
+  color: #c62828;
+}
+
+/* ── Terms & Conditions agreement row ── */
+.quote__field--terms {
+  margin-top: 0.25rem;
+}
+
+.quote__terms-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  padding: 0.5rem 0;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.quote__terms-label:has(.quote__terms-checkbox:checked) {
+  color: var(--color-text);
+}
+
+.quote__terms-text a {
+  color: var(--color-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.quote__terms-text a:hover {
+  color: var(--color-text);
+}
+
+.quote__terms-checkbox + .quote__checkbox-custom {
+  margin-top: 0.15rem;
+}
+
 /* ── Estimate summary block ── */
 .quote__estimate {
   margin-top: auto;
@@ -335,7 +389,7 @@
 }
 
 .quote__estimate-note {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-text-faint);
   line-height: 1.55;
@@ -344,7 +398,7 @@
 /* Placeholder state — no service selected */
 .quote__estimate-value--placeholder {
   font-family: var(--font-body);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--color-text-faint);
   letter-spacing: 0;

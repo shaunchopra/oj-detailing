@@ -53,7 +53,7 @@
 }
 
 .progress-slider__placeholder span {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-text-faint);
   letter-spacing: 0.02em;

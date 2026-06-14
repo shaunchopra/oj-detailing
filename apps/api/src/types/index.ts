@@ -23,6 +23,8 @@ export interface QuotePayload {
   notes?: string;
   /** Honeypot field — bots fill this; humans leave it empty */
   company?: string;
+  /** Customer must accept Terms & Conditions before submitting */
+  terms_accepted?: boolean;
 }
 
 export interface ResolvedQuote {

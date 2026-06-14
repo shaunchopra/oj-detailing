@@ -1,43 +1,26 @@
 import { SERVICES, ADDONS } from '../data/pricing.js';
-import { isValidEmail, coerceStringArray } from '../lib/utils.js';
+import { coerceStringArray } from '../lib/utils.js';
 import { sendQuoteEmail } from './mailer.js';
 import { QuotePayload, ResolvedQuote } from '../types/index.js';
+import { QuoteRequestInput } from '../schemas/quote.js';
 
 export type QuoteError = { status: number; error: string };
 export type QuoteSuccess = { success: true };
 export type QuoteResult = QuoteSuccess | QuoteError;
 
-function validate(raw: Record<string, unknown>): QuotePayload {
-  const vehicleType = String(raw['vehicle_type'] ?? '').trim();
-  const service     = String(raw['service']      ?? '').trim();
-  const name        = String(raw['name']         ?? '').trim();
-  const phone       = String(raw['phone']        ?? '').trim();
-  const email       = String(raw['email']        ?? '').trim();
-
-  if (!vehicleType || !service || !name || !phone || !email) {
-    throw Object.assign(new Error('Required fields are missing.'), { status: 400 });
-  }
-  if (!['car', 'caravan'].includes(vehicleType)) {
-    throw Object.assign(new Error('Invalid vehicle type.'), { status: 400 });
-  }
-  if (!(service in SERVICES)) {
-    throw Object.assign(new Error('Invalid service selection.'), { status: 400 });
-  }
-  if (!isValidEmail(email)) {
-    throw Object.assign(new Error('Invalid email address.'), { status: 400 });
-  }
-
+function toQuotePayload(input: QuoteRequestInput): QuotePayload {
   return {
-    vehicle_type:   vehicleType as QuotePayload['vehicle_type'],
-    service,
-    name,
-    phone,
-    email,
-    addons:         raw['addons'] as string | string[] | undefined,
-    vehicle_model:  raw['vehicle_model']  ? String(raw['vehicle_model']).trim()  : undefined,
-    preferred_date: raw['preferred_date'] ? String(raw['preferred_date']).trim() : undefined,
-    notes:          raw['notes']          ? String(raw['notes']).trim()          : undefined,
-    company:        raw['company']        ? String(raw['company']).trim()        : undefined,
+    vehicle_type: input.vehicle_type,
+    service: input.service,
+    name: input.name,
+    phone: input.phone,
+    email: input.email,
+    addons: input.addons,
+    vehicle_model: input.vehicle_model,
+    preferred_date: input.preferred_date,
+    notes: input.notes,
+    company: input.company,
+    terms_accepted: true,
   };
 }
 
@@ -51,21 +34,16 @@ function resolveQuote(payload: QuotePayload): ResolvedQuote {
   }
 
   const addonValues    = coerceStringArray(payload.addons);
-  const selectedAddons = addonValues.flatMap(v => (ADDONS[v] ? [ADDONS[v]!] : []));
+  const selectedAddons = addonValues.flatMap((v) => (ADDONS[v] ? [ADDONS[v]!] : []));
   const estimatedTotal = basePrice + selectedAddons.reduce((sum, a) => sum + a.price, 0);
 
   return { payload, serviceData, selectedAddons, basePrice, estimatedTotal, isCaravan };
 }
 
-export async function handleQuoteRequest(body: Record<string, unknown>): Promise<QuoteResult> {
-  if (body['company'] && String(body['company']).trim() !== '') {
-    return { success: true };
-  }
-
+export async function handleQuoteRequest(input: QuoteRequestInput): Promise<QuoteResult> {
   let quote: ResolvedQuote;
   try {
-    const payload = validate(body);
-    quote = resolveQuote(payload);
+    quote = resolveQuote(toQuotePayload(input));
   } catch (e) {
     const status  = (e as { status?: number }).status ?? 400;
     const message = e instanceof Error ? e.message : 'Bad request.';

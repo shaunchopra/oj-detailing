@@ -87,7 +87,7 @@
 /* Row label: uppercase micro-text above the value */
 .contact__row-label {
   display: block;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -164,18 +164,26 @@ a.contact__row-value:focus-visible {
   letter-spacing: 0.01em;
 }
 
-/* ── Fine-print note below the grid ── */
+/* ── Fine-print note below the grid — pinned contrast/size (intentionally subtle) ── */
 .contact__note {
   margin-top: 1.5rem;
   font-size: 0.875rem;
   font-weight: 400;
-  color: var(--color-text-faint);
+  color: #4a4a4a;
   line-height: 1.65;
 }
 
 .contact__note strong {
-  color: var(--color-text-muted);
+  color: #888;
   font-weight: 500;
+}
+
+[data-theme="light"] .contact__note {
+  color: #999;
+}
+
+[data-theme="light"] .contact__note strong {
+  color: #5c5c5c;
 }
 
 

@@ -65,7 +65,7 @@
 /* ── Caravan qualifier line (shown under the price in caravan mode) ── */
 .spec__qualifier {
   display: none;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-text-faint);
   letter-spacing: 0.01em;
@@ -167,7 +167,7 @@
 
 /* ── Optional one-liner tagline below the card name ── */
 .service-card__tagline {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 400;
   color: var(--color-text-muted);
   line-height: 1.45;
@@ -270,7 +270,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: var(--color-text-faint);
   line-height: 1.55;
 }
@@ -658,7 +658,7 @@
 
 /* Optional description line */
 .addon-chip__desc {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 400;
   color: var(--color-text-muted);
   line-height: 1.4;
