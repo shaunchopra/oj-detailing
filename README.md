@@ -4,7 +4,7 @@ Monorepo for the [OJ Auto Detailing](https://oj-auto-detailing.com.au) marketing
 
 | App | Package | Description |
 | --- | --- | --- |
-| **Web** | `@oj-detailing/web` | Static site (HTML/CSS/JS) served from S3 + CloudFront |
+| **Web** | `@oj-detailing/web` | Astro static site served from S3 + CloudFront |
 | **API** | `@oj-detailing/api` | Express API on AWS Lambda (API Gateway) — quote form emails via Resend |
 
 **Production**
@@ -34,7 +34,7 @@ pnpm dev
 
 | App | URL | Notes |
 | --- | --- | --- |
-| Web | http://localhost:8080 | Static files via `serve` |
+| Web | http://localhost:8080 | Astro dev server |
 | API | http://localhost:3001 | Express dev server; quote endpoint at `/api/quote` |
 
 The quote form on localhost posts to `http://localhost:3001/api/quote`. In production it uses `https://api.oj-auto-detailing.com.au/api/quote`.
@@ -50,7 +50,7 @@ pnpm --filter @oj-detailing/api dev
 
 ### Web (`apps/web/.env`)
 
-Used at **build time** to inject PostHog analytics into `index.html` and `terms.html`.
+Used at **build time** to inject PostHog analytics into the site layout.
 
 ```sh
 cp apps/web/.env.example apps/web/.env
@@ -163,7 +163,7 @@ pnpm --filter @oj-detailing/api deploy:remove
 
 ```
 apps/
-  web/          Static marketing site
+  web/          Astro marketing site
   api/          Quote API (Express → Lambda)
 scripts/
   deploy.sh      Deploy API + web

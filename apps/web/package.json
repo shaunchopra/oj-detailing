@@ -2,12 +2,14 @@
   "name": "@oj-detailing/web",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "serve . -l 8080",
-    "build": "node scripts/build.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
     "deploy": "bash ../../scripts/deploy-web.sh"
   },
   "devDependencies": {
-    "serve": "^14.2.6"
+    "astro": "^5.16.0"
   }
 }

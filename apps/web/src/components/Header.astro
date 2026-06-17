@@ -1,0 +1,52 @@
+---
+interface Props {
+  home?: boolean;
+}
+
+const { home = false } = Astro.props;
+const prefix = home ? '' : '/';
+---
+
+<header class="nav-glass" id="nav">
+  <div class="nav-inner">
+    <a href={home ? '#' : '/'} class="nav-logo" aria-label="OJ Auto Detailing home">
+      <img class="nav-logo__mark" src="/images/oj-logo.png" alt="OJ Auto Detailing logo">
+      <div class="nav-logo__text">
+        OJ Auto
+        <span>Detailing</span>
+      </div>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="nav-menu">
+        <li><a href={`${prefix}#recent-work`}>Recent Work</a></li>
+        <li><a href={`${prefix}#services`}>Services</a></li>
+        <li><a href={`${prefix}#reviews`}>Reviews</a></li>
+        <li><a href={`${prefix}#quote`}>Quote</a></li>
+        <li class="nav-links__cta">
+          <a href={`${prefix}#quote`} class="btn btn-blue btn-blue-draw">Get A Free Quote</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+        <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 14.5A8.5 8.5 0 1112.5 6 7 7 0 0021 14.5z" />
+        </svg>
+      </button>
+      <a href={`${prefix}#quote`} class="btn btn-blue btn-blue-draw">Get A Free Quote</a>
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu"
+        aria-label="Open menu">
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+        <span class="nav-toggle__bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,73 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  home?: boolean;
+  stylesheets?: string[];
+  scripts?: string[];
+}
+
+const {
+  title,
+  description,
+  home = false,
+  stylesheets = [],
+  scripts = [],
+} = Astro.props;
+
+const posthogToken = import.meta.env.POSTHOG_PROJECT_TOKEN?.trim() ?? '';
+const posthogHost = import.meta.env.POSTHOG_API_HOST?.trim() || 'https://us.i.posthog.com';
+
+const baseStylesheets = [
+  '/css/base.css',
+  '/css/buttons.css',
+  '/css/nav.css',
+  '/css/footer.css',
+];
+---
+
+<!DOCTYPE html>
+<html lang="en-AU">
+  <head>
+    <script is:inline>
+      (function () {
+        var key = 'oj-theme';
+        var stored = localStorage.getItem(key);
+        var theme = (stored === 'light' || stored === 'dark')
+          ? stored
+          : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <meta charset="UTF-8">
+    {posthogToken && (
+      <script
+        is:inline
+        src="/js/posthog-init.js"
+        data-token={posthogToken}
+        data-host={posthogHost}
+      ></script>
+    )}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content={description}>
+    <title>{title}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@400;600;700;800&family=Urbanist:wght@300;400;500;600&display=swap"
+      rel="stylesheet">
+
+    {baseStylesheets.map((href) => <link rel="stylesheet" href={href} />)}
+    {stylesheets.map((href) => <link rel="stylesheet" href={href} />)}
+  </head>
+  <body>
+    <Header home={home} />
+    <slot />
+    <Footer home={home} />
+    {scripts.map((src) => <script is:inline src={src}></script>)}
+  </body>
+</html>
