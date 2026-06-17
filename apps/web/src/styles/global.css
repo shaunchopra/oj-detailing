@@ -1,0 +1,36 @@
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Urbanist', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --radius-btn: 4px;
+  --radius-panel: 8px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-theme: 0.3s;
+
+  --max-width-content: 1200px;
+
+  --color-hero-bg: #09090b;
+  --color-blue-dark: #6bafe0;
+}
+
+@import "./base.css";
+@import "./buttons.css";
+@import "./nav.css";
+@import "./footer.css";
+@import "./animations.css";
+@import "./hero.css";
+@import "./services.css";
+@import "./recent-work.css";
+@import "./progress-slider.css";
+@import "./testimonial.css";
+@import "./quote.css";
+@import "./terms.css";
