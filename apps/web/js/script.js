@@ -1164,6 +1164,14 @@
         .then(function (res) { return res.json(); })
         .then(function (data) {
           if (data && data.success) {
+            if (window.posthog && typeof window.posthog.capture === 'function') {
+              window.posthog.capture('quote_submitted', {
+                vehicle_type: payload.vehicle_type,
+                service: payload.service,
+                addon_count: payload.addons.length,
+              });
+            }
+
             // Success: swap form for the success panel
             quoteForm.style.display = 'none';
             quoteSuccessEl.classList.add('is-visible');

@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import quoteRouter from './routes/quote.js';
+import { posthog } from './lib/posthog.js';
 
 function getAllowedOrigins(): string[] {
   const origins = new Set([
@@ -90,6 +91,7 @@ app.use((err: unknown, _req: express.Request, res: express.Response, next: expre
 });
 
 app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  posthog.captureException(err instanceof Error ? err : new Error(String(err)), 'server');
   if (isProduction) {
     console.error('[api] unhandled error:', err);
     return res.status(500).json({ success: false, error: 'Internal server error.' });

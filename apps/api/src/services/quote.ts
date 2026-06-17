@@ -3,6 +3,7 @@ import { coerceStringArray } from '../lib/utils.js';
 import { sendQuoteEmail } from './mailer.js';
 import { QuotePayload, ResolvedQuote } from '../types/index.js';
 import { QuoteRequestInput } from '../schemas/quote.js';
+import { posthog } from '../lib/posthog.js';
 
 export type QuoteError = { status: number; error: string };
 export type QuoteSuccess = { success: true };
@@ -52,10 +53,30 @@ export async function handleQuoteRequest(input: QuoteRequestInput): Promise<Quot
 
   try {
     await sendQuoteEmail(quote);
+    posthog.capture({
+      distinctId: quote.payload.email,
+      event: 'quote_email_sent',
+      properties: {
+        vehicle_type: quote.payload.vehicle_type,
+        service: quote.payload.service,
+        addon_count: quote.selectedAddons.length,
+        estimated_total: quote.estimatedTotal,
+        is_caravan: quote.isCaravan,
+      },
+    });
     return { success: true };
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     console.error('[quote] email send error:', message);
+    posthog.capture({
+      distinctId: quote.payload.email,
+      event: 'quote_email_failed',
+      properties: {
+        vehicle_type: quote.payload.vehicle_type,
+        service: quote.payload.service,
+        error_message: message,
+      },
+    });
     return { status: 500, error: 'Failed to send \u2014 please try again or call us directly.' };
   }
 }

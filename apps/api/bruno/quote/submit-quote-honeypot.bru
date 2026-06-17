@@ -1,0 +1,37 @@
+meta {
+  name: Submit Quote (Honeypot)
+  type: http
+  seq: 4
+  tags: [
+    quote
+  ]
+}
+
+post {
+  url: {{baseUrl}}/api/quote
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "vehicle_type": "car",
+    "service": "touch-up",
+    "name": "Bot User",
+    "phone": "0412345678",
+    "email": "bot@spam.com",
+    "company": "Acme Corp",
+    "terms_accepted": true
+  }
+}
+
+tests {
+  test("silently accepts honeypot submissions", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+docs {
+  The company field is a honeypot. When filled, the API returns success without sending an email.
+}

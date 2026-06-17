@@ -1,0 +1,44 @@
+meta {
+  name: Submit Quote (Car)
+  type: http
+  seq: 1
+  tags: [
+    quote
+    smoke
+  ]
+}
+
+post {
+  url: {{baseUrl}}/api/quote
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "vehicle_type": "car",
+    "service": "tier-3-complete",
+    "name": "Bruno Test",
+    "phone": "0412345678",
+    "email": "test@example.com",
+    "vehicle_model": "Toyota Camry",
+    "preferred_date": "2026-07-01",
+    "addons": [
+      "water-repellent",
+      "headlight-restoration"
+    ],
+    "notes": "Submitted from Bruno collection — safe to ignore.",
+    "terms_accepted": true
+  }
+}
+
+tests {
+  test("returns 200 with success", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+docs {
+  Sends a full car quote request. In production this triggers a real email to the business inbox.
+}

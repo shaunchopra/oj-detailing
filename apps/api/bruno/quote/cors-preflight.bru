@@ -1,0 +1,27 @@
+meta {
+  name: CORS Preflight
+  type: http
+  seq: 5
+  tags: [
+    quote
+    smoke
+  ]
+}
+
+options {
+  url: {{baseUrl}}/api/quote
+  body: none
+  auth: none
+}
+
+headers {
+  Origin: https://oj-auto-detailing.com.au
+  Access-Control-Request-Method: POST
+  Access-Control-Request-Headers: Content-Type
+}
+
+tests {
+  test("allows browser preflight from production site", function() {
+    expect(res.status).to.equal(204);
+  });
+}
