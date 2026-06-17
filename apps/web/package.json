@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "serve . -l 8080",
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "deploy": "bash ../../scripts/deploy-web.sh"
   },
   "devDependencies": {
     "serve": "^14.2.6"
