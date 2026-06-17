@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node esbuild.config.mjs",
     "dev": "tsx watch src/server.ts",
-    "deploy": "serverless deploy",
+    "deploy": "bash ../../scripts/deploy-api.sh",
     "deploy:remove": "serverless remove"
   },
   "dependencies": {

@@ -6,7 +6,9 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
-    "deploy:web": "bash scripts/deploy-web.sh"
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:web": "bash scripts/deploy-web.sh",
+    "deploy:api": "bash scripts/deploy-api.sh"
   },
   "devDependencies": {
     "turbo": "latest"

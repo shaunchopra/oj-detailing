@@ -65,13 +65,17 @@ cp apps/web/.env.example apps/web/.env
 
 Used for **local development** only. Lambda reads env vars from the Serverless deploy configuration.
 
-Create `apps/api/.env` with:
+Create `apps/api/.env` from the example file:
+
+```sh
+cp apps/api/.env.example apps/api/.env
+```
 
 | Variable | Description |
 | --- | --- |
-| `RESEND_API_KEY` | [Resend](https://resend.com) API key for sending quote emails |
-| `RESEND_FROM` | Sender address, e.g. `OJ Auto Detailing <quotes@oj-auto-detailing.com.au>` |
-| `CLOUDFRONT_ORIGIN` | Allowed CORS origin, e.g. `https://oj-auto-detailing.com.au` |
+| `RESEND_API_KEY` | [Resend](https://resend.com) API key for sending quote emails (**required for deploy**) |
+| `RESEND_FROM` | Sender address, e.g. `OJ Auto Detailing <quotes@oj-auto-detailing.com.au>` (**required for deploy**) |
+| `CLOUDFRONT_ORIGIN` | Extra CORS origin (defaults to `https://oj-auto-detailing.com.au`) |
 | `POSTHOG_API_KEY` | PostHog project API key for server-side events (optional) |
 | `POSTHOG_HOST` | PostHog host (optional) |
 
@@ -84,6 +88,20 @@ pnpm build
 Builds both apps. Web output goes to `apps/web/dist/`; API bundle goes to `apps/api/dist/`.
 
 ## Deploy
+
+Deploy everything (API + web):
+
+```sh
+pnpm deploy
+```
+
+Dry run:
+
+```sh
+DRY_RUN=1 pnpm deploy
+```
+
+Or deploy individually with `pnpm deploy:api` / `pnpm deploy:web`.
 
 ### Web (S3 + CloudFront)
 
@@ -112,15 +130,27 @@ pnpm deploy:web
 
 ### API (AWS Lambda)
 
-Export secrets, build, then deploy with Serverless:
+The quote API deploys to Lambda (`oj-detailing-api-prod-api`) in `ap-southeast-2` via the [Serverless Framework](https://www.serverless.com/). You need a Serverless account (`serverless login`) and AWS credentials configured.
 
 ```sh
-export RESEND_API_KEY=re_...
-export RESEND_FROM="OJ Auto Detailing <quotes@oj-auto-detailing.com.au>"
-export CLOUDFRONT_ORIGIN=https://oj-auto-detailing.com.au
+cp apps/api/.env.example apps/api/.env
+# fill in RESEND_API_KEY and RESEND_FROM
 
-pnpm --filter @oj-detailing/api build
-pnpm --filter @oj-detailing/api deploy
+pnpm deploy:api
+```
+
+This loads `apps/api/.env`, builds the bundle, and runs `serverless deploy`.
+
+Dry run (package only, no deploy):
+
+```sh
+DRY_RUN=1 pnpm deploy:api
+```
+
+Override stage or region:
+
+```sh
+STAGE=prod AWS_REGION=ap-southeast-2 pnpm deploy:api
 ```
 
 Remove the stack:
@@ -136,7 +166,9 @@ apps/
   web/          Static marketing site
   api/          Quote API (Express → Lambda)
 scripts/
-  deploy-web.sh S3 + CloudFront deploy script
+  deploy.sh      Deploy API + web
+  deploy-web.sh  S3 + CloudFront deploy script
+  deploy-api.sh  Lambda deploy script
 apps/api/bruno/  API request collection (local + production)
 ```
 
