@@ -7,46 +7,123 @@ const { home = false } = Astro.props;
 const prefix = home ? '' : '/';
 ---
 
-<header class="nav-glass" id="nav">
-  <div class="nav-inner">
-    <a href={home ? '#' : '/'} class="nav-logo" aria-label="OJ Auto Detailing home">
-      <img class="nav-logo__mark" src="/images/oj-logo.png" alt="OJ Auto Detailing logo">
-      <div class="nav-logo__text">
+<header
+  class="nav-glass sticky top-0 z-[100] border-b border-hairline bg-bg transition-[background-color,border-color] duration-300 ease-out"
+  id="nav"
+>
+  <div
+    class="mx-auto flex max-w-content items-center justify-between gap-6 px-8 py-4 max-md:px-[max(1.25rem,env(safe-area-inset-left,0px))] max-md:py-3.5 max-[480px]:px-[max(1rem,env(safe-area-inset-left,0px))] max-[480px]:py-2.5"
+  >
+    <a
+      href={home ? '#' : '/'}
+      class="flex shrink-0 items-center gap-2 rounded hover:text-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-text"
+      aria-label="OJ Auto Detailing home"
+    >
+      <img
+        class="block size-10 shrink-0 rounded-lg object-cover transition-opacity duration-200 ease-out group-hover:opacity-[0.88]"
+        src="/images/oj-logo.png"
+        alt="OJ Auto Detailing logo"
+      />
+      <div class="logo-wordmark text-base">
         OJ Auto
         <span>Detailing</span>
       </div>
     </a>
 
     <nav aria-label="Primary">
-      <ul class="nav-links" id="nav-menu">
-        <li><a href={`${prefix}#recent-work`}>Recent Work</a></li>
-        <li><a href={`${prefix}#services`}>Services</a></li>
-        <li><a href={`${prefix}#reviews`}>Reviews</a></li>
-        <li><a href={`${prefix}#quote`}>Quote</a></li>
-        <li class="nav-links__cta">
-          <a href={`${prefix}#quote`} class="btn btn-blue btn-blue-draw">Get A Free Quote</a>
+      <ul
+        class="nav-links flex list-none items-center gap-8 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:top-[var(--nav-height,4.75rem)] max-md:flex-col max-md:items-stretch max-md:gap-0 max-md:overflow-y-auto max-md:border-t max-md:border-hairline max-md:bg-bg max-md:p-4 max-md:pb-[calc(1rem+env(safe-area-inset-bottom,0px))] max-md:opacity-0 max-md:pointer-events-none max-md:invisible max-md:-translate-y-2.5 max-md:transition-[opacity,visibility,transform] max-md:duration-300 max-md:ease-out"
+        id="nav-menu"
+      >
+        <li class="max-md:border-b max-md:border-hairline">
+          <a
+            href={`${prefix}#recent-work`}
+            class="link-draw text-[0.9375rem] font-normal text-text-muted hover:text-text max-md:flex max-md:min-h-11 max-md:items-center max-md:p-3 max-md:text-base max-md:text-text max-md:after:hidden max-md:hover:text-text-muted"
+          >Recent Work</a>
+        </li>
+        <li class="max-md:border-b max-md:border-hairline">
+          <a
+            href={`${prefix}#services`}
+            class="link-draw text-[0.9375rem] font-normal text-text-muted hover:text-text max-md:flex max-md:min-h-11 max-md:items-center max-md:p-3 max-md:text-base max-md:text-text max-md:after:hidden max-md:hover:text-text-muted"
+          >Services</a>
+        </li>
+        <li class="max-md:border-b max-md:border-hairline">
+          <a
+            href={`${prefix}#reviews`}
+            class="link-draw text-[0.9375rem] font-normal text-text-muted hover:text-text max-md:flex max-md:min-h-11 max-md:items-center max-md:p-3 max-md:text-base max-md:text-text max-md:after:hidden max-md:hover:text-text-muted"
+          >Reviews</a>
+        </li>
+        <li class="max-md:border-b max-md:border-hairline">
+          <a
+            href={`${prefix}#quote`}
+            class="link-draw text-[0.9375rem] font-normal text-text-muted hover:text-text max-md:flex max-md:min-h-11 max-md:items-center max-md:p-3 max-md:text-base max-md:text-text max-md:after:hidden max-md:hover:text-text-muted"
+          >Quote</a>
+        </li>
+        <li class="nav-links__cta hidden max-md:mt-3 max-md:block max-md:border-b-0 max-md:pt-3">
+          <a
+            href={`${prefix}#quote`}
+            class="btn btn-blue btn-blue-draw w-full min-h-11 px-6 py-3.5 text-blue max-md:text-blue"
+          >Get A Free Quote</a>
         </li>
       </ul>
     </nav>
 
-    <div class="nav-actions">
-      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
-        <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true">
+    <div class="flex shrink-0 items-center gap-3">
+      <button
+        type="button"
+        class="inline-flex size-11 shrink-0 items-center justify-center rounded-panel border border-hairline bg-transparent p-0 text-text-muted transition-[border-color,color] duration-300 ease-out hover:border-text-muted hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text active:scale-[0.96]"
+        id="theme-toggle"
+        aria-label="Switch to dark mode"
+      >
+        <svg
+          class="theme-toggle__icon theme-toggle__icon--sun hidden size-[17px] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:1.75] dark:block"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <circle cx="12" cy="12" r="4" />
           <path
-            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+          />
         </svg>
-        <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true">
+        <svg
+          class="theme-toggle__icon theme-toggle__icon--moon block size-[17px] fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:1.75] dark:hidden"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path d="M21 14.5A8.5 8.5 0 1112.5 6 7 7 0 0021 14.5z" />
         </svg>
       </button>
-      <a href={`${prefix}#quote`} class="btn btn-blue btn-blue-draw">Get A Free Quote</a>
-      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu"
-        aria-label="Open menu">
-        <span class="nav-toggle__bar" aria-hidden="true"></span>
-        <span class="nav-toggle__bar" aria-hidden="true"></span>
-        <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <a
+        href={`${prefix}#quote`}
+        class="btn btn-blue btn-blue-draw hidden px-[1.125rem] py-2 text-sm md:inline-flex"
+      >Get A Free Quote</a>
+      <button
+        type="button"
+        class="nav-toggle flex size-11 shrink-0 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-panel border border-hairline bg-transparent p-0 transition-colors duration-200 ease-out hover:border-text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text md:hidden"
+        id="nav-toggle"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        aria-label="Open menu"
+      >
+        <span
+          class="nav-toggle__bar block h-px w-[18px] bg-text transition-[transform,opacity] duration-300 ease-out"
+          aria-hidden="true"
+        ></span>
+        <span
+          class="nav-toggle__bar block h-px w-[18px] bg-text transition-[transform,opacity] duration-300 ease-out"
+          aria-hidden="true"
+        ></span>
+        <span
+          class="nav-toggle__bar block h-px w-[18px] bg-text transition-[transform,opacity] duration-300 ease-out"
+          aria-hidden="true"
+        ></span>
       </button>
     </div>
   </div>
 </header>
+
+<style>
+  .nav-links a.is-active {
+    color: var(--color-blue);
+  }
+</style>

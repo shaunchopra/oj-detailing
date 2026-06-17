@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const sectionClass = 'mb-8';
+const bodyText = 'text-[0.9375rem] leading-[1.7] text-text-muted max-md:text-base';
+const linkClass = 'text-blue underline underline-offset-2 hover:text-text';
 ---
 
 <BaseLayout
@@ -7,114 +11,117 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   description="Terms and conditions for booking mobile car detailing with OJ Auto Detailing in Melbourne, VIC."
   scripts={['/js/terms-page.js']}
 >
-  <main id="main" class="terms-page">
-<div class="terms-page__inner">
-      <a href="/" class="terms-page__back">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+  <main id="main" class="relative z-[1] px-8 pb-16 pt-[6.5rem] max-md:px-5 max-md:pb-[calc(3rem+env(safe-area-inset-bottom,0px))] max-md:pt-[5.5rem]">
+    <div class="mx-auto max-w-[720px]">
+      <a
+        href="/"
+        class="mb-8 inline-flex min-h-11 items-center gap-1.5 px-0 py-1 text-base font-medium text-text-muted transition-colors duration-200 ease-out hover:text-text"
+      >
+        <svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
         Back to home
       </a>
 
-      <h1 class="terms-page__title">Terms &amp; Conditions</h1>
-      <p class="terms-page__updated">Last updated: June 2026</p>
+      <h1 class="mb-3 text-[clamp(1.75rem,4vw,2.25rem)] tracking-[-0.03em]">Terms &amp; Conditions</h1>
+      <p class="mb-6 text-sm text-text-muted">Last updated: June 2026</p>
 
-      <p class="terms-page__meta">
+      <p class={`mb-8 border-b border-hairline pb-8 text-[0.9375rem] leading-[1.65] text-text-muted max-md:text-base ${bodyText}`}>
         <strong>Business:</strong> OJ Auto Detailing (ABN 98 186 072 920)<br>
         <strong>Contact:</strong>
-        <a href="tel:+61423967170">0423 967 170</a> ·
-        <a href="https://ojautodetailing.setmore.com" target="_blank" rel="noopener noreferrer">ojautodetailing.setmore.com</a> ·
-        <a href="https://instagram.com/ojautodetail" target="_blank" rel="noopener noreferrer">@ojautodetail</a><br>
+        <a href="tel:+61423967170" class={linkClass}>0423 967 170</a> ·
+        <a href="https://ojautodetailing.setmore.com" class={linkClass} target="_blank" rel="noopener noreferrer">ojautodetailing.setmore.com</a> ·
+        <a href="https://instagram.com/ojautodetail" class={linkClass} target="_blank" rel="noopener noreferrer">@ojautodetail</a><br>
         <strong>Service area:</strong> Mernda, Doreen, Wollert, South Morang &amp; surrounding northern Melbourne suburbs
       </p>
 
-      <p class="terms-page__intro">By booking a service with OJ Auto Detailing, you agree to the following terms.</p>
+      <p class="mb-10 text-[1.0625rem] leading-[1.65] max-md:text-base">By booking a service with OJ Auto Detailing, you agree to the following terms.</p>
 
-      <section class="terms-page__section" aria-labelledby="terms-bookings">
-        <h2 id="terms-bookings">1. Bookings</h2>
-        <p><strong>1.1</strong> A booking is confirmed once you receive confirmation from us (by text, email, or through our online booking system).</p>
-        <p><strong>1.2</strong> Please make sure the vehicle and booking details you give us are accurate. Quoted prices are based on the information provided and the standard condition of that vehicle type.</p>
-        <p><strong>1.3</strong> We are a mobile service and come to you. You must provide a safe, legal, and accessible location to carry out the work (e.g. a driveway, carport, or off street parking).</p>
+      <section class={sectionClass} aria-labelledby="terms-bookings">
+        <h2 id="terms-bookings" class="mb-3 text-lg font-bold tracking-[-0.02em]">1. Bookings</h2>
+        <p class={bodyText}><strong>1.1</strong> A booking is confirmed once you receive confirmation from us (by text, email, or through our online booking system).</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>1.2</strong> Please make sure the vehicle and booking details you give us are accurate. Quoted prices are based on the information provided and the standard condition of that vehicle type.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>1.3</strong> We are a mobile service and come to you. You must provide a safe, legal, and accessible location to carry out the work (e.g. a driveway, carport, or off street parking).</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-site">
-        <h2 id="terms-site">2. Site Requirements (Mobile Service)</h2>
-        <p><strong>2.1</strong> Unless otherwise agreed in advance, you must provide reasonable access to:</p>
-        <ul>
-          <li>A water tap/outlet, and</li>
-          <li>A power point (240V) within reach of the vehicle.</li>
+      <section class={sectionClass} aria-labelledby="terms-site">
+        <h2 id="terms-site" class="mb-3 text-lg font-bold tracking-[-0.02em]">2. Site Requirements (Mobile Service)</h2>
+        <p class={bodyText}><strong>2.1</strong> Unless otherwise agreed in advance, you must provide reasonable access to:</p>
+        <ul class="mt-2 list-none p-0">
+          <li class={`relative mb-[0.35rem] pl-5 ${bodyText}`}><span class="absolute left-0 text-blue">•</span>A water tap/outlet, and</li>
+          <li class={`relative mb-[0.35rem] pl-5 ${bodyText}`}><span class="absolute left-0 text-blue">•</span>A power point (240V) within reach of the vehicle.</li>
         </ul>
-        <p><strong>2.2</strong> If water or power is not available, please tell us before your booking so we can make arrangements. If we arrive and cannot complete the service because access was not provided as agreed, a call out fee may apply (see section 6).</p>
-        <p><strong>2.3</strong> You confirm you are the owner of the vehicle, or have the owner's permission to have it detailed.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>2.2</strong> If water or power is not available, please tell us before your booking so we can make arrangements. If we arrive and cannot complete the service because access was not provided as agreed, a call out fee may apply (see section 6).</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>2.3</strong> You confirm you are the owner of the vehicle, or have the owner's permission to have it detailed.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-pricing">
-        <h2 id="terms-pricing">3. Pricing &amp; Quotes</h2>
-        <p><strong>3.1</strong> Prices listed are starting prices and may vary depending on the size, condition, and level of soiling of the vehicle.</p>
-        <p><strong>3.2</strong> Excessively dirty vehicles, heavy stains, pet hair, mould, biohazards, or vehicles significantly larger or dirtier than described may incur an additional charge. Where possible, we will let you know before starting. If we discover the extra work only on arrival, we will discuss any price change with you before continuing.</p>
-        <p><strong>3.3</strong> Optional add ons and priority/ASAP service fees are charged in addition to the base service price.</p>
+      <section class={sectionClass} aria-labelledby="terms-pricing">
+        <h2 id="terms-pricing" class="mb-3 text-lg font-bold tracking-[-0.02em]">3. Pricing &amp; Quotes</h2>
+        <p class={bodyText}><strong>3.1</strong> Prices listed are starting prices and may vary depending on the size, condition, and level of soiling of the vehicle.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>3.2</strong> Excessively dirty vehicles, heavy stains, pet hair, mould, biohazards, or vehicles significantly larger or dirtier than described may incur an additional charge. Where possible, we will let you know before starting. If we discover the extra work only on arrival, we will discuss any price change with you before continuing.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>3.3</strong> Optional add ons and priority/ASAP service fees are charged in addition to the base service price.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-payment">
-        <h2 id="terms-payment">4. Payment</h2>
-        <p><strong>4.1</strong> Payment is due upon completion of the job, unless another arrangement has been agreed in writing beforehand.</p>
-        <p><strong>4.2</strong> We accept cash, bank transfer, and PayID. Bank transfers should be completed on the day the service is finished.</p>
-        <p><strong>4.3</strong> For bank transfers, please use your invoice number as the payment reference.</p>
-        <p><strong>4.4</strong> We are not currently registered for GST, so no GST is charged.</p>
+      <section class={sectionClass} aria-labelledby="terms-payment">
+        <h2 id="terms-payment" class="mb-3 text-lg font-bold tracking-[-0.02em]">4. Payment</h2>
+        <p class={bodyText}><strong>4.1</strong> Payment is due upon completion of the job, unless another arrangement has been agreed in writing beforehand.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>4.2</strong> We accept cash, bank transfer, and PayID. Bank transfers should be completed on the day the service is finished.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>4.3</strong> For bank transfers, please use your invoice number as the payment reference.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>4.4</strong> We are not currently registered for GST, so no GST is charged.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-cancellations">
-        <h2 id="terms-cancellations">5. Cancellations &amp; Rescheduling</h2>
-        <p><strong>5.1</strong> If you need to cancel or reschedule, please give us at least 24 hours notice.</p>
-        <p><strong>5.2</strong> Cancellations with less than 24 hours notice, or being unavailable at the booked time, may incur a cancellation fee of up to 30% of the booked service price.</p>
-        <p><strong>5.3</strong> If we need to cancel or reschedule (for example, due to illness, equipment failure, or weather), we will contact you as soon as possible to arrange a new time at no penalty to you.</p>
+      <section class={sectionClass} aria-labelledby="terms-cancellations">
+        <h2 id="terms-cancellations" class="mb-3 text-lg font-bold tracking-[-0.02em]">5. Cancellations &amp; Rescheduling</h2>
+        <p class={bodyText}><strong>5.1</strong> If you need to cancel or reschedule, please give us at least 24 hours notice.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>5.2</strong> Cancellations with less than 24 hours notice, or being unavailable at the booked time, may incur a cancellation fee of up to 30% of the booked service price.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>5.3</strong> If we need to cancel or reschedule (for example, due to illness, equipment failure, or weather), we will contact you as soon as possible to arrange a new time at no penalty to you.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-noshows">
-        <h2 id="terms-noshows">6. No Shows &amp; Access</h2>
-        <p><strong>6.1</strong> If we arrive at the agreed time and location and cannot access the vehicle, no one is available, or the site does not meet the requirements in section 2, this may be treated as a late cancellation and a call out fee of up to 50% of the booked service price may apply.</p>
+      <section class={sectionClass} aria-labelledby="terms-noshows">
+        <h2 id="terms-noshows" class="mb-3 text-lg font-bold tracking-[-0.02em]">6. No Shows &amp; Access</h2>
+        <p class={bodyText}><strong>6.1</strong> If we arrive at the agreed time and location and cannot access the vehicle, no one is available, or the site does not meet the requirements in section 2, this may be treated as a late cancellation and a call out fee of up to 50% of the booked service price may apply.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-weather">
-        <h2 id="terms-weather">7. Weather</h2>
-        <p><strong>7.1</strong> As a mostly outdoor mobile service, some work is weather dependent. In the case of rain, extreme heat, or unsafe conditions, we may need to reschedule. We will always try to give you as much notice as possible. Rescheduling due to weather is free of charge.</p>
+      <section class={sectionClass} aria-labelledby="terms-weather">
+        <h2 id="terms-weather" class="mb-3 text-lg font-bold tracking-[-0.02em]">7. Weather</h2>
+        <p class={bodyText}><strong>7.1</strong> As a mostly outdoor mobile service, some work is weather dependent. In the case of rain, extreme heat, or unsafe conditions, we may need to reschedule. We will always try to give you as much notice as possible. Rescheduling due to weather is free of charge.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-condition">
-        <h2 id="terms-condition">8. Vehicle Condition &amp; Pre Existing Damage</h2>
-        <p><strong>8.1</strong> We take care of every vehicle as if it were our own and follow proper detailing methods.</p>
-        <p><strong>8.2</strong> Before starting, we may photograph the vehicle to record its condition. We strongly recommend you remove all personal belongings and valuables before your appointment. We are not responsible for personal items left in the vehicle.</p>
-        <p><strong>8.3</strong> You acknowledge that detailing can reveal or draw attention to pre existing faults or damage (such as paint chips, scratches, swirl marks, fading, cracked trim, worn or lifting paint protection, stains, or interior wear). Highlighting or revealing existing damage is not the same as causing it, and we are not liable for pre existing conditions.</p>
-        <p><strong>8.4</strong> Some stains, scratches, water spots, oxidation, odours, and other defects are permanent or only partially treatable. Where a service (such as scratch removal, headlight restoration, or stain treatment) is described as improving or reducing an issue, results vary by vehicle and we cannot guarantee complete removal. We will always set realistic expectations before starting.</p>
+      <section class={sectionClass} aria-labelledby="terms-condition">
+        <h2 id="terms-condition" class="mb-3 text-lg font-bold tracking-[-0.02em]">8. Vehicle Condition &amp; Pre Existing Damage</h2>
+        <p class={bodyText}><strong>8.1</strong> We take care of every vehicle as if it were our own and follow proper detailing methods.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>8.2</strong> Before starting, we may photograph the vehicle to record its condition. We strongly recommend you remove all personal belongings and valuables before your appointment. We are not responsible for personal items left in the vehicle.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>8.3</strong> You acknowledge that detailing can reveal or draw attention to pre existing faults or damage (such as paint chips, scratches, swirl marks, fading, cracked trim, worn or lifting paint protection, stains, or interior wear). Highlighting or revealing existing damage is not the same as causing it, and we are not liable for pre existing conditions.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>8.4</strong> Some stains, scratches, water spots, oxidation, odours, and other defects are permanent or only partially treatable. Where a service (such as scratch removal, headlight restoration, or stain treatment) is described as improving or reducing an issue, results vary by vehicle and we cannot guarantee complete removal. We will always set realistic expectations before starting.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-workmanship">
-        <h2 id="terms-workmanship">9. Our Workmanship</h2>
-        <p><strong>9.1</strong> If you are not satisfied with the standard of the work, please tell us before we leave, or within 24 hours of completion, so we have a fair opportunity to inspect and put it right.</p>
-        <p><strong>9.2</strong> Our liability is limited to re performing the affected part of the service. We do not offer cash refunds for change of mind or for issues that fall outside our reasonable control.</p>
+      <section class={sectionClass} aria-labelledby="terms-workmanship">
+        <h2 id="terms-workmanship" class="mb-3 text-lg font-bold tracking-[-0.02em]">9. Our Workmanship</h2>
+        <p class={bodyText}><strong>9.1</strong> If you are not satisfied with the standard of the work, please tell us before we leave, or within 24 hours of completion, so we have a fair opportunity to inspect and put it right.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>9.2</strong> Our liability is limited to re performing the affected part of the service. We do not offer cash refunds for change of mind or for issues that fall outside our reasonable control.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-liability">
-        <h2 id="terms-liability">10. Liability</h2>
-        <p><strong>10.1</strong> We carry out our work with reasonable care and skill. To the extent permitted by law, we are not liable for:</p>
-        <ul>
-          <li>pre existing damage or faults (see section 8);</li>
-          <li>damage caused by defects, modifications, aftermarket parts, or poor previous repairs/coatings on the vehicle;</li>
-          <li>the failure of pre existing wraps, decals, or paint protection products;</li>
-          <li>indirect or consequential loss.</li>
+      <section class={sectionClass} aria-labelledby="terms-liability">
+        <h2 id="terms-liability" class="mb-3 text-lg font-bold tracking-[-0.02em]">10. Liability</h2>
+        <p class={bodyText}><strong>10.1</strong> We carry out our work with reasonable care and skill. To the extent permitted by law, we are not liable for:</p>
+        <ul class="mt-2 list-none p-0">
+          <li class={`relative mb-[0.35rem] pl-5 ${bodyText}`}><span class="absolute left-0 text-blue">•</span>pre existing damage or faults (see section 8);</li>
+          <li class={`relative mb-[0.35rem] pl-5 ${bodyText}`}><span class="absolute left-0 text-blue">•</span>damage caused by defects, modifications, aftermarket parts, or poor previous repairs/coatings on the vehicle;</li>
+          <li class={`relative mb-[0.35rem] pl-5 ${bodyText}`}><span class="absolute left-0 text-blue">•</span>the failure of pre existing wraps, decals, or paint protection products;</li>
+          <li class={`relative mb-[0.35rem] pl-5 ${bodyText}`}><span class="absolute left-0 text-blue">•</span>indirect or consequential loss.</li>
         </ul>
-        <p><strong>10.2</strong> Nothing in these terms excludes, restricts, or modifies any rights or remedies you have under the Australian Consumer Law that cannot lawfully be excluded.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>10.2</strong> Nothing in these terms excludes, restricts, or modifies any rights or remedies you have under the Australian Consumer Law that cannot lawfully be excluded.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-privacy">
-        <h2 id="terms-privacy">11. Privacy</h2>
-        <p><strong>11.1</strong> We collect basic contact and booking details only to provide our services and contact you about your booking. We do not sell your information.</p>
-        <p><strong>11.2</strong> From time to time we may take before and after photos of vehicles for our portfolio, social media, and marketing. Number plates and any identifying details are kept out of frame or obscured. If you would prefer your vehicle not to be photographed or shared, just let us know and we'll respect that.</p>
+      <section class={sectionClass} aria-labelledby="terms-privacy">
+        <h2 id="terms-privacy" class="mb-3 text-lg font-bold tracking-[-0.02em]">11. Privacy</h2>
+        <p class={bodyText}><strong>11.1</strong> We collect basic contact and booking details only to provide our services and contact you about your booking. We do not sell your information.</p>
+        <p class={`mt-[0.65rem] ${bodyText}`}><strong>11.2</strong> From time to time we may take before and after photos of vehicles for our portfolio, social media, and marketing. Number plates and any identifying details are kept out of frame or obscured. If you would prefer your vehicle not to be photographed or shared, just let us know and we'll respect that.</p>
       </section>
 
-      <section class="terms-page__section" aria-labelledby="terms-agreement">
-        <h2 id="terms-agreement">12. Agreement</h2>
-        <p>By ticking the box / confirming your booking, you acknowledge that you have read, understood, and agree to these Terms &amp; Conditions.</p>
+      <section class={sectionClass} aria-labelledby="terms-agreement">
+        <h2 id="terms-agreement" class="mb-3 text-lg font-bold tracking-[-0.02em]">12. Agreement</h2>
+        <p class={bodyText}>By ticking the box / confirming your booking, you acknowledge that you have read, understood, and agree to these Terms &amp; Conditions.</p>
       </section>
     </div>
   </main>

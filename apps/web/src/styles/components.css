@@ -1,0 +1,355 @@
+@layer components {
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: var(--radius-btn);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      transform 0.15s var(--ease-out),
+      opacity 0.15s var(--ease-out),
+      background 0.15s var(--ease-out),
+      border-color 0.15s var(--ease-out);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
+  }
+
+  .btn-primary {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  .btn-primary:hover {
+    opacity: 0.82;
+    color: var(--color-bg);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-hairline);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-text-muted);
+    color: var(--color-text);
+  }
+
+  .btn-ghost:active {
+    transform: scale(0.98);
+  }
+
+  .btn-ghost-draw {
+    position: relative;
+    isolation: isolate;
+    transition:
+      transform 0.15s var(--ease-out),
+      color 1.4s var(--ease-out);
+  }
+
+  .btn-ghost-draw::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    border: 2px solid var(--color-text-muted);
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1.4s var(--ease-out);
+    pointer-events: none;
+  }
+
+  .btn-ghost-draw:hover::before,
+  .btn-ghost-draw:focus-visible::before {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .btn-ghost-draw:hover {
+    border-color: var(--color-hairline);
+    color: var(--color-text);
+    opacity: 1;
+  }
+
+  .btn-blue {
+    background: transparent;
+    color: var(--color-blue);
+    border: 1px solid var(--color-blue-border);
+  }
+
+  .btn-blue:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+    opacity: 1;
+  }
+
+  .btn-blue:active {
+    transform: scale(0.98);
+  }
+
+  .btn-blue-draw {
+    position: relative;
+    isolation: isolate;
+    transition:
+      transform 0.15s var(--ease-out),
+      color 1.4s var(--ease-out);
+  }
+
+  .btn-blue-draw::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    border: 2px solid var(--color-blue);
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1.4s var(--ease-out);
+    pointer-events: none;
+  }
+
+  .btn-blue-draw:hover::before,
+  .btn-blue-draw:focus-visible::before {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .btn-blue-draw:hover {
+    border-color: var(--color-blue-border);
+    color: var(--color-blue);
+    opacity: 1;
+  }
+
+  /* ── Animated underline links ── */
+  .link-draw {
+    position: relative;
+  }
+
+  .link-draw::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-blue);
+    border-radius: 1px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.85s var(--ease-out);
+  }
+
+  .link-draw:hover::after,
+  .link-draw.is-active::after,
+  .link-draw[aria-expanded='true']::after {
+    transform: scaleX(1);
+  }
+
+  .link-draw:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ── Logo wordmark ── */
+  .logo-wordmark {
+    position: relative;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .logo-wordmark::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-blue);
+    border-radius: 1px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.85s var(--ease-out);
+  }
+
+  a:hover .logo-wordmark::after {
+    transform: scaleX(1);
+  }
+
+  .logo-wordmark span {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-blue);
+    margin-top: 2px;
+    transition: color 0.2s var(--ease-out);
+  }
+
+  /* ── Social / icon links with underline ── */
+  .icon-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    color: var(--color-text-muted);
+    transition: color 0.2s var(--ease-out);
+  }
+
+  .icon-link::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    background: var(--color-blue);
+    border-radius: 1px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.85s var(--ease-out);
+  }
+
+  .icon-link:hover,
+  .icon-link:focus-visible {
+    color: var(--color-text);
+  }
+
+  .icon-link:hover::after,
+  .icon-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .icon-link:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .icon-link svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    display: block;
+  }
+
+  /* ── Footer about collapsible panel ── */
+  .footer-about__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.35s var(--ease-out),
+      opacity 0.3s var(--ease-out);
+    border-top: 0 solid var(--color-hairline);
+  }
+
+  .footer-about__panel.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    border-top-width: 1px;
+  }
+
+  .footer-about__content {
+    overflow: hidden;
+    min-height: 0;
+    padding: 0;
+    transition: padding 0.35s var(--ease-out);
+  }
+
+  .footer-about__panel.is-open .footer-about__content {
+    padding: 1.25rem 0 0.25rem;
+  }
+
+  /* ── Nav mobile menu (JS toggles .is-menu-open on #nav) ── */
+  @media (max-width: 768px) {
+    .nav-glass.is-menu-open .nav-links {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+  }
+
+  /* ── Spec / price pairs (services section) ── */
+  .spec {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .spec__label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+    line-height: 1;
+  }
+
+  .spec__value {
+    font-family: var(--font-mono);
+    font-size: 1.375rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .spec--lg .spec__value {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer-about__panel,
+    .footer-about__content {
+      transition: none;
+    }
+  }
+}
+
+@utility visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
