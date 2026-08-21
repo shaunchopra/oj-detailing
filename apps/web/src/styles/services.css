@@ -363,29 +363,25 @@
 @media (max-width: 900px) {
   .services__grid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+    border: none;
+    border-radius: 0;
   }
 
-  /* Re-apply right border in single-column mode (nth-child(2n) rule removed it) */
-  .service-card:nth-child(2n) {
-    border-right: none;
-  }
-
-  /* Restore bottom borders on what was the "last row" in 2-col layout */
-  .service-card:nth-last-child(-n+2) {
-    border-bottom: 1px solid var(--color-hairline);
-  }
-
-  /* Actual last card never has a bottom border */
+  .service-card,
+  .service-card:nth-child(2n),
+  .service-card:nth-last-child(-n+2),
   .service-card:last-child {
-    border-bottom: none;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-panel);
   }
 
-  /* Corner radii in 1-col: cards 2 & 3 lose their 2-col radii;
-     card 1 gains top-right and card 4 gains bottom-left */
-  .service-card:nth-child(2)      { border-top-right-radius: 0; }
-  .service-card:nth-last-child(2) { border-bottom-left-radius: 0; }
-  .service-card:first-child       { border-top-right-radius: var(--radius-panel); }
-  .service-card:last-child        { border-bottom-left-radius: var(--radius-panel); }
+  .service-card:first-child,
+  .service-card:nth-child(2),
+  .service-card:nth-last-child(2),
+  .service-card:last-child {
+    border-radius: var(--radius-panel);
+  }
 }
 
 /* ── Contact fallback — sits between the card grid and add-ons ── */
@@ -413,6 +409,11 @@
 @media (max-width: 768px) {
   .services {
     padding: 4rem 1.25rem 3rem;
+    overflow-x: visible;
+  }
+
+  .services__grid {
+    gap: 1.5rem;
   }
 
   .services__contact {
@@ -441,6 +442,10 @@
   background: var(--color-panel);
   overflow: hidden;
   transition: background-color var(--duration-theme) var(--ease-out);
+}
+
+.addons:has(.addons__panel.is-open) {
+  overflow: visible;
 }
 
 /* ── Trigger button (header row) ── */
@@ -519,7 +524,9 @@
 }
 
 .addons__panel.is-open > ul {
-  padding: 1.25rem 1.75rem 1.5rem;
+  overflow: visible;
+  min-height: min-content;
+  padding: 1.25rem 1.75rem 1.75rem;
 }
 
 /* ── Chip list ── */
@@ -588,11 +595,12 @@
   line-height: 1.5;
 }
 
-/* ── Mobile: full-width chips ── */
-@media (max-width: 480px) {
+/* ── Mobile: stacked full-width chips so the last extra stays visible ── */
+@media (max-width: 768px) {
   .addons__list {
     flex-direction: column;
-    gap: 0.5rem;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
   }
 
   .addon-chip__main {
@@ -601,7 +609,7 @@
   }
 
   .addons__panel.is-open > ul {
-    padding: 1rem 1.25rem 1.25rem;
+    padding: 1rem 1.25rem 1.5rem;
   }
 
   .addon-chip,
