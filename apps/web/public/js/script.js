@@ -65,7 +65,7 @@
       { value: 'water-repellent',       label: 'Water repellent',       price: 30,  desc: 'Rain beads run off glass for safer driving' },
       { value: 'anti-fog',              label: 'Anti fog',              price: 35,  desc: 'Remove fog from windows for safer driving' },
       { value: 'headlight-restoration', label: 'Headlight restoration', price: 100, desc: 'Foggy, yellowed lenses restored to crystal clear, bringing your car many years back.' },
-      { value: 'water-spot-remover',    label: 'Water spot remover',    price: 50,  desc: 'Etched and hard water marks removed from glass' },
+      { value: 'water-spot-remover',    label: 'Water spot remover',    price: 50,  desc: 'Etched and hard water marks removed from glass and paint' },
     ],
   };
 
