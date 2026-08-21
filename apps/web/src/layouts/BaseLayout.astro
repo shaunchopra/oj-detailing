@@ -19,6 +19,7 @@ const {
 
 const posthogToken = import.meta.env.POSTHOG_PROJECT_TOKEN?.trim() ?? '';
 const posthogHost = import.meta.env.POSTHOG_API_HOST?.trim() || 'https://us.i.posthog.com';
+const assetVersion = import.meta.env.ASSET_VERSION?.trim() || 'dev';
 ---
 
 <!DOCTYPE html>
@@ -38,7 +39,7 @@ const posthogHost = import.meta.env.POSTHOG_API_HOST?.trim() || 'https://us.i.po
     {posthogToken && (
       <script
         is:inline
-        src="/js/posthog-init.js"
+        src={`/js/posthog-init.js?v=${assetVersion}`}
         data-token={posthogToken}
         data-host={posthogHost}
       ></script>
@@ -59,6 +60,6 @@ const posthogHost = import.meta.env.POSTHOG_API_HOST?.trim() || 'https://us.i.po
     <Header home={home} />
     <slot />
     <Footer home={home} />
-    {scripts.map((src) => <script is:inline src={src}></script>)}
+    {scripts.map((src) => <script is:inline src={`${src}?v=${assetVersion}`}></script>)}
   </body>
 </html>

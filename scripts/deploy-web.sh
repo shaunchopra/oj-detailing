@@ -35,12 +35,18 @@ if [[ "${DRY_RUN:-}" == "1" ]]; then
 fi
 
 echo "→ Syncing assets to $S3_URI"
+aws s3 sync "$DIST/_astro" "s3://${S3_BUCKET}/_astro/" \
+  --delete \
+  --region "$AWS_REGION" \
+  --cache-control "public, max-age=31536000, immutable"
+
 aws s3 sync "$DIST" "$S3_URI" \
   --delete \
   --region "$AWS_REGION" \
+  --exclude "_astro/*" \
   --exclude "index.html" \
   --exclude "terms.html" \
-  --cache-control "public, max-age=31536000"
+  --cache-control "public, max-age=0, must-revalidate"
 
 aws s3 sync "$DIST" "$S3_URI" \
   --region "$AWS_REGION" \
