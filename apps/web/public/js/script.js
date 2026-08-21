@@ -206,24 +206,33 @@
     footerYear.textContent = String(new Date().getFullYear());
   }
 
+  function isMobileNav() {
+    return window.matchMedia('(max-width: 767px)').matches;
+  }
+
   function onScroll() {
-    nav.classList.toggle('is-scrolled', window.scrollY > 24);
+    if (nav) nav.classList.toggle('is-scrolled', window.scrollY > 24);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
   function setMenuOpen(open) {
+    if (!nav) return;
     nav.classList.toggle('is-menu-open', open);
     document.body.classList.toggle('is-nav-open', open);
     if (navToggle) {
       navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     }
+    if (lenis) {
+      if (open) lenis.stop();
+      else lenis.start();
+    }
   }
 
-  if (navToggle && navMenu) {
+  if (nav && navToggle && navMenu) {
     function updateNavHeight() {
-      if (nav && window.innerWidth <= 768) {
+      if (isMobileNav()) {
         nav.style.setProperty('--nav-height', nav.offsetHeight + 'px');
       }
     }
@@ -249,7 +258,7 @@
     });
 
     window.addEventListener('resize', function () {
-      if (window.innerWidth > 768 && nav.classList.contains('is-menu-open')) {
+      if (!isMobileNav() && nav.classList.contains('is-menu-open')) {
         setMenuOpen(false);
       }
     });

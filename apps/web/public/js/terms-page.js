@@ -19,8 +19,12 @@
   var navToggle = document.getElementById('nav-toggle');
   var navMenu = document.getElementById('nav-menu');
   if (nav && navToggle && navMenu) {
+    function isMobileNav() {
+      return window.matchMedia('(max-width: 767px)').matches;
+    }
+
     function updateNavHeight() {
-      if (window.innerWidth <= 768) {
+      if (isMobileNav()) {
         nav.style.setProperty('--nav-height', nav.offsetHeight + 'px');
       }
     }

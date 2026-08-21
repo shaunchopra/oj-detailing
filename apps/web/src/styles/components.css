@@ -279,29 +279,6 @@
     padding: 1.25rem 0 0.25rem;
   }
 
-  /* ── Nav mobile menu (JS toggles .is-menu-open on #nav) ── */
-  @media (max-width: 768px) {
-    .nav-glass.is-menu-open .nav-links {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(1) {
-      transform: translateY(6.5px) rotate(45deg);
-    }
-
-    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0);
-    }
-
-    .nav-glass.is-menu-open .nav-toggle__bar:nth-child(3) {
-      transform: translateY(-6.5px) rotate(-45deg);
-    }
-  }
-
   /* ── Spec / price pairs (services section) ── */
   .spec {
     display: flex;
@@ -339,6 +316,57 @@
     .footer-about__content {
       transition: none;
     }
+  }
+}
+
+/* Unlayered so open/close beats Tailwind utilities (utilities layer wins over components). */
+@media (max-width: 767px) {
+  #nav {
+    overflow: visible;
+  }
+
+  #nav-menu {
+    position: fixed;
+    inset: var(--nav-height, 4.75rem) 0 0;
+    z-index: 110;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--color-hairline);
+    background: var(--color-bg);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-0.625rem);
+    transition:
+      opacity 0.3s var(--ease-out),
+      visibility 0.3s var(--ease-out),
+      transform 0.3s var(--ease-out);
+  }
+
+  #nav.is-menu-open #nav-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  #nav.is-menu-open .nav-toggle__bar:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+
+  #nav.is-menu-open .nav-toggle__bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  #nav.is-menu-open .nav-toggle__bar:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
   }
 }
 

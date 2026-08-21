@@ -12,7 +12,7 @@ const prefix = home ? '' : '/';
   id="nav"
 >
   <div
-    class="mx-auto flex max-w-content items-center justify-between gap-6 px-8 py-4 max-md:px-[max(1.25rem,env(safe-area-inset-left,0px))] max-md:py-3.5 max-[480px]:px-[max(1rem,env(safe-area-inset-left,0px))] max-[480px]:py-2.5"
+    class="relative mx-auto flex max-w-content items-center justify-between gap-6 px-8 py-4 max-md:gap-3 max-md:px-[max(1.25rem,env(safe-area-inset-left,0px))] max-md:py-3.5 max-[480px]:px-[max(1rem,env(safe-area-inset-left,0px))] max-[480px]:py-2.5"
   >
     <a
       href={home ? '#' : '/'}
@@ -32,7 +32,7 @@ const prefix = home ? '' : '/';
 
     <nav aria-label="Primary">
       <ul
-        class="nav-links flex list-none items-center gap-8 max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:top-[var(--nav-height,4.75rem)] max-md:flex-col max-md:items-stretch max-md:gap-0 max-md:overflow-y-auto max-md:border-t max-md:border-hairline max-md:bg-bg max-md:p-4 max-md:pb-[calc(1rem+env(safe-area-inset-bottom,0px))] max-md:opacity-0 max-md:pointer-events-none max-md:invisible max-md:-translate-y-2.5 max-md:transition-[opacity,visibility,transform] max-md:duration-300 max-md:ease-out"
+        class="nav-links flex list-none items-center gap-8"
         id="nav-menu"
       >
         <li class="max-md:border-b max-md:border-hairline">
