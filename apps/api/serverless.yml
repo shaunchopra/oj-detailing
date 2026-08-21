@@ -27,11 +27,16 @@ provider:
   stage: ${opt:stage, 'prod'}
   memorySize: 256
   timeout: 10
+  # Previous CloudFormation stack was deleted; keep the live HTTP API + custom domain.
+  httpApi:
+    id: cuvsx6p8fd
   environment:
     NODE_ENV: production
     RESEND_API_KEY: ${env:RESEND_API_KEY}
     RESEND_FROM: ${env:RESEND_FROM}
-    CLOUDFRONT_ORIGIN: ${env:CLOUDFRONT_ORIGIN, ''}
+    CLOUDFRONT_ORIGIN: ${env:CLOUDFRONT_ORIGIN, 'https://oj-auto-detailing.com.au'}
+    POSTHOG_API_KEY: ${env:POSTHOG_API_KEY}
+    POSTHOG_HOST: ${env:POSTHOG_HOST}
 
 functions:
   api:
