@@ -252,7 +252,7 @@
     grid-template-columns: 1fr;
   }
 
-  /* Mobile: show Raptor exterior + Skoda interior only */
+  /* Mobile: show Land Cruiser exterior + Skoda interior only */
   .recent-work__grid > article:nth-child(1),
   .recent-work__grid > article:nth-child(4) {
     display: none;
