@@ -16,19 +16,7 @@ const optionalTrimmedString = (max: number, label: string) =>
     .transform((value) => (value === '' ? undefined : value))
     .optional();
 
-function isValidCalendarDate(value: string): boolean {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  const [year, month, day] = value.split('-').map(Number);
-  const date = new Date(Date.UTC(year, month - 1, day));
-  return (
-    date.getUTCFullYear() === year
-    && date.getUTCMonth() === month - 1
-    && date.getUTCDate() === day
-  );
-}
-
 export const quoteRequestSchema = z.object({
-  vehicle_type: z.literal('car', { message: 'Invalid vehicle type.' }),
   service: z.enum(serviceKeys, { message: 'Invalid service selection.' }),
   name: z
     .string({ message: 'Name is required.' })
@@ -63,15 +51,6 @@ export const quoteRequestSchema = z.object({
     })
     .pipe(z.array(z.enum(addonKeys, { message: 'Invalid add-on selection.' })).optional()),
   vehicle_model: optionalTrimmedString(100, 'Vehicle make & model'),
-  preferred_date: z
-    .string()
-    .trim()
-    .transform((value) => (value === '' ? undefined : value))
-    .optional()
-    .refine(
-      (value) => value === undefined || isValidCalendarDate(value),
-      'Preferred date must be a valid date (YYYY-MM-DD).',
-    ),
   notes: optionalTrimmedString(1000, 'Notes'),
   company: optionalTrimmedString(100, 'Company'),
   terms_accepted: z.literal(true, {

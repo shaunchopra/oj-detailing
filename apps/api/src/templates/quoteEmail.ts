@@ -14,7 +14,6 @@ export function buildEmailText(quote: ResolvedQuote): string {
     'New quote request from the OJ Auto Detailing website',
     '',
     '--- SERVICE ---',
-    `Vehicle type : Car`,
     `Service      : ${serviceData.label} (from $${basePrice})`,
   ];
 
@@ -38,7 +37,6 @@ export function buildEmailText(quote: ResolvedQuote): string {
   );
 
   if (payload.vehicle_model)  lines.push(`Make & model   : ${payload.vehicle_model}`);
-  if (payload.preferred_date) lines.push(`Preferred date : ${payload.preferred_date}`);
   if (payload.notes)          lines.push('', 'Notes:', payload.notes);
 
   return lines.join('\n');
@@ -84,7 +82,6 @@ export function buildEmailHtml(quote: ResolvedQuote): string {
 
     <h2>Service</h2>
     <table>
-      <tr><td class="label">Vehicle type</td><td>Car</td></tr>
       <tr><td class="label">Service</td><td><strong>${esc(serviceData.label)}</strong>, from $${basePrice}</td></tr>
     </table>
 
@@ -103,7 +100,6 @@ export function buildEmailHtml(quote: ResolvedQuote): string {
       <tr><td class="label">Suburb</td><td>${esc(payload.suburb)}</td></tr>
       <tr><td class="label">Email</td><td><a href="mailto:${esc(payload.email)}">${esc(payload.email)}</a></td></tr>
       ${payload.vehicle_model  ? `<tr><td class="label">Make &amp; model</td><td>${esc(payload.vehicle_model)}</td></tr>`  : ''}
-      ${payload.preferred_date ? `<tr><td class="label">Preferred date</td><td>${esc(payload.preferred_date)}</td></tr>` : ''}
       <tr><td class="label">Terms accepted</td><td>Yes</td></tr>
     </table>
 

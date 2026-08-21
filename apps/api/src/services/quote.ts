@@ -11,7 +11,6 @@ export type QuoteResult = QuoteSuccess | QuoteError;
 
 function toQuotePayload(input: QuoteRequestInput): QuotePayload {
   return {
-    vehicle_type: input.vehicle_type,
     service: input.service,
     name: input.name,
     phone: input.phone,
@@ -19,7 +18,6 @@ function toQuotePayload(input: QuoteRequestInput): QuotePayload {
     suburb: input.suburb,
     addons: input.addons,
     vehicle_model: input.vehicle_model,
-    preferred_date: input.preferred_date,
     notes: input.notes,
     company: input.company,
     terms_accepted: true,
@@ -53,7 +51,6 @@ export async function handleQuoteRequest(input: QuoteRequestInput): Promise<Quot
       distinctId: quote.payload.email,
       event: 'quote_email_sent',
       properties: {
-        vehicle_type: quote.payload.vehicle_type,
         service: quote.payload.service,
         addon_count: quote.selectedAddons.length,
         estimated_total: quote.estimatedTotal,
@@ -67,7 +64,6 @@ export async function handleQuoteRequest(input: QuoteRequestInput): Promise<Quot
       distinctId: quote.payload.email,
       event: 'quote_email_failed',
       properties: {
-        vehicle_type: quote.payload.vehicle_type,
         service: quote.payload.service,
         error_message: message,
       },

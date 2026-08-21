@@ -577,23 +577,73 @@
   // ─────────────────────────────────────────────────────────────────────────
 
   // ── Work badge → service card highlight ──────────────────────────────────
-  // Each .work-badge anchor href points to a service card ID.
-  // After Lenis finishes scrolling (1.2s duration + buffer), the matching
-  // service card gets a brief border+glow pulse via .service-card--highlight.
+  // Each .work-badge anchor href points to a service card ID. The generic
+  // hash-link handler above already runs Lenis.scrollTo; we wait for that
+  // programmatic scroll to finish (via Lenis's scroll event, not a timeout)
+  // then pulse .service-card--highlight on the target card.
+  var highlightCard = null;
+  var highlightUnbind = null;
+  var highlightOnEnd = null;
+
+  function clearServiceHighlight() {
+    if (highlightUnbind) {
+      highlightUnbind();
+      highlightUnbind = null;
+    }
+    if (highlightCard) {
+      if (highlightOnEnd) {
+        highlightCard.removeEventListener('animationend', highlightOnEnd);
+        highlightOnEnd = null;
+      }
+      highlightCard.classList.remove('service-card--highlight');
+      highlightCard = null;
+    }
+  }
+
+  function applyServiceHighlight(card) {
+    card.classList.remove('service-card--highlight');
+    void card.offsetWidth; // reflow so a restart retriggers the CSS animation
+    highlightCard = card;
+    card.classList.add('service-card--highlight');
+    highlightOnEnd = function (e) {
+      if (e.animationName !== 'card-highlight-pulse' && e.animationName !== 'card-highlight-fade') return;
+      card.removeEventListener('animationend', highlightOnEnd);
+      card.classList.remove('service-card--highlight');
+      if (highlightCard === card) {
+        highlightCard = null;
+        highlightOnEnd = null;
+      }
+    };
+    card.addEventListener('animationend', highlightOnEnd);
+  }
+
+  function afterLenisScroll(callback) {
+    // No Lenis (prefers-reduced-motion): native jump is instant.
+    // Already at rest: scrollTo completed synchronously because the
+    // page was already at the target — pulse immediately.
+    if (!lenis || !lenis.isScrolling) {
+      callback();
+      return;
+    }
+    highlightUnbind = lenis.on('scroll', function () {
+      if (lenis.isScrolling) return;
+      if (highlightUnbind) {
+        highlightUnbind();
+        highlightUnbind = null;
+      }
+      callback();
+    });
+  }
+
   document.querySelectorAll('a.work-badge[href^="#"]').forEach(function (badge) {
     badge.addEventListener('click', function () {
       var id = badge.getAttribute('href').slice(1);
       var card = document.getElementById(id);
       if (!card) return;
-      // Reset any in-progress highlight so the animation can restart cleanly
-      card.classList.remove('service-card--highlight');
-      setTimeout(function () {
-        void card.offsetWidth; // force reflow — restarts CSS animation
-        card.classList.add('service-card--highlight');
-        card.addEventListener('animationend', function () {
-          card.classList.remove('service-card--highlight');
-        }, { once: true });
-      }, 1350); // 1.2s scroll + 150ms safety buffer
+      clearServiceHighlight();
+      afterLenisScroll(function () {
+        applyServiceHighlight(card);
+      });
     });
   });
   // ─────────────────────────────────────────────────────────────────────────
@@ -640,7 +690,7 @@
   var quoteAddonsClearBtn = document.getElementById('quote-addons-clear');
 
   var QUOTE_NOTE_EMPTY  = 'Julian confirms your final price after reviewing your request.';
-  var QUOTE_NOTE_FILLED = 'Estimate only. Julian confirms your final price. Very dirty or heavily soiled vehicles may cost a little more for the extra time and product.';
+  var QUOTE_NOTE_FILLED = 'Very dirty or heavily soiled vehicles may incur additional costs.';
   var QUOTE_PLACEHOLDER = 'Select a service to see your estimate.';
 
   // Price tween state — null means the estimate is in the empty/placeholder state
@@ -842,17 +892,6 @@
     });
   }
 
-  var quoteDateEl = document.getElementById('quote-date');
-  var quoteDateWrap = quoteDateEl && quoteDateEl.closest('.quote__date-wrap');
-  if (quoteDateEl && quoteDateWrap) {
-    function syncQuoteDatePlaceholder() {
-      quoteDateWrap.classList.toggle('is-filled', !!quoteDateEl.value);
-    }
-    quoteDateEl.addEventListener('input', syncQuoteDatePlaceholder);
-    quoteDateEl.addEventListener('change', syncQuoteDatePlaceholder);
-    syncQuoteDatePlaceholder();
-  }
-
   if (quoteForm && quoteSubmitBtn) {
     // Build and inject the success panel (hidden by default)
     var quoteSuccessEl = document.createElement('div');
@@ -906,14 +945,12 @@
 
       var payload = {
         company:        fd.get('company')        || '',
-        vehicle_type:   fd.get('vehicle_type')   || '',
         service:        fd.get('service')         || '',
         name:           fd.get('name')            || '',
         phone:          fd.get('phone')           || '',
         email:          fd.get('email')            || '',
         suburb:         suburb,
         vehicle_model:  fd.get('vehicle_model')  || '',
-        preferred_date: fd.get('preferred_date') || '',
         notes:          fd.get('notes')           || '',
         addons:         addons,
         terms_accepted: true,
@@ -935,7 +972,6 @@
           if (data && data.success) {
             if (window.posthog && typeof window.posthog.capture === 'function') {
               window.posthog.capture('quote_submitted', {
-                vehicle_type: payload.vehicle_type,
                 service: payload.service,
                 addon_count: payload.addons.length,
               });

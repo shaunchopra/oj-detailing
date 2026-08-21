@@ -21,7 +21,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             class="hero__title__accent">Perfection</span></h1>
 
         <p class="hero__sub hero-in hero-in--3">Quality interior and exterior detailing in Melbourne. We do the
-          job properly, charge a fair price, and make booking easy.</p>
+          job properly, charge premium prices, and make booking easy.</p>
 
         <div class="hero__actions">
           <a href="#quote" class="btn btn-blue btn-blue-draw hero-in hero-in--4">Get A Free Quote</a>
@@ -322,6 +322,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </article>
         </div>
 
+        <p class="services__contact">
+          Not sure which service you need, or have a question? Contact us on
+          <a href="tel:+61423967170" class="services__contact-link link-draw">0423967170</a>
+          or
+          <a href="mailto:ojdservice1@gmail.com" class="services__contact-link link-draw">ojdservice1@gmail.com</a>
+        </p>
+
         <!-- ── Add-ons & Extras collapsible panel ── -->
         <div class="addons">
           <button
@@ -458,14 +465,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <!-- ── Left panel: configurator ── -->
           <div class="quote__config reveal reveal-delay-1">
 
-            <!-- Vehicle type (Car is the only option — shown read-only) -->
-            <div class="quote__field">
-              <label class="quote__label" for="quote-vehicle">Vehicle type</label>
-              <input class="quote__input quote__input--readonly" type="text" id="quote-vehicle"
-                value="Car" readonly tabindex="-1">
-              <input type="hidden" name="vehicle_type" value="car">
-            </div>
-
             <!-- Service -->
             <div class="quote__field">
               <label class="quote__label" for="quote-service">Service</label>
@@ -527,14 +526,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <label class="quote__label" for="quote-vehicle-model">Vehicle make &amp; model</label>
               <input class="quote__input" type="text" id="quote-vehicle-model" name="vehicle_model"
                 placeholder="e.g. Toyota Camry 2020">
-            </div>
-
-            <div class="quote__field">
-              <label class="quote__label" for="quote-date">Preferred date</label>
-              <div class="quote__date-wrap">
-                <input class="quote__input quote__input--date" type="date" id="quote-date" name="preferred_date">
-                <span class="quote__date-placeholder" aria-hidden="true">DD/MM/YYYY</span>
-              </div>
             </div>
 
             <div class="quote__field">

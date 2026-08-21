@@ -1,8 +1,8 @@
 /* ============================================================
    QUOTE
    Get a Quote section. A two-panel form:
-   - Left (config): vehicle type, service, add-ons, estimate summary
-   - Right (details): personal info, preferred date, notes, submit
+   - Left (config): service, add-ons, estimate summary
+   - Right (details): personal info, notes, submit
    Both panels share a bordered grid that mirrors the contact
    section's aesthetic. Mobile-first: single column on phones,
    two-column at ≥769px.
@@ -168,100 +168,11 @@
   color: var(--color-text-faint);
 }
 
-/* Read-only display — used when a field has a single fixed value */
-.quote__input--readonly {
-  cursor: default;
-  pointer-events: none;
-  opacity: 1;
-  color: var(--color-text);
-}
-
-.quote__input--readonly:focus {
-  border-color: var(--color-hairline);
-  box-shadow: none;
-}
-
 /* ── Textarea ── */
 .quote__textarea {
   resize: vertical;
   min-height: 108px;
   line-height: 1.6;
-}
-
-/* ── Date input ── */
-.quote__date-wrap {
-  position: relative;
-}
-
-/* Empty-state placeholder — input[type="date"] has no placeholder on iOS */
-.quote__date-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  color: var(--color-text-faint);
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  pointer-events: none;
-  transition: opacity 0.15s var(--ease-out);
-}
-
-.quote__date-wrap.is-filled .quote__date-placeholder,
-.quote__date-wrap:focus-within .quote__date-placeholder {
-  opacity: 0;
-}
-
-.quote__input[type="date"],
-.quote__input--date {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--color-hairline);
-  border-radius: var(--radius-btn);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-size: 1rem;
-  font-family: var(--font-body);
-  font-weight: 400;
-  line-height: 1.5;
-  /* Match native date picker to light/dark theme */
-  color-scheme: inherit;
-  min-height: calc(0.75rem * 2 + 1rem * 1.5);
-}
-
-/* WebKit (iOS Safari, Chrome): restore visible date text after appearance reset */
-.quote__input--date::-webkit-date-and-time-value {
-  text-align: left;
-  color: inherit;
-}
-
-.quote__input--date::-webkit-datetime-edit,
-.quote__input--date::-webkit-datetime-edit-fields-wrapper {
-  padding: 0;
-}
-
-.quote__input--date::-webkit-calendar-picker-indicator {
-  opacity: 0.55;
-  cursor: pointer;
-}
-
-/* Hide blank native segments when empty so the DD/MM/YYYY label shows through */
-.quote__date-wrap:not(.is-filled):not(:focus-within) .quote__input--date {
-  color: transparent;
-}
-
-.quote__date-wrap:not(.is-filled):not(:focus-within) .quote__input--date::-webkit-datetime-edit,
-.quote__date-wrap:not(.is-filled):not(:focus-within) .quote__input--date::-webkit-date-and-time-value {
-  color: transparent;
-}
-
-.quote__date-wrap.is-filled .quote__input--date,
-.quote__date-wrap:focus-within .quote__input--date {
-  color: var(--color-text);
 }
 
 /* ── Add-ons fieldset: reset browser defaults ── */
