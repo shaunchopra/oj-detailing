@@ -17,3 +17,7 @@ node_modules/
 # Build outputs
 dist/
 .astro/
+apps/api/.serverless/api.zip
+apps/api/.serverless/cloudformation-template-update-stack.json
+apps/api/.serverless/meta.json
+apps/api/.serverless/serverless-state.json

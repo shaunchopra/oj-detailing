@@ -1,7 +1,7 @@
 {
-  "/Users/shaunchopra/Desktop/oj-detailing/apps/api/serverless.yml": {
-    "versionFramework": "4.37.0",
-    "servicePath": "/Users/shaunchopra/Desktop/oj-detailing/apps/api/serverless.yml",
+  "/Users/shaunchopra/Desktop/Clients/oj-detailing/apps/api/serverless.yml": {
+    "versionFramework": "4.41.0",
+    "servicePath": "/Users/shaunchopra/Desktop/Clients/oj-detailing/apps/api/serverless.yml",
     "serviceConfigFileName": "serverless.yml",
     "service": {
       "service": "oj-detailing-api",
@@ -10,15 +10,260 @@
         "name": "aws",
         "runtime": "nodejs20.x",
         "region": "ap-southeast-2",
-        "stage": "${opt:stage, 'prod'}",
+        "stage": "prod",
         "memorySize": 256,
         "timeout": 10,
+        "httpApi": {
+          "id": "cuvsx6p8fd"
+        },
         "environment": {
           "NODE_ENV": "production",
           "RESEND_API_KEY": "<REDACTED>",
-          "RESEND_FROM": "${env:RESEND_FROM}",
-          "CLOUDFRONT_ORIGIN": "${env:CLOUDFRONT_ORIGIN, ''}"
-        }
+          "RESEND_FROM": "OJ Auto Detailing <quotes@oj-auto-detailing.com.au>",
+          "CLOUDFRONT_ORIGIN": "https://oj-auto-detailing.com.au",
+          "POSTHOG_API_KEY": "<REDACTED>",
+          "POSTHOG_HOST": "https://us.i.posthog.com"
+        },
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "ApiLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/oj-detailing-api-prod-api"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "oj-detailing-api",
+                          "prod",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/oj-detailing-api-prod*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/oj-detailing-api-prod*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "oj-detailing-api",
+                      "prod",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "ApiLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-ap-southeast-2-40172317-378d",
+                  "S3Key": "serverless/oj-detailing-api/prod/1787316027522-2026-08-21T12:40:27.522Z/api.zip"
+                },
+                "Handler": "dist/lambda.handler",
+                "Runtime": "nodejs20.x",
+                "FunctionName": "oj-detailing-api-prod-api",
+                "MemorySize": 256,
+                "Timeout": 10,
+                "Environment": {
+                  "Variables": {
+                    "NODE_ENV": "production",
+                    "RESEND_API_KEY": "<REDACTED>",
+                    "RESEND_FROM": "OJ Auto Detailing <quotes@oj-auto-detailing.com.au>",
+                    "CLOUDFRONT_ORIGIN": "https://oj-auto-detailing.com.au",
+                    "POSTHOG_API_KEY": "<REDACTED>",
+                    "POSTHOG_HOST": "https://us.i.posthog.com"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "ApiLogGroup"
+              ]
+            },
+            "ApiLambdaVersion36I4tZgemzlCmVuE4ccYOgn4CrF0j3gmudWC88z7Jo8": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "ApiLambdaFunction"
+                },
+                "CodeSha256": "KRwVGDI7/jGQxBI41z4uNXcz0dbEek+982KxSwRfKmg="
+              }
+            },
+            "ApiLambdaPermissionHttpApi": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "ApiLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      "cuvsx6p8fd",
+                      "/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "HttpApiIntegrationApi": {
+              "Type": "AWS::ApiGatewayV2::Integration",
+              "Properties": {
+                "ApiId": "cuvsx6p8fd",
+                "IntegrationType": "AWS_PROXY",
+                "IntegrationUri": {
+                  "Fn::GetAtt": [
+                    "ApiLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "PayloadFormatVersion": "2.0",
+                "TimeoutInMillis": 30000
+              }
+            },
+            "HttpApiRouteAnyApiProxyVar": {
+              "Type": "AWS::ApiGatewayV2::Route",
+              "Properties": {
+                "ApiId": "cuvsx6p8fd",
+                "RouteKey": "ANY /api/{proxy+}",
+                "Target": {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      "integrations",
+                      {
+                        "Ref": "HttpApiIntegrationApi"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "DependsOn": "HttpApiIntegrationApi"
+            },
+            "HttpApiRouteAnyApi": {
+              "Type": "AWS::ApiGatewayV2::Route",
+              "Properties": {
+                "ApiId": "cuvsx6p8fd",
+                "RouteKey": "ANY /api",
+                "Target": {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      "integrations",
+                      {
+                        "Ref": "HttpApiIntegrationApi"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "DependsOn": "HttpApiIntegrationApi"
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-ap-southeast-2-40172317-378d",
+              "Export": {
+                "Name": "sls-oj-detailing-api-prod-ServerlessDeploymentBucketName"
+              }
+            },
+            "ApiLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "ApiLambdaVersion36I4tZgemzlCmVuE4ccYOgn4CrF0j3gmudWC88z7Jo8"
+              },
+              "Export": {
+                "Name": "sls-oj-detailing-api-prod-ApiLambdaFunctionQualifiedArn"
+              }
+            }
+          }
+        },
+        "vpc": {}
       },
       "functions": {
         "api": {
@@ -28,15 +273,28 @@
               "httpApi": {
                 "path": "/api/{proxy+}",
                 "method": "ANY"
-              }
+              },
+              "resolvedMethod": "ANY",
+              "resolvedPath": "/api/{proxy+}"
             },
             {
               "httpApi": {
                 "path": "/api",
                 "method": "ANY"
-              }
+              },
+              "resolvedMethod": "ANY",
+              "resolvedPath": "/api"
             }
-          ]
+          ],
+          "name": "oj-detailing-api-prod-api",
+          "package": {
+            "artifact": ".serverless/api.zip"
+          },
+          "memory": 256,
+          "timeout": 10,
+          "runtime": "nodejs20.x",
+          "vpc": {},
+          "versionLogicalId": "ApiLambdaVersion36I4tZgemzlCmVuE4ccYOgn4CrF0j3gmudWC88z7Jo8"
         }
       },
       "package": {
@@ -45,38 +303,548 @@
           "!**",
           "dist/lambda.js",
           "dist/lambda.js.map"
-        ]
+        ],
+        "artifactsS3KeyDirname": "serverless/oj-detailing-api/prod/code-artifacts",
+        "deploymentBucket": "serverless-framework-deployments-ap-southeast-2-40172317-378d",
+        "artifactDirectoryName": "serverless/oj-detailing-api/prod/1787316027522-2026-08-21T12:40:27.522Z"
       }
     },
     "provider": {
       "name": "aws",
       "runtime": "nodejs20.x",
       "region": "ap-southeast-2",
-      "stage": "${opt:stage, 'prod'}",
+      "stage": "prod",
       "memorySize": 256,
       "timeout": 10,
+      "httpApi": {
+        "id": "cuvsx6p8fd"
+      },
       "environment": {
         "NODE_ENV": "production",
         "RESEND_API_KEY": "<REDACTED>",
-        "RESEND_FROM": "${env:RESEND_FROM}",
-        "CLOUDFRONT_ORIGIN": "${env:CLOUDFRONT_ORIGIN, ''}"
-      }
+        "RESEND_FROM": "OJ Auto Detailing <quotes@oj-auto-detailing.com.au>",
+        "CLOUDFRONT_ORIGIN": "https://oj-auto-detailing.com.au",
+        "POSTHOG_API_KEY": "<REDACTED>",
+        "POSTHOG_HOST": "https://us.i.posthog.com"
+      },
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ApiLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/oj-detailing-api-prod-api"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "oj-detailing-api",
+                        "prod",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:TagResource"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/oj-detailing-api-prod*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/oj-detailing-api-prod*:*:*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "oj-detailing-api",
+                    "prod",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "ApiLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-ap-southeast-2-40172317-378d",
+                "S3Key": "serverless/oj-detailing-api/prod/1787316027522-2026-08-21T12:40:27.522Z/api.zip"
+              },
+              "Handler": "dist/lambda.handler",
+              "Runtime": "nodejs20.x",
+              "FunctionName": "oj-detailing-api-prod-api",
+              "MemorySize": 256,
+              "Timeout": 10,
+              "Environment": {
+                "Variables": {
+                  "NODE_ENV": "production",
+                  "RESEND_API_KEY": "<REDACTED>",
+                  "RESEND_FROM": "OJ Auto Detailing <quotes@oj-auto-detailing.com.au>",
+                  "CLOUDFRONT_ORIGIN": "https://oj-auto-detailing.com.au",
+                  "POSTHOG_API_KEY": "<REDACTED>",
+                  "POSTHOG_HOST": "https://us.i.posthog.com"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "ApiLogGroup"
+            ]
+          },
+          "ApiLambdaVersion36I4tZgemzlCmVuE4ccYOgn4CrF0j3gmudWC88z7Jo8": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "ApiLambdaFunction"
+              },
+              "CodeSha256": "KRwVGDI7/jGQxBI41z4uNXcz0dbEek+982KxSwRfKmg="
+            }
+          },
+          "ApiLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "ApiLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    "cuvsx6p8fd",
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationApi": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": "cuvsx6p8fd",
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "Fn::GetAtt": [
+                  "ApiLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRouteAnyApiProxyVar": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": "cuvsx6p8fd",
+              "RouteKey": "ANY /api/{proxy+}",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationApi"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationApi"
+          },
+          "HttpApiRouteAnyApi": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": "cuvsx6p8fd",
+              "RouteKey": "ANY /api",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationApi"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationApi"
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-ap-southeast-2-40172317-378d",
+            "Export": {
+              "Name": "sls-oj-detailing-api-prod-ServerlessDeploymentBucketName"
+            }
+          },
+          "ApiLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "ApiLambdaVersion36I4tZgemzlCmVuE4ccYOgn4CrF0j3gmudWC88z7Jo8"
+            },
+            "Export": {
+              "Name": "sls-oj-detailing-api-prod-ApiLambdaFunctionQualifiedArn"
+            }
+          }
+        }
+      },
+      "vpc": {}
     },
-    "error": {
-      "message": "You must sign in or use a license key with Serverless Framework V.4 and later versions. Please use \"serverless login\".",
-      "stack": "Error: You must sign in or use a license key with Serverless Framework V.4 and later versions. Please use \"serverless login\".\n    at Authentication.getAuthenticatedData (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:1006:3023)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async Authentication.authenticate (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:1009:4133)\n    at async TraditionalRunner.resolveVariablesAndAuthenticate (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:1017:2394)\n    at async TraditionalRunner.run (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:2461:26390)\n    at async route (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:2632:2888)\n    at async Object.run (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:2633:3887)\n    at async run2 (file:///Users/shaunchopra/.serverless/releases/4.37.0/package/dist/sf-core.js:2633:5051)"
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
     },
-    "serviceRawFile": "# OJ Auto Detailing — API (AWS Lambda + API Gateway HTTP API)\n#\n# Prerequisites:\n#   1. AWS credentials configured (aws configure / IAM role)\n#   2. Export secrets before deploy:\n#        export RESEND_API_KEY=re_...\n#        export RESEND_FROM=\"OJ Auto Detailing <quotes@oj-auto-detailing.com.au>\"\n#        export CLOUDFRONT_ORIGIN=https://dxxxxxxxx.cloudfront.net\n#   3. Build the bundle: pnpm --filter @oj-detailing/api build\n#\n# Deploy:\n#   pnpm --filter @oj-detailing/api deploy\n#\n# Static site (apps/web):\n#   Build with `pnpm --filter @oj-detailing/web build`, then sync `apps/web/dist/`\n#   to an S3 bucket configured for static website hosting. Point CloudFront at the\n#   bucket and add a behavior so `/api/*` forwards to this API Gateway endpoint.\n\nservice: oj-detailing-api\n\nframeworkVersion: '4'\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: ap-southeast-2\n  stage: ${opt:stage, 'prod'}\n  memorySize: 256\n  timeout: 10\n  environment:\n    NODE_ENV: production\n    RESEND_API_KEY: ${env:RESEND_API_KEY}\n    RESEND_FROM: ${env:RESEND_FROM}\n    CLOUDFRONT_ORIGIN: ${env:CLOUDFRONT_ORIGIN, ''}\n\nfunctions:\n  api:\n    handler: dist/lambda.handler\n    events:\n      # Catch-all for Express routes under /api/*\n      - httpApi:\n          path: /api/{proxy+}\n          method: ANY\n      - httpApi:\n          path: /api\n          method: ANY\n\npackage:\n  individually: true\n  patterns:\n    - '!**'\n    - 'dist/lambda.js'\n    - 'dist/lambda.js.map'\n",
+    "serviceRawFile": "# OJ Auto Detailing — API (AWS Lambda + API Gateway HTTP API)\n#\n# Prerequisites:\n#   1. AWS credentials configured (aws configure / IAM role)\n#   2. Export secrets before deploy:\n#        export RESEND_API_KEY=re_...\n#        export RESEND_FROM=\"OJ Auto Detailing <quotes@oj-auto-detailing.com.au>\"\n#        export CLOUDFRONT_ORIGIN=https://dxxxxxxxx.cloudfront.net\n#   3. Build the bundle: pnpm --filter @oj-detailing/api build\n#\n# Deploy:\n#   pnpm --filter @oj-detailing/api deploy\n#\n# Static site (apps/web):\n#   Build with `pnpm --filter @oj-detailing/web build`, then sync `apps/web/dist/`\n#   to an S3 bucket configured for static website hosting. Point CloudFront at the\n#   bucket and add a behavior so `/api/*` forwards to this API Gateway endpoint.\n\nservice: oj-detailing-api\n\nframeworkVersion: '4'\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: ap-southeast-2\n  stage: ${opt:stage, 'prod'}\n  memorySize: 256\n  timeout: 10\n  # Previous CloudFormation stack was deleted; keep the live HTTP API + custom domain.\n  httpApi:\n    id: cuvsx6p8fd\n  environment:\n    NODE_ENV: production\n    RESEND_API_KEY: ${env:RESEND_API_KEY}\n    RESEND_FROM: ${env:RESEND_FROM}\n    CLOUDFRONT_ORIGIN: ${env:CLOUDFRONT_ORIGIN, 'https://oj-auto-detailing.com.au'}\n    POSTHOG_API_KEY: ${env:POSTHOG_API_KEY}\n    POSTHOG_HOST: ${env:POSTHOG_HOST}\n\nfunctions:\n  api:\n    handler: dist/lambda.handler\n    events:\n      # Catch-all for Express routes under /api/*\n      - httpApi:\n          path: /api/{proxy+}\n          method: ANY\n      - httpApi:\n          path: /api\n          method: ANY\n\npackage:\n  individually: true\n  patterns:\n    - '!**'\n    - 'dist/lambda.js'\n    - 'dist/lambda.js.map'\n",
     "command": [
       "deploy"
     ],
     "options": {
-      "stage": "prod"
+      "stage": "prod",
+      "region": "ap-southeast-2"
     },
-    "serviceProviderAwsCfStackId": null,
-    "serviceProviderAwsCfStackCreated": null,
+    "orgId": "efb9b09a-f90f-4a4e-a5ba-ef4c4c07e9f9",
+    "orgName": "shaunchopra08",
+    "userId": "KlBnPBB9rNFQqXl2PN",
+    "userName": "shaunchopra08",
+    "serviceProviderAwsAccountId": "051334264317",
+    "serviceProviderAwsCfStackName": "oj-detailing-api-prod",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-southeast-2:051334264317:stack/oj-detailing-api-prod/7e3c0ca0-9d5d-11f1-93b1-0664cfe31227",
+    "serviceProviderAwsCfStackCreated": "2026-08-21T12:40:30.128Z",
     "serviceProviderAwsCfStackUpdated": null,
-    "serviceProviderAwsCfStackStatus": null,
-    "serviceProviderAwsCfStackOutputs": null
+    "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "ApiLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:ap-southeast-2:051334264317:function:oj-detailing-api-prod-api:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-oj-detailing-api-prod-ApiLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-ap-southeast-2-40172317-378d",
+        "ExportName": "sls-oj-detailing-api-prod-ServerlessDeploymentBucketName"
+      }
+    ],
+    "compiledCloudFormationTemplate": {
+      "AWSTemplateFormatVersion": "2010-09-09",
+      "Description": "The AWS CloudFormation template for this Serverless application",
+      "Resources": {
+        "ApiLogGroup": {
+          "Type": "AWS::Logs::LogGroup",
+          "Properties": {
+            "LogGroupName": "/aws/lambda/oj-detailing-api-prod-api"
+          }
+        },
+        "IamRoleLambdaExecution": {
+          "Type": "AWS::IAM::Role",
+          "Properties": {
+            "AssumeRolePolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Principal": {
+                    "Service": [
+                      "lambda.amazonaws.com"
+                    ]
+                  },
+                  "Action": [
+                    "sts:AssumeRole"
+                  ]
+                }
+              ]
+            },
+            "Policies": [
+              {
+                "PolicyName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "oj-detailing-api",
+                      "prod",
+                      "lambda"
+                    ]
+                  ]
+                },
+                "PolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "logs:CreateLogStream",
+                        "logs:CreateLogGroup",
+                        "logs:TagResource"
+                      ],
+                      "Resource": [
+                        {
+                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/oj-detailing-api-prod*:*"
+                        }
+                      ]
+                    },
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "logs:PutLogEvents"
+                      ],
+                      "Resource": [
+                        {
+                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/oj-detailing-api-prod*:*:*"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "Path": "/",
+            "RoleName": {
+              "Fn::Join": [
+                "-",
+                [
+                  "oj-detailing-api",
+                  "prod",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  "lambdaRole"
+                ]
+              ]
+            }
+          }
+        },
+        "ApiLambdaFunction": {
+          "Type": "AWS::Lambda::Function",
+          "Properties": {
+            "Code": {
+              "S3Bucket": "serverless-framework-deployments-ap-southeast-2-40172317-378d",
+              "S3Key": "serverless/oj-detailing-api/prod/1787316027522-2026-08-21T12:40:27.522Z/api.zip"
+            },
+            "Handler": "dist/lambda.handler",
+            "Runtime": "nodejs20.x",
+            "FunctionName": "oj-detailing-api-prod-api",
+            "MemorySize": 256,
+            "Timeout": 10,
+            "Environment": {
+              "Variables": {
+                "NODE_ENV": "production",
+                "RESEND_API_KEY": "<REDACTED>",
+                "RESEND_FROM": "OJ Auto Detailing <quotes@oj-auto-detailing.com.au>",
+                "CLOUDFRONT_ORIGIN": "https://oj-auto-detailing.com.au",
+                "POSTHOG_API_KEY": "<REDACTED>",
+                "POSTHOG_HOST": "https://us.i.posthog.com"
+              }
+            },
+            "Role": {
+              "Fn::GetAtt": [
+                "IamRoleLambdaExecution",
+                "Arn"
+              ]
+            }
+          },
+          "DependsOn": [
+            "ApiLogGroup"
+          ]
+        },
+        "ApiLambdaVersion36I4tZgemzlCmVuE4ccYOgn4CrF0j3gmudWC88z7Jo8": {
+          "Type": "AWS::Lambda::Version",
+          "DeletionPolicy": "Retain",
+          "Properties": {
+            "FunctionName": {
+              "Ref": "ApiLambdaFunction"
+            },
+            "CodeSha256": "KRwVGDI7/jGQxBI41z4uNXcz0dbEek+982KxSwRfKmg="
+          }
+        },
+        "ApiLambdaPermissionHttpApi": {
+          "Type": "AWS::Lambda::Permission",
+          "Properties": {
+            "FunctionName": {
+              "Fn::GetAtt": [
+                "ApiLambdaFunction",
+                "Arn"
+              ]
+            },
+            "Action": "lambda:InvokeFunction",
+            "Principal": "apigateway.amazonaws.com",
+            "SourceArn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":execute-api:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  "cuvsx6p8fd",
+                  "/*"
+                ]
+              ]
+            }
+          }
+        },
+        "HttpApiIntegrationApi": {
+          "Type": "AWS::ApiGatewayV2::Integration",
+          "Properties": {
+            "ApiId": "cuvsx6p8fd",
+            "IntegrationType": "AWS_PROXY",
+            "IntegrationUri": {
+              "Fn::GetAtt": [
+                "ApiLambdaFunction",
+                "Arn"
+              ]
+            },
+            "PayloadFormatVersion": "2.0",
+            "TimeoutInMillis": 30000
+          }
+        },
+        "HttpApiRouteAnyApiProxyVar": {
+          "Type": "AWS::ApiGatewayV2::Route",
+          "Properties": {
+            "ApiId": "cuvsx6p8fd",
+            "RouteKey": "ANY /api/{proxy+}",
+            "Target": {
+              "Fn::Join": [
+                "/",
+                [
+                  "integrations",
+                  {
+                    "Ref": "HttpApiIntegrationApi"
+                  }
+                ]
+              ]
+            }
+          },
+          "DependsOn": "HttpApiIntegrationApi"
+        },
+        "HttpApiRouteAnyApi": {
+          "Type": "AWS::ApiGatewayV2::Route",
+          "Properties": {
+            "ApiId": "cuvsx6p8fd",
+            "RouteKey": "ANY /api",
+            "Target": {
+              "Fn::Join": [
+                "/",
+                [
+                  "integrations",
+                  {
+                    "Ref": "HttpApiIntegrationApi"
+                  }
+                ]
+              ]
+            }
+          },
+          "DependsOn": "HttpApiIntegrationApi"
+        }
+      },
+      "Outputs": {
+        "ServerlessDeploymentBucketName": {
+          "Value": "serverless-framework-deployments-ap-southeast-2-40172317-378d",
+          "Export": {
+            "Name": "sls-oj-detailing-api-prod-ServerlessDeploymentBucketName"
+          }
+        },
+        "ApiLambdaFunctionQualifiedArn": {
+          "Description": "Current Lambda function version",
+          "Value": {
+            "Ref": "ApiLambdaVersion36I4tZgemzlCmVuE4ccYOgn4CrF0j3gmudWC88z7Jo8"
+          },
+          "Export": {
+            "Name": "sls-oj-detailing-api-prod-ApiLambdaFunctionQualifiedArn"
+          }
+        }
+      }
+    }
   }
 }

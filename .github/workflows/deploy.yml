@@ -1,0 +1,87 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: ap-southeast-2
+  STAGE: prod
+
+jobs:
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    env:
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      RESEND_FROM: ${{ secrets.RESEND_FROM }}
+      CLOUDFRONT_ORIGIN: https://oj-auto-detailing.com.au
+      POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+      POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
+      SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy API
+        run: pnpm deploy:api
+
+  deploy-web:
+    name: Deploy web
+    runs-on: ubuntu-latest
+    env:
+      POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN }}
+      POSTHOG_API_HOST: ${{ secrets.POSTHOG_API_HOST }}
+      S3_BUCKET: oj-auto-detailing.com.au
+      CLOUDFRONT_DISTRIBUTION_ID: ETRVB9UY704LE
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Write web build env
+        run: |
+          cat > apps/web/.env <<EOF
+          POSTHOG_PROJECT_TOKEN=${POSTHOG_PROJECT_TOKEN}
+          POSTHOG_API_HOST=${POSTHOG_API_HOST:-https://us.i.posthog.com}
+          EOF
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy web
+        run: pnpm deploy:web

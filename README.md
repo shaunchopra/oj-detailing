@@ -103,6 +103,26 @@ DRY_RUN=1 pnpm deploy
 
 Or deploy individually with `pnpm deploy:api` / `pnpm deploy:web`.
 
+### GitHub Actions (production)
+
+Push or merge to `main` deploys the API and web in parallel via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). You can also run **Actions → Deploy → Run workflow**.
+
+Add these repository secrets (**Settings → Secrets and variables → Actions**):
+
+| Secret | Required | Used by |
+| --- | --- | --- |
+| `AWS_ACCESS_KEY_ID` | yes | API + web |
+| `AWS_SECRET_ACCESS_KEY` | yes | API + web |
+| `SERVERLESS_ACCESS_KEY` | yes | API (Serverless Framework v4) |
+| `RESEND_API_KEY` | yes | API |
+| `RESEND_FROM` | yes | API |
+| `POSTHOG_API_KEY` | no | API server-side events |
+| `POSTHOG_HOST` | no | API (default unset) |
+| `POSTHOG_PROJECT_TOKEN` | no | Web analytics at build time |
+| `POSTHOG_API_HOST` | no | Web (defaults to `https://us.i.posthog.com`) |
+
+The IAM user needs permission to deploy Lambda/API Gateway via Serverless (CloudFormation, Lambda, S3 deployment bucket, logs) plus `s3:PutObject` / `s3:DeleteObject` / `s3:ListBucket` on `oj-auto-detailing.com.au` and `cloudfront:CreateInvalidation` on distribution `ETRVB9UY704LE`. Create a [Serverless access key](https://app.serverless.com) for `SERVERLESS_ACCESS_KEY`.
+
 ### Web (S3 + CloudFront)
 
 The static site deploys to the `oj-auto-detailing.com.au` S3 bucket in `ap-southeast-2`, fronted by CloudFront distribution `ETRVB9UY704LE`.
