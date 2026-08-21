@@ -7,7 +7,7 @@ await esbuild.build({
   entryPoints: ['src/lambda.ts'],
   bundle: true,
   platform: 'node',
-  target: 'node20',
+  target: 'node24',
   outfile: 'dist/lambda.js',
   format: 'cjs',
   sourcemap: true,
