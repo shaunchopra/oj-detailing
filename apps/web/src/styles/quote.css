@@ -168,6 +168,19 @@
   color: var(--color-text-faint);
 }
 
+/* Read-only display — used when a field has a single fixed value */
+.quote__input--readonly {
+  cursor: default;
+  pointer-events: none;
+  opacity: 1;
+  color: var(--color-text);
+}
+
+.quote__input--readonly:focus {
+  border-color: var(--color-hairline);
+  box-shadow: none;
+}
+
 /* ── Textarea ── */
 .quote__textarea {
   resize: vertical;

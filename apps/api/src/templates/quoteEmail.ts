@@ -2,19 +2,19 @@ import { ResolvedQuote } from '../types/index.js';
 import { esc, stripControlChars } from '../lib/utils.js';
 
 export function buildEmailSubject(quote: ResolvedQuote): string {
-  const { payload, serviceData, isCaravan } = quote;
+  const { payload, serviceData } = quote;
   const safeName = stripControlChars(payload.name);
-  return `New quote request, ${safeName}, ${serviceData.label}${isCaravan ? ' (Caravan)' : ''}`;
+  return `New quote request, ${safeName}, ${serviceData.label}`;
 }
 
 export function buildEmailText(quote: ResolvedQuote): string {
-  const { payload, serviceData, selectedAddons, basePrice, estimatedTotal, isCaravan } = quote;
+  const { payload, serviceData, selectedAddons, basePrice, estimatedTotal } = quote;
 
   const lines: string[] = [
     'New quote request from the OJ Auto Detailing website',
     '',
     '--- SERVICE ---',
-    `Vehicle type : ${isCaravan ? 'Caravan' : 'Car'}`,
+    `Vehicle type : Car`,
     `Service      : ${serviceData.label} (from $${basePrice})`,
   ];
 
@@ -32,6 +32,7 @@ export function buildEmailText(quote: ResolvedQuote): string {
     '--- CUSTOMER ---',
     `Full name      : ${payload.name}`,
     `Phone          : ${payload.phone}`,
+    `Suburb         : ${payload.suburb}`,
     `Email          : ${payload.email}`,
     `Terms accepted : Yes`,
   );
@@ -44,7 +45,7 @@ export function buildEmailText(quote: ResolvedQuote): string {
 }
 
 export function buildEmailHtml(quote: ResolvedQuote): string {
-  const { payload, serviceData, selectedAddons, basePrice, estimatedTotal, isCaravan } = quote;
+  const { payload, serviceData, selectedAddons, basePrice, estimatedTotal } = quote;
 
   const addonRows = selectedAddons
     .map(a => `<tr><td class="label">${esc(a.label)}</td><td>from $${a.price}</td></tr>`)
@@ -83,7 +84,7 @@ export function buildEmailHtml(quote: ResolvedQuote): string {
 
     <h2>Service</h2>
     <table>
-      <tr><td class="label">Vehicle type</td><td>${isCaravan ? 'Caravan' : 'Car'}</td></tr>
+      <tr><td class="label">Vehicle type</td><td>Car</td></tr>
       <tr><td class="label">Service</td><td><strong>${esc(serviceData.label)}</strong>, from $${basePrice}</td></tr>
     </table>
 
@@ -99,6 +100,7 @@ export function buildEmailHtml(quote: ResolvedQuote): string {
     <table>
       <tr><td class="label">Full name</td><td><strong>${esc(payload.name)}</strong></td></tr>
       <tr><td class="label">Phone</td><td><a href="tel:${esc(payload.phone)}">${esc(payload.phone)}</a></td></tr>
+      <tr><td class="label">Suburb</td><td>${esc(payload.suburb)}</td></tr>
       <tr><td class="label">Email</td><td><a href="mailto:${esc(payload.email)}">${esc(payload.email)}</a></td></tr>
       ${payload.vehicle_model  ? `<tr><td class="label">Make &amp; model</td><td>${esc(payload.vehicle_model)}</td></tr>`  : ''}
       ${payload.preferred_date ? `<tr><td class="label">Preferred date</td><td>${esc(payload.preferred_date)}</td></tr>` : ''}

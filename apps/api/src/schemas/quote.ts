@@ -28,7 +28,7 @@ function isValidCalendarDate(value: string): boolean {
 }
 
 export const quoteRequestSchema = z.object({
-  vehicle_type: z.enum(['car', 'caravan'], { message: 'Invalid vehicle type.' }),
+  vehicle_type: z.literal('car', { message: 'Invalid vehicle type.' }),
   service: z.enum(serviceKeys, { message: 'Invalid service selection.' }),
   name: z
     .string({ message: 'Name is required.' })
@@ -48,6 +48,12 @@ export const quoteRequestSchema = z.object({
     .min(1, 'Email is required.')
     .max(254, 'Email must be 254 characters or fewer.')
     .pipe(z.email('Invalid email address.')),
+  suburb: z
+    .string({ message: 'Suburb is required.' })
+    .trim()
+    .min(1, 'Suburb is required.')
+    .max(100, 'Suburb must be 100 characters or fewer.')
+    .refine(noControlChars, 'Suburb contains invalid characters.'),
   addons: z
     .union([z.string(), z.array(z.string())])
     .optional()

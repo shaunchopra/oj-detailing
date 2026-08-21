@@ -1,7 +1,6 @@
 export interface ServiceConfig {
   label: string;
-  car: number;
-  caravan: number | null;
+  price: number;
 }
 
 export interface AddonConfig {
@@ -9,7 +8,7 @@ export interface AddonConfig {
   price: number;
 }
 
-export type VehicleType = 'car' | 'caravan';
+export type VehicleType = 'car';
 
 export interface QuotePayload {
   vehicle_type: VehicleType;
@@ -17,6 +16,7 @@ export interface QuotePayload {
   name: string;
   phone: string;
   email: string;
+  suburb: string;
   addons?: string | string[];
   vehicle_model?: string;
   preferred_date?: string;
@@ -33,5 +33,4 @@ export interface ResolvedQuote {
   selectedAddons: AddonConfig[];
   basePrice: number;
   estimatedTotal: number;
-  isCaravan: boolean;
 }

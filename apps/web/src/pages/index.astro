@@ -47,7 +47,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               data-threshold4="0.85"
               aria-label="Kia cleaning progress reveal">
 
-              <a href="#service-tier-2" class="work-badge" aria-label="See Tier 2 Interior package">Tier 2 Interior</a>
+              <a href="#service-interior-package" class="work-badge" aria-label="See Interior Package">Interior Package</a>
 
               <!-- ── Image stack ─────────────────────────────────────── -->
               <div class="progress-slider__frame">
@@ -85,7 +85,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </article>
 
           <article class="work-card reveal reveal-delay-2">
-            <a href="#service-tier-1" class="work-badge" aria-label="See Tier 1 Exterior package">Tier 1 Exterior</a>
+            <a href="#service-transformation-detail" class="work-badge" aria-label="See Transformation Detail package">Transformation Detail</a>
             <div class="work-card__media" data-view="before">
               <div class="work-card__slot work-card__slot--before is-active">
                 <img src="/images/raptor-before.png" alt="Ford Raptor before exterior detail">
@@ -113,7 +113,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               data-threshold4="0.85"
               aria-label="Skoda cleaning progress reveal">
 
-              <a href="#service-tier-2" class="work-badge" aria-label="See Tier 2 Interior package">Tier 2 Interior</a>
+              <a href="#service-interior-package" class="work-badge" aria-label="See Interior Package">Interior Package</a>
 
               <!-- ── Image stack ─────────────────────────────────────── -->
               <div class="progress-slider__frame">
@@ -156,7 +156,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               data-threshold4="0.85"
               aria-label="GLC interior detail progress reveal">
 
-              <a href="#service-tier-2" class="work-badge" aria-label="See Tier 2 Interior package">Tier 2 Interior</a>
+              <a href="#service-interior-package" class="work-badge" aria-label="See Interior Package">Interior Package</a>
 
               <!-- ── Image stack ─────────────────────────────────────── -->
               <div class="progress-slider__frame">
@@ -200,102 +200,122 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </section>
 
-    <section class="services" id="services" aria-labelledby="services-title" data-vehicle="car">
+    <section class="services" id="services" aria-labelledby="services-title">
       <div class="services__inner">
         <header class="services__header reveal">
           <h2 class="services__title" id="services-title">Our Services</h2>
           <p class="services__sub">Pick the package that fits your car and schedule.</p>
         </header>
 
-        <div class="services__toggle-wrap">
-          <div class="vehicle-toggle" role="tablist" aria-label="Filter services by vehicle type">
-            <button class="vehicle-toggle__btn btn btn-blue btn-blue-draw" role="tab" aria-selected="true" data-vehicle="car">Car</button>
-            <button class="vehicle-toggle__btn btn btn-blue btn-blue-draw" role="tab" aria-selected="false" data-vehicle="caravan">Caravan</button>
-          </div>
-        </div>
-
         <div class="services__grid">
-          <article class="service-card reveal reveal-delay-1" data-caravan-unavailable data-quote-service="touch-up">
-            <h3 class="service-card__name">Touch Up</h3>
-            <p class="service-card__tagline">Takes clean to perfect again.</p>
+          <article class="service-card reveal reveal-delay-1" id="service-interior-package" data-quote-service="interior-package">
+            <h3 class="service-card__name">Interior Package</h3>
+            <p class="service-card__tagline">Feels like the day you bought it.</p>
             <div class="service-card__meta">
+              <div class="spec">
+                <span class="spec__label">Duration</span>
+                <span class="spec__value">2–3 hours</span>
+              </div>
               <div class="spec spec--lg">
                 <span class="spec__label">From</span>
-                <span class="spec__value">$80</span>
+                <span class="spec__value">$170</span>
               </div>
             </div>
             <ul class="service-card__list">
-              <li>Exterior clean</li>
-              <li>Interior clean (vacuum + light steam clean)</li>
-              <li>Scented accessories</li>
+              <li>Heavy vacuum</li>
+              <li>Rubbish collection</li>
+              <li>Stain removal (additional costs may apply)</li>
+              <li>Screen + window cleanse</li>
+              <li>Steam cleaning</li>
+              <li>Upholstery cleaning</li>
+              <li>Car protectant</li>
+              <li>Leather conditioning</li>
+              <li>Panel cleaning</li>
+              <li>Rail cleanse</li>
+              <li>Scented accessory</li>
+              <li>Door cleanse</li>
             </ul>
             <a href="https://ojautodetailing.setmore.com" class="service-card__link btn btn-blue btn-blue-draw"
               target="_blank" rel="noopener noreferrer">Book this →</a>
           </article>
 
-          <article class="service-card reveal reveal-delay-2" id="service-tier-1" data-caravan-top data-quote-service="tier-1-exterior">
-            <h3 class="service-card__name">Tier 1 Exterior</h3>
-            <p class="service-card__tagline">Street presence, restored.</p>
+          <article class="service-card service-card--popular reveal reveal-delay-2" id="service-complete-detail" data-quote-service="complete-detail">
+            <span class="service-card__badge">Most Popular</span>
+            <h3 class="service-card__name">Complete Detail</h3>
+            <p class="service-card__tagline">The full works, inside and out.</p>
             <div class="service-card__meta">
+              <div class="spec">
+                <span class="spec__label">Duration</span>
+                <span class="spec__value">3–4 hours</span>
+              </div>
               <div class="spec spec--lg">
                 <span class="spec__label">From</span>
-                <span class="spec__value">$65</span>
-                <span class="spec__qualifier">May vary by caravan size</span>
+                <span class="spec__value">$240</span>
               </div>
             </div>
             <ul class="service-card__list">
-              <li>Deep pressure wash</li>
-              <li>Tyre acid clean</li>
-              <li>Pre soak</li>
-              <li>Foam cleanse</li>
+              <li>For sedans, SUVs and hatchbacks</li>
+              <li class="service-card__list-item--tier">Everything in the Interior Package</li>
+              <li>Deep pressure foam cleanse</li>
+              <li>Hand scrub</li>
+              <li>Wash and wax</li>
               <li>Exterior windows cleaned</li>
+              <li>Under arch wheel cleaned</li>
+              <li>Rims and tires cleaned</li>
+              <li>Tire shine</li>
               <li>Finishing shine touch</li>
             </ul>
             <a href="https://ojautodetailing.setmore.com" class="service-card__link btn btn-blue btn-blue-draw"
               target="_blank" rel="noopener noreferrer">Book this →</a>
           </article>
 
-          <article class="service-card reveal reveal-delay-3" id="service-tier-2" data-quote-service="tier-2-interior">
-            <h3 class="service-card__name">Tier 2 Interior</h3>
-            <p class="service-card__tagline">Feels like the day you bought it.</p>
+          <article class="service-card reveal reveal-delay-3" id="service-transformation-detail" data-quote-service="transformation-detail">
+            <h3 class="service-card__name">Transformation Detail</h3>
+            <p class="service-card__tagline">For the ones that need saving.</p>
             <div class="service-card__meta">
+              <div class="spec">
+                <span class="spec__label">Duration</span>
+                <span class="spec__value">5–6 hours</span>
+              </div>
               <div class="spec spec--lg">
                 <span class="spec__label">From</span>
-                <span class="spec__value">$150</span>
-                <span class="spec__qualifier">May vary by caravan size</span>
+                <span class="spec__value">$300</span>
               </div>
             </div>
             <ul class="service-card__list">
-              <li>Heavy vacuum</li>
-              <li>Rubbish collection</li>
-              <li>Stain removal</li>
-              <li>Screen + window cleanse</li>
-              <li>Steam cleaning</li>
-              <li>Car protectant</li>
-              <li>Leather conditioning</li>
-              <li>Panel cleaning</li>
-              <li>Rail scrub</li>
-              <li>Scented accessories</li>
+              <li>For 4WDs, 7 seaters and very dirty vehicles</li>
+              <li>Everything in the Complete Detail package</li>
+              <li>Heavy stain removal (additional costs may apply)</li>
+              <li>Deep exterior foam and hand wash</li>
             </ul>
             <a href="https://ojautodetailing.setmore.com" class="service-card__link btn btn-blue btn-blue-draw"
               target="_blank" rel="noopener noreferrer">Book this →</a>
           </article>
 
-          <article class="service-card service-card--popular reveal reveal-delay-4" id="service-tier-3" data-quote-service="tier-3-complete">
-            <span class="service-card__badge">Most Popular</span>
-            <h3 class="service-card__name">Tier 3 Complete Detail</h3>
-            <p class="service-card__tagline">The full works, inside and out.</p>
+          <article class="service-card reveal reveal-delay-4" id="service-monthly-maintenance" data-quote-service="monthly-maintenance">
+            <h3 class="service-card__name">Monthly Maintenance Package</h3>
+            <p class="service-card__tagline">Keep it that way, every month.</p>
             <div class="service-card__meta">
               <div class="spec spec--lg">
-                <span class="spec__label">From</span>
-                <span class="spec__value">$200</span>
-                <span class="spec__qualifier">May vary by caravan size</span>
+                <span class="spec__label">Price</span>
+                <span class="spec__value">$100</span>
+                <span class="spec__qualifier">/ month</span>
               </div>
             </div>
             <ul class="service-card__list">
-              <li class="service-card__list-item--tier">Everything in Tier 1 (full exterior detail)</li>
-              <li class="service-card__list-item--tier">Everything in Tier 2 (full interior detail)</li>
-              <li class="service-card__list-item--value" data-caravan-save="Save $25 vs. booking Tier 1 + Tier 2 separately">Save $15 vs. booking Tier 1 + Tier 2 separately</li>
+              <li>Vacuum</li>
+              <li>Panel clean</li>
+              <li>Window clean</li>
+              <li>Light stain removal</li>
+              <li>Light steam clean</li>
+              <li>Upholstery cleaning</li>
+              <li>Re-applying protectant</li>
+              <li>Door cleanse</li>
+              <li>Foam rinse</li>
+              <li>Under arch wheel cleaned</li>
+              <li>Rims and tires cleaned</li>
+              <li>Tire shine</li>
+              <li>Finishing shine touch</li>
             </ul>
             <a href="https://ojautodetailing.setmore.com" class="service-card__link btn btn-blue btn-blue-draw"
               target="_blank" rel="noopener noreferrer">Book this →</a>
@@ -360,6 +380,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 </div>
                 <p class="addon-chip__desc">Foggy, yellowed lenses restored to crystal clear, bringing your car many years back.</p>
               </li>
+              <li class="addon-chip">
+                <div class="addon-chip__main">
+                  <span class="addon-chip__name">Water spot remover</span>
+                  <span class="addon-chip__price">FROM $50</span>
+                </div>
+                <p class="addon-chip__desc">Etched and hard water marks removed from glass</p>
+              </li>
             </ul>
           </div>
         </div>
@@ -401,6 +428,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           Swipe to see more reviews
         </p>
 
+        <a
+          href="https://g.page/r/CdS0Y2Q5Ry-mEBM/review"
+          class="btn btn-ghost btn-ghost-draw review-carousel__cta"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Leave a Google review for OJ Auto Detailing"
+        >Leave us a review</a>
+
         <div class="review-carousel__dots" role="group" aria-label="Review navigation">
           <!-- Dots injected by JS -->
         </div>
@@ -423,15 +458,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <!-- ── Left panel: configurator ── -->
           <div class="quote__config reveal reveal-delay-1">
 
-            <!-- Vehicle type -->
+            <!-- Vehicle type (Car is the only option — shown read-only) -->
             <div class="quote__field">
               <label class="quote__label" for="quote-vehicle">Vehicle type</label>
-              <div class="quote__select-wrap">
-                <select class="quote__select" id="quote-vehicle" name="vehicle_type">
-                  <option value="car">Car</option>
-                  <option value="caravan">Caravan</option>
-                </select>
-              </div>
+              <input class="quote__input quote__input--readonly" type="text" id="quote-vehicle"
+                value="Car" readonly tabindex="-1">
+              <input type="hidden" name="vehicle_type" value="car">
             </div>
 
             <!-- Service -->
@@ -483,6 +515,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <input class="quote__input" type="email" id="quote-email" name="email"
                   placeholder="you@example.com" autocomplete="email" required>
               </div>
+            </div>
+
+            <div class="quote__field">
+              <label class="quote__label" for="quote-suburb">Suburb</label>
+              <input class="quote__input" type="text" id="quote-suburb" name="suburb"
+                placeholder="e.g. Epping" autocomplete="address-level2" required>
             </div>
 
             <div class="quote__field">
