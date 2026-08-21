@@ -1,7 +1,7 @@
 import { AddonConfig, ServiceConfig } from '../types/index.js';
 
 export const SERVICES: Record<string, ServiceConfig> = {
-  'interior-package':      { label: 'Interior Package',            price: 170 },
+  'interior-package':      { label: 'Interior Detail',             price: 170 },
   'complete-detail':       { label: 'Complete Detail',             price: 240 },
   'transformation-detail': { label: 'Transformation Detail',       price: 300 },
   'monthly-maintenance':   { label: 'Monthly Maintenance Package', price: 100 },

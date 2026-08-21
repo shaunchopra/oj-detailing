@@ -54,7 +54,7 @@
   // ─────────────────────────────────────────────────────────────────────────
   var PRICING = {
     services: [
-      { value: 'interior-package',      label: 'Interior Package',            price: 170 },
+      { value: 'interior-package',      label: 'Interior Detail',             price: 170 },
       { value: 'complete-detail',       label: 'Complete Detail',             price: 240 },
       { value: 'transformation-detail', label: 'Transformation Detail',       price: 300 },
       { value: 'monthly-maintenance',   label: 'Monthly Maintenance Package', price: 100 },

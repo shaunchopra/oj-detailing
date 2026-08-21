@@ -269,14 +269,13 @@
 }
 
 /* Tier-include bullets: accent tick + slightly bolder text for the "what's inside" leads.
-   Scoped to .service-card--popular .service-card__list so specificity (0,3,1) beats
-   the base li::before rule (0,1,2). */
-.service-card--popular .service-card__list .service-card__list-item--tier {
+   Scoped to .service-card__list so specificity (0,2,1) beats the base li::before rule (0,1,2). */
+.service-card__list .service-card__list-item--tier {
   color: var(--color-text);
   font-weight: 500;
 }
 
-.service-card--popular .service-card__list .service-card__list-item--tier::before {
+.service-card__list .service-card__list-item--tier::before {
   content: '✓';
   color: var(--color-accent);
   font-size: 0.875rem;
