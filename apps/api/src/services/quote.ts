@@ -11,14 +11,13 @@ export type QuoteResult = QuoteSuccess | QuoteError;
 
 function toQuotePayload(input: QuoteRequestInput): QuotePayload {
   return {
-    vehicle_type: input.vehicle_type,
     service: input.service,
     name: input.name,
     phone: input.phone,
     email: input.email,
+    suburb: input.suburb,
     addons: input.addons,
     vehicle_model: input.vehicle_model,
-    preferred_date: input.preferred_date,
     notes: input.notes,
     company: input.company,
     terms_accepted: true,
@@ -26,19 +25,14 @@ function toQuotePayload(input: QuoteRequestInput): QuotePayload {
 }
 
 function resolveQuote(payload: QuotePayload): ResolvedQuote {
-  const isCaravan   = payload.vehicle_type === 'caravan';
   const serviceData = SERVICES[payload.service]!;
-  const basePrice   = isCaravan ? serviceData.caravan : serviceData.car;
-
-  if (basePrice === null) {
-    throw Object.assign(new Error('That service is not available for caravans.'), { status: 400 });
-  }
+  const basePrice   = serviceData.price;
 
   const addonValues    = coerceStringArray(payload.addons);
   const selectedAddons = addonValues.flatMap((v) => (ADDONS[v] ? [ADDONS[v]!] : []));
   const estimatedTotal = basePrice + selectedAddons.reduce((sum, a) => sum + a.price, 0);
 
-  return { payload, serviceData, selectedAddons, basePrice, estimatedTotal, isCaravan };
+  return { payload, serviceData, selectedAddons, basePrice, estimatedTotal };
 }
 
 export async function handleQuoteRequest(input: QuoteRequestInput): Promise<QuoteResult> {
@@ -57,11 +51,9 @@ export async function handleQuoteRequest(input: QuoteRequestInput): Promise<Quot
       distinctId: quote.payload.email,
       event: 'quote_email_sent',
       properties: {
-        vehicle_type: quote.payload.vehicle_type,
         service: quote.payload.service,
         addon_count: quote.selectedAddons.length,
         estimated_total: quote.estimatedTotal,
-        is_caravan: quote.isCaravan,
       },
     });
     return { success: true };
@@ -72,7 +64,6 @@ export async function handleQuoteRequest(input: QuoteRequestInput): Promise<Quot
       distinctId: quote.payload.email,
       event: 'quote_email_failed',
       properties: {
-        vehicle_type: quote.payload.vehicle_type,
         service: quote.payload.service,
         error_message: message,
       },

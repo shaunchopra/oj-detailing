@@ -1,5 +1,5 @@
 meta {
-  name: Submit Quote (Car)
+  name: Submit Quote
   type: http
   seq: 1
   tags: [
@@ -16,13 +16,12 @@ post {
 
 body:json {
   {
-    "vehicle_type": "car",
-    "service": "tier-3-complete",
+    "service": "complete-detail",
     "name": "Bruno Test",
     "phone": "0412345678",
     "email": "test@example.com",
+    "suburb": "Epping",
     "vehicle_model": "Toyota Camry",
-    "preferred_date": "2026-07-01",
     "addons": [
       "water-repellent",
       "headlight-restoration"

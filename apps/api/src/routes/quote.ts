@@ -22,10 +22,8 @@ router.post('/', async (req: Request, res: Response) => {
     distinctId: parsed.data.email,
     event: 'quote_received',
     properties: {
-      vehicle_type: parsed.data.vehicle_type,
       service: parsed.data.service,
       addon_count: Array.isArray(parsed.data.addons) ? parsed.data.addons.length : 0,
-      has_preferred_date: Boolean(parsed.data.preferred_date),
     },
   });
 

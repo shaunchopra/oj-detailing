@@ -54,43 +54,17 @@
   /* overflow: visible so the popular card glow renders outside the grid bounds.
      Corner rounding is now handled by the corner cards themselves (below). */
   overflow: visible;
-  /* Vehicle-swap fade transition */
-  transition: opacity 0.16s ease;
 }
 
-.services__grid.is-switching {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ── Caravan qualifier line (shown under the price in caravan mode) ── */
+/* ── Price qualifier line (shown under a card's price, e.g. "/ month") ── */
 .spec__qualifier {
-  display: none;
+  display: block;
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-text-faint);
   letter-spacing: 0.01em;
   line-height: 1.4;
   margin-top: 0.25rem;
-}
-
-/* ── Caravan mode: Touch Up card fully hidden ──
-   Double-class (0,2,0) beats .service-card { display: flex } (0,1,0)
-   regardless of source order. */
-.service-card.service-card--caravan-hidden {
-  display: none;
-}
-
-/* ── Caravan mode: Tier 1 centred on the top row (desktop pyramid) ──
-   grid-column: 1 / -1 spans both columns; max-width + margin centre it
-   at the same visual width as a single card. */
-.service-card--caravan-top {
-  grid-column: 1 / -1;
-  max-width: 50%;
-  width: 100%;
-  margin: 0 auto;
-  /* Touch Up (1st child) is hidden so Tier 1 is the new visual top-left corner */
-  border-top-left-radius: var(--radius-panel);
 }
 
 /* Corner cards mirror the grid's border-radius (replaces overflow:hidden clipping) */
@@ -131,24 +105,42 @@
 }
 
 /* ── Service card highlight — fired by Recent Work badge clicks ──────────
-   A border+glow pulse that draws the eye to the card on arrival. The
-   animation is forward-filled so the box-shadow fades completely to none. */
+   Overlay pulse so we never touch the card's own border/box-shadow (the
+   Complete Detail "most popular" inset ring must stay put). Opacity of a
+   fixed-width ring + glow is animated — no border-width, no reflow. */
 @keyframes card-highlight-pulse {
-  0%   { box-shadow: inset 0 0 0 2px var(--color-accent), 0 0 0   0   transparent; }
-  25%  { box-shadow: inset 0 0 0 2px var(--color-accent), 0 0 24px 8px var(--popular-glow-hi); }
-  100% { box-shadow: inset 0 0 0 0   transparent,         0 0 0   0   transparent; }
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 1; }
+}
+
+@keyframes card-highlight-fade {
+  0%, 45% { opacity: 1; }
+  100%    { opacity: 0; }
 }
 
 .service-card--highlight {
-  animation: card-highlight-pulse 1.4s var(--ease-out) forwards;
-  z-index: 1;
+  /* Lift above siblings so the outer glow isn't covered by adjacent cards */
+  z-index: 2;
+}
+
+.service-card--highlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow:
+    inset 0 0 0 2px var(--color-accent),
+    0 0 22px 6px var(--popular-glow-hi);
+  opacity: 0;
+  animation: card-highlight-pulse 0.6s ease-in-out 3;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .service-card--highlight {
-    animation: none;
-    /* Static accent ring for users who prefer no motion */
-    box-shadow: inset 0 0 0 2px var(--color-accent);
+  .service-card--highlight::after {
+    /* Single static ring that holds, then fades — no pulsing */
+    animation: card-highlight-fade 1.2s ease-out forwards;
   }
 }
 
@@ -168,10 +160,10 @@
 
 /* ── Optional one-liner tagline below the card name ── */
 .service-card__tagline {
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--color-text-muted);
-  line-height: 1.45;
+  line-height: 1.55;
   margin-top: -0.75rem;
   margin-bottom: 1.5rem;
   font-style: italic;
@@ -255,10 +247,10 @@
 .service-card__list li {
   position: relative;
   padding-left: 1.25rem;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 400;
   color: var(--color-text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 .service-card__list li + li {
@@ -271,23 +263,22 @@
   position: absolute;
   left: 0;
   top: 0;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   color: var(--color-text-faint);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* Tier-include bullets: accent tick + slightly bolder text for the "what's inside" leads.
-   Scoped to .service-card--popular .service-card__list so specificity (0,3,1) beats
-   the base li::before rule (0,1,2). */
-.service-card--popular .service-card__list .service-card__list-item--tier {
+   Scoped to .service-card__list so specificity (0,2,1) beats the base li::before rule (0,1,2). */
+.service-card__list .service-card__list-item--tier {
   color: var(--color-text);
   font-weight: 500;
 }
 
-.service-card--popular .service-card__list .service-card__list-item--tier::before {
+.service-card__list .service-card__list-item--tier::before {
   content: '✓';
   color: var(--color-accent);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
 }
 
 /* ── "Book this →" CTA — ghost blue buttons at the bottom of each card ── */
@@ -315,7 +306,7 @@
 }
 
 
-/* ── Tier 3 "Most Popular" card — premium visual dominance ── */
+/* ── "Most Popular" card — premium visual dominance ── */
 
 /* 1. Title: one weight step heavier + accent colour to unify with badge + outline */
 .service-card--popular .service-card__name {
@@ -356,44 +347,7 @@
   outline-offset: 3px;
 }
 
-/* 4. Value line: pill callout — accent bg tint + accent text, no bullet.
-   Scoped to .service-card--popular .service-card__list so specificity (0,3,1) beats
-   both the base li rule (0,1,1) and li::before rule (0,1,2). */
-.service-card--popular .service-card__list .service-card__list-item--value {
-  position: static;
-  display: inline-block;
-  padding: 4px 12px;
-  padding-left: 12px; /* override the 1.25rem gap reserved for ::before */
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
-  color: var(--color-accent);
-  font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 1.45;
-  margin-top: 1rem;
-}
-
-.service-card--popular .service-card__list .service-card__list-item--value::before {
-  content: none;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0) scale(1); }
-  10% { transform: translateX(-6px) scale(1.08); }
-  22% { transform: translateX(6px) scale(1.1); }
-  34% { transform: translateX(-6px) scale(1.08); }
-  46% { transform: translateX(6px) scale(1.1); }
-  58% { transform: translateX(-5px) scale(1.06); }
-  72% { transform: translateX(5px) scale(1.04); }
-  86% { transform: translateX(-3px) scale(1.02); }
-}
-
-.service-card--popular .service-card__list .service-card__list-item--value.is-shake {
-  transform-origin: center;
-  animation: shake 0.55s ease-in-out;
-}
-
-/* 5. Surface tint: ~5% accent blended into card bg — perceptibly lifted, not coloured */
+/* 4. Surface tint: ~5% accent blended into card bg — perceptibly lifted, not coloured */
 .service-card--popular {
   background: color-mix(in srgb, var(--color-accent) 5%, var(--color-panel));
 }
@@ -402,63 +356,6 @@
 .service-card--popular:hover,
 [data-theme="light"] .service-card--popular:hover {
   background: color-mix(in srgb, var(--color-accent) 7%, var(--color-panel));
-}
-
-
-/* ── Vehicle type segmented toggle ── */
-
-/* Outer wrapper — centres the pill track above the card grid */
-.services__toggle-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2.25rem;
-}
-
-/* Pill-shaped track — spacing wrapper only; buttons are ghost CTAs */
-.vehicle-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  padding: 0;
-}
-
-/* Ghost blue pills — same language as service-card "Book this →" buttons */
-.vehicle-toggle__btn {
-  min-height: 44px;
-  padding: 0.625rem 1.3rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  border-radius: 999px;
-}
-
-/* Selected tab: transparent with solid blue border, no underline */
-.vehicle-toggle__btn[aria-selected="true"] {
-  background: transparent;
-  color: var(--color-blue);
-  border-color: var(--color-blue);
-}
-
-.vehicle-toggle__btn[aria-selected="true"].btn-blue-draw::before {
-  clip-path: inset(0 0 0 0);
-}
-
-/* Inactive tab: muted blue text, draw-in border on hover (from .btn-blue-draw) */
-.vehicle-toggle__btn[aria-selected="false"] {
-  color: var(--color-text-muted);
-  border-color: var(--color-blue-border);
-}
-
-.vehicle-toggle__btn[aria-selected="false"]:hover {
-  color: var(--color-blue);
-}
-
-/* Keyboard focus ring — uses accent so it always contrasts */
-.vehicle-toggle__btn:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
 }
 
 
@@ -491,10 +388,36 @@
   .service-card:last-child        { border-bottom-left-radius: var(--radius-panel); }
 }
 
+/* ── Contact fallback — sits between the card grid and add-ons ── */
+.services__contact {
+  margin: 1.75rem auto 0;
+  max-width: 40rem;
+  padding: 0 0.5rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}
+
+.services__contact-link {
+  color: var(--color-accent);
+}
+
+.services__contact-link:hover,
+.services__contact-link:focus-visible {
+  color: var(--color-text);
+}
+
 /* ── Responsive: mobile (≤768px) — tighter section padding ── */
 @media (max-width: 768px) {
   .services {
     padding: 4rem 1.25rem 3rem;
+  }
+
+  .services__contact {
+    margin-top: 1.5rem;
+    padding: 0 0.25rem;
   }
 
   .service-card {
@@ -506,28 +429,13 @@
   }
 }
 
-/* ── Caravan pyramid reset at ≤900px — single column, no pyramid ──
-   Double-class specificity (0,2,0) beats :nth-child(2) rules in the
-   900px block above so the top-left/right radii can be restored. */
-@media (max-width: 900px) {
-  .service-card.service-card--caravan-top {
-    grid-column: auto;
-    max-width: none;
-    margin: 0;
-    /* Tier 1 is visually the first card in single-column caravan mode */
-    border-top-left-radius: var(--radius-panel);
-    border-top-right-radius: var(--radius-panel);
-  }
-}
-
-
 /* ============================================================
    ADD-ONS & EXTRAS — collapsible panel below the service grid
    ============================================================ */
 
 /* Wrapper — matches the max-width of the card grid */
 .addons {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   border: 1px solid var(--color-hairline);
   border-radius: var(--radius-panel);
   background: var(--color-panel);
@@ -657,10 +565,10 @@
 }
 
 .addon-chip__name {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--color-text);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .addon-chip__price {
@@ -674,10 +582,10 @@
 
 /* Optional description line */
 .addon-chip__desc {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-text-muted);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 /* ── Mobile: full-width chips ── */

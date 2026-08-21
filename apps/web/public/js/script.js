@@ -54,10 +54,10 @@
   // ─────────────────────────────────────────────────────────────────────────
   var PRICING = {
     services: [
-      { value: 'touch-up',          label: 'Touch Up',                     car: 80,  caravan: null },
-      { value: 'tier-1-exterior',   label: 'Tier 1 Exterior',       car: 65,  caravan: 200  },
-      { value: 'tier-2-interior',   label: 'Tier 2 Interior',       car: 150, caravan: 320  },
-      { value: 'tier-3-complete',   label: 'Tier 3 Complete Detail', car: 200, caravan: 495  },
+      { value: 'interior-package',      label: 'Interior Detail',             price: 170 },
+      { value: 'complete-detail',       label: 'Complete Detail',             price: 240 },
+      { value: 'transformation-detail', label: 'Transformation Detail',       price: 300 },
+      { value: 'monthly-maintenance',   label: 'Monthly Maintenance Package', price: 100 },
     ],
     addons: [
       { value: 'scratch-removal',       label: 'Scratch removal',       price: 45,  desc: 'Knock out light scratches' },
@@ -65,6 +65,7 @@
       { value: 'water-repellent',       label: 'Water repellent',       price: 30,  desc: 'Rain beads run off glass for safer driving' },
       { value: 'anti-fog',              label: 'Anti fog',              price: 35,  desc: 'Remove fog from windows for safer driving' },
       { value: 'headlight-restoration', label: 'Headlight restoration', price: 100, desc: 'Foggy, yellowed lenses restored to crystal clear, bringing your car many years back.' },
+      { value: 'water-spot-remover',    label: 'Water spot remover',    price: 50,  desc: 'Etched and hard water marks removed from glass' },
     ],
   };
 
@@ -539,184 +540,14 @@
   initProgressSliders();
   // ─────────────────────────────────────────────────────────────────────────
 
-  // ── Vehicle type segmented toggle ────────────────────────────────────────
-  // Clicking a pill sets aria-selected, flips data-vehicle on the section,
-  // and swaps card prices / CTA links with a short opacity fade.
-  // Arrow keys move focus between tabs per the ARIA tablist pattern.
-  // ─────────────────────────────────────────────────────────────────────────
-
   // Assigned by the Get a Quote block below; pre-fills the form when a service
   // card "Book this →" button is clicked (declared here so the services click
   // handler can reference it before the quote form initialisation runs).
   var quotePreselect = function () {};
 
-  var servicesGrid = servicesSection
-    ? servicesSection.querySelector('.services__grid')
-    : null;
-
-  // Capture each card's original state before any swap.
-  var cardMeta = [];
-  if (servicesGrid) {
-    Array.prototype.forEach.call(
-      servicesGrid.querySelectorAll('.service-card'),
-      function (card) {
-        var priceEl = card.querySelector('.spec--lg .spec__value');
-        var specEl  = priceEl ? priceEl.closest('.spec--lg') : null;
-        var labelEl = specEl  ? specEl.querySelector('.spec__label') : null;
-        var linkEl  = card.querySelector('.service-card__link');
-        var saveEl  = card.querySelector('[data-caravan-save]');
-
-        // Resolve this card's entry in the shared PRICING object
-        var serviceKey  = card.getAttribute('data-quote-service');
-        var pricingData = null;
-        PRICING.services.forEach(function (s) {
-          if (s.value === serviceKey) pricingData = s;
-        });
-
-        cardMeta.push({
-          cardEl:               card,
-          priceEl:              priceEl,
-          labelEl:              labelEl,
-          linkEl:               linkEl,
-          qualifierEl:          specEl ? specEl.querySelector('.spec__qualifier') : null,
-          pricingData:          pricingData,
-          // Prices come from PRICING, not from data-caravan-price attributes
-          caravanPrice:         pricingData && pricingData.caravan !== null ? '$' + pricingData.caravan : null,
-          isCaravanUnavailable: pricingData ? pricingData.caravan === null : card.hasAttribute('data-caravan-unavailable'),
-          isCaravanTop:         card.hasAttribute('data-caravan-top'),
-          originalPrice:        pricingData ? '$' + pricingData.car : (priceEl ? priceEl.textContent : ''),
-          originalLinkHref:     linkEl ? linkEl.getAttribute('href')    : '',
-          originalLinkText:     linkEl ? linkEl.textContent             : '',
-          originalLinkTarget:   linkEl ? (linkEl.getAttribute('target') || '') : '',
-          originalLinkRel:      linkEl ? (linkEl.getAttribute('rel')    || '') : '',
-          saveEl:               saveEl || null,
-          caravanSave:          saveEl ? saveEl.getAttribute('data-caravan-save') : null,
-          originalSave:         saveEl ? saveEl.textContent : '',
-        });
-      }
-    );
-  }
-
-  // Tier 3 save badge: shake + pop four times on scroll-in (every 2 s)
-  var tier3Card  = document.getElementById('service-tier-3');
-  var saveBadge  = tier3Card && tier3Card.querySelector('.service-card__list-item--value');
-  if (saveBadge && !prefersReducedMotion && 'IntersectionObserver' in window) {
-    var saveShakeDone = false;
-    var SAVE_SHAKE_PLAYS     = 4;
-    var SAVE_SHAKE_INTERVAL  = 2000;
-
-    function playSaveBadgeShake() {
-      saveBadge.classList.remove('is-shake');
-      void saveBadge.offsetWidth;
-      saveBadge.classList.add('is-shake');
-    }
-
-    var saveShakeObserver = new IntersectionObserver(function (entries) {
-      if (!entries[0].isIntersecting || saveShakeDone) return;
-      saveShakeDone = true;
-      saveShakeObserver.disconnect();
-
-      var shakePlays = 0;
-
-      function onShakeEnd(e) {
-        if (e.animationName !== 'shake' || e.target !== saveBadge) return;
-        shakePlays += 1;
-        if (shakePlays >= SAVE_SHAKE_PLAYS) {
-          saveBadge.removeEventListener('animationend', onShakeEnd);
-          saveBadge.classList.remove('is-shake');
-        }
-      }
-
-      saveBadge.addEventListener('animationend', onShakeEnd);
-      for (var i = 0; i < SAVE_SHAKE_PLAYS; i++) {
-        setTimeout(playSaveBadgeShake, i * SAVE_SHAKE_INTERVAL);
-      }
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
-
-    saveShakeObserver.observe(tier3Card);
-  }
-
-  var SWAP_FADE_MS = 160; // fade-out duration before swapping content
-
-  function applyVehicleMode(vehicle) {
-    if (!servicesGrid || !cardMeta.length) return;
-    var isCaravan = vehicle === 'caravan';
-
-    servicesGrid.classList.add('is-switching');
-
-    setTimeout(function () {
-      cardMeta.forEach(function (meta) {
-
-        if (meta.isCaravanUnavailable) {
-          // ── Touch Up: fully hidden in caravan mode ───────────────────────
-          meta.cardEl.classList.toggle('service-card--caravan-hidden', isCaravan);
-
-        } else {
-          // ── Priced caravan cards (Tier 1 / 2 / 3) ──────────────────────
-
-          // Pyramid top-row class (Tier 1 only)
-          if (meta.isCaravanTop) {
-            meta.cardEl.classList.toggle('service-card--caravan-top', isCaravan);
-          }
-
-          // Price value
-          if (meta.priceEl) {
-            meta.priceEl.textContent = (isCaravan && meta.caravanPrice)
-              ? meta.caravanPrice
-              : meta.originalPrice;
-            meta.priceEl.classList.remove('spec__value--on-request');
-          }
-
-          // "From" label — always visible for priced cards
-          if (meta.labelEl) {
-            meta.labelEl.style.visibility = '';
-          }
-
-          // Qualifier line below the price
-          if (meta.qualifierEl) {
-            meta.qualifierEl.style.display = isCaravan ? 'block' : '';
-          }
-
-          // Save text (Tier 3 only)
-          if (meta.saveEl) {
-            meta.saveEl.textContent = (isCaravan && meta.caravanSave)
-              ? meta.caravanSave
-              : meta.originalSave;
-          }
-
-          // CTA link
-          if (meta.linkEl) {
-            if (isCaravan) {
-              meta.linkEl.setAttribute('href', '#quote');
-              meta.linkEl.textContent = 'Get a quote →';
-              meta.linkEl.removeAttribute('target');
-              meta.linkEl.removeAttribute('rel');
-            } else {
-              meta.linkEl.setAttribute('href', meta.originalLinkHref);
-              meta.linkEl.textContent = meta.originalLinkText;
-              if (meta.originalLinkTarget) {
-                meta.linkEl.setAttribute('target', meta.originalLinkTarget);
-              } else {
-                meta.linkEl.removeAttribute('target');
-              }
-              if (meta.originalLinkRel) {
-                meta.linkEl.setAttribute('rel', meta.originalLinkRel);
-              } else {
-                meta.linkEl.removeAttribute('rel');
-              }
-            }
-          }
-        }
-      });
-
-      servicesGrid.classList.remove('is-switching');
-    }, SWAP_FADE_MS);
-  }
-
   // ── Service card link handler ─────────────────────────────────────────────
-  // "Book this →" (external href, car mode): intercept, pre-fill the quote
-  // form with the matching tier and vehicle type, then scroll to #quote.
-  // "Get a quote →" (hash href, caravan mode): Lenis-scroll + pre-fill form.
+  // "Book this →": intercept, pre-fill the quote form with the matching
+  // service, then scroll to #quote.
   // ─────────────────────────────────────────────────────────────────────────
   if (servicesSection) {
     servicesSection.addEventListener('click', function (e) {
@@ -726,7 +557,6 @@
       var href       = link.getAttribute('href');
       var card       = link.closest('[data-quote-service]');
       var serviceKey = card ? card.getAttribute('data-quote-service') : null;
-      var vehicle    = servicesSection.getAttribute('data-vehicle') || 'car';
 
       function scrollToEl(el) {
         if (!el) return;
@@ -737,90 +567,83 @@
         }
       }
 
-      // External "Book this →": redirect to the quote form with pre-selection
       if (href && href.charAt(0) !== '#' && serviceKey) {
         e.preventDefault();
-        quotePreselect(vehicle, serviceKey);
+        quotePreselect(serviceKey);
         scrollToEl(document.getElementById('quote'));
-        return;
-      }
-
-      // Hash link ("Get a quote →" in caravan mode): scroll + pre-fill
-      if (href && href.charAt(0) === '#') {
-        var target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          if (serviceKey) quotePreselect(vehicle, serviceKey);
-          scrollToEl(target);
-        }
       }
     });
   }
-
-  var vehicleToggleBtns = Array.prototype.slice.call(
-    document.querySelectorAll('.vehicle-toggle .vehicle-toggle__btn[role="tab"]')
-  );
-
-  function selectVehicleTab(activeBtn) {
-    vehicleToggleBtns.forEach(function (btn) {
-      var isActive = btn === activeBtn;
-      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      btn.tabIndex = isActive ? 0 : -1;
-    });
-    var vehicle = activeBtn.getAttribute('data-vehicle');
-    if (servicesSection) {
-      servicesSection.setAttribute('data-vehicle', vehicle);
-    }
-    applyVehicleMode(vehicle);
-  }
-
-  vehicleToggleBtns.forEach(function (btn, idx) {
-    // Initial tabindex: only the selected tab is in the tab order
-    btn.tabIndex = btn.getAttribute('aria-selected') === 'true' ? 0 : -1;
-
-    btn.addEventListener('click', function () {
-      selectVehicleTab(btn);
-    });
-
-    btn.addEventListener('keydown', function (e) {
-      var len = vehicleToggleBtns.length;
-      var newIdx = -1;
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        newIdx = (idx + 1) % len;
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        newIdx = (idx - 1 + len) % len;
-      } else if (e.key === 'Home') {
-        newIdx = 0;
-      } else if (e.key === 'End') {
-        newIdx = len - 1;
-      }
-      if (newIdx !== -1) {
-        e.preventDefault();
-        selectVehicleTab(vehicleToggleBtns[newIdx]);
-        vehicleToggleBtns[newIdx].focus();
-      }
-    });
-  });
   // ─────────────────────────────────────────────────────────────────────────
 
   // ── Work badge → service card highlight ──────────────────────────────────
-  // Each .work-badge anchor href points to a service card ID.
-  // After Lenis finishes scrolling (1.2s duration + buffer), the matching
-  // service card gets a brief border+glow pulse via .service-card--highlight.
+  // Each .work-badge anchor href points to a service card ID. The generic
+  // hash-link handler above already runs Lenis.scrollTo; we wait for that
+  // programmatic scroll to finish (via Lenis's scroll event, not a timeout)
+  // then pulse .service-card--highlight on the target card.
+  var highlightCard = null;
+  var highlightUnbind = null;
+  var highlightOnEnd = null;
+
+  function clearServiceHighlight() {
+    if (highlightUnbind) {
+      highlightUnbind();
+      highlightUnbind = null;
+    }
+    if (highlightCard) {
+      if (highlightOnEnd) {
+        highlightCard.removeEventListener('animationend', highlightOnEnd);
+        highlightOnEnd = null;
+      }
+      highlightCard.classList.remove('service-card--highlight');
+      highlightCard = null;
+    }
+  }
+
+  function applyServiceHighlight(card) {
+    card.classList.remove('service-card--highlight');
+    void card.offsetWidth; // reflow so a restart retriggers the CSS animation
+    highlightCard = card;
+    card.classList.add('service-card--highlight');
+    highlightOnEnd = function (e) {
+      if (e.animationName !== 'card-highlight-pulse' && e.animationName !== 'card-highlight-fade') return;
+      card.removeEventListener('animationend', highlightOnEnd);
+      card.classList.remove('service-card--highlight');
+      if (highlightCard === card) {
+        highlightCard = null;
+        highlightOnEnd = null;
+      }
+    };
+    card.addEventListener('animationend', highlightOnEnd);
+  }
+
+  function afterLenisScroll(callback) {
+    // No Lenis (prefers-reduced-motion): native jump is instant.
+    // Already at rest: scrollTo completed synchronously because the
+    // page was already at the target — pulse immediately.
+    if (!lenis || !lenis.isScrolling) {
+      callback();
+      return;
+    }
+    highlightUnbind = lenis.on('scroll', function () {
+      if (lenis.isScrolling) return;
+      if (highlightUnbind) {
+        highlightUnbind();
+        highlightUnbind = null;
+      }
+      callback();
+    });
+  }
+
   document.querySelectorAll('a.work-badge[href^="#"]').forEach(function (badge) {
     badge.addEventListener('click', function () {
       var id = badge.getAttribute('href').slice(1);
       var card = document.getElementById(id);
       if (!card) return;
-      // Reset any in-progress highlight so the animation can restart cleanly
-      card.classList.remove('service-card--highlight');
-      setTimeout(function () {
-        void card.offsetWidth; // force reflow — restarts CSS animation
-        card.classList.add('service-card--highlight');
-        card.addEventListener('animationend', function () {
-          card.classList.remove('service-card--highlight');
-        }, { once: true });
-      }, 1350); // 1.2s scroll + 150ms safety buffer
+      clearServiceHighlight();
+      afterLenisScroll(function () {
+        applyServiceHighlight(card);
+      });
     });
   });
   // ─────────────────────────────────────────────────────────────────────────
@@ -860,7 +683,6 @@
   // the estimate block live, and assigns the real quotePreselect() so the
   // Services section "Book this →" buttons can pre-fill the form.
   // ─────────────────────────────────────────────────────────────────────────
-  var quoteVehicleEl     = document.getElementById('quote-vehicle');
   var quoteServiceEl     = document.getElementById('quote-service');
   var quoteCheckboxes    = document.querySelector('.quote__checkboxes');
   var quoteEstValueEl    = document.querySelector('.quote__estimate-value');
@@ -868,7 +690,7 @@
   var quoteAddonsClearBtn = document.getElementById('quote-addons-clear');
 
   var QUOTE_NOTE_EMPTY  = 'Julian confirms your final price after reviewing your request.';
-  var QUOTE_NOTE_FILLED = 'Estimate only. Julian confirms your final price. Very dirty or heavily soiled vehicles may cost a little more for the extra time and product.';
+  var QUOTE_NOTE_FILLED = 'Very dirty or heavily soiled vehicles may incur additional costs.';
   var QUOTE_PLACEHOLDER = 'Select a service to see your estimate.';
 
   // Price tween state — null means the estimate is in the empty/placeholder state
@@ -900,12 +722,10 @@
     });
   }
 
-  // Rebuild service <select> options for the given vehicle type.
-  // Caravan mode hides any service where caravan === null (Touch Up).
+  // Rebuild service <select> options from PRICING.
   // Preserves the current selection when options survive the rebuild.
-  function quotePopulateServices(vehicle) {
+  function quotePopulateServices() {
     if (!quoteServiceEl) return;
-    var isCaravan  = vehicle === 'caravan';
     var currentVal = quoteServiceEl.value;
 
     quoteServiceEl.innerHTML = '';
@@ -918,11 +738,9 @@
     quoteServiceEl.appendChild(placeholder);
 
     PRICING.services.forEach(function (service) {
-      if (isCaravan && service.caravan === null) return;
-      var price = isCaravan ? service.caravan : service.car;
-      var opt   = document.createElement('option');
+      var opt = document.createElement('option');
       opt.value = service.value;
-      opt.textContent = service.label + ' (from $' + price + ')';
+      opt.textContent = service.label + ' (from $' + service.price + ')';
       if (service.value === currentVal) {
         opt.selected        = true;
         placeholder.selected = false;
@@ -967,14 +785,13 @@
   // Recalculate and render the estimate: service base + checked add-on totals.
   function quoteUpdateEstimate() {
     if (!quoteEstValueEl) return;
-    var isCaravan    = quoteVehicleEl ? quoteVehicleEl.value === 'caravan' : false;
     var serviceVal   = quoteServiceEl ? quoteServiceEl.value : '';
     var servicePrice = 0;
     var serviceFound = false;
 
     PRICING.services.forEach(function (s) {
       if (s.value === serviceVal) {
-        servicePrice = isCaravan ? (s.caravan || 0) : s.car;
+        servicePrice = s.price;
         serviceFound = true;
       }
     });
@@ -1029,23 +846,17 @@
   }
 
   // Assign the real implementation (replaces the no-op stub declared earlier).
-  // Sets vehicle type, rebuilds service options, pre-selects the tier, updates estimate.
-  quotePreselect = function (vehicle, serviceKey) {
-    if (!quoteVehicleEl || !quoteServiceEl) return;
-    quoteVehicleEl.value = vehicle;
-    quotePopulateServices(vehicle);
+  // Pre-selects the service and updates the estimate.
+  quotePreselect = function (serviceKey) {
+    if (!quoteServiceEl) return;
     if (serviceKey) quoteServiceEl.value = serviceKey;
     quoteUpdateEstimate();
   };
 
-  if (quoteVehicleEl && quoteServiceEl) {
-    quotePopulateServices(quoteVehicleEl.value || 'car');
+  if (quoteServiceEl) {
+    quotePopulateServices();
     quoteUpdateEstimate();
 
-    quoteVehicleEl.addEventListener('change', function () {
-      quotePopulateServices(this.value);
-      quoteUpdateEstimate();
-    });
     quoteServiceEl.addEventListener('change', quoteUpdateEstimate);
     if (quoteCheckboxes) {
       quoteCheckboxes.addEventListener('change', function () {
@@ -1079,17 +890,6 @@
     quoteNotesEl.addEventListener('focus', function () {
       quotePolicyNoteEl.hidden = false;
     });
-  }
-
-  var quoteDateEl = document.getElementById('quote-date');
-  var quoteDateWrap = quoteDateEl && quoteDateEl.closest('.quote__date-wrap');
-  if (quoteDateEl && quoteDateWrap) {
-    function syncQuoteDatePlaceholder() {
-      quoteDateWrap.classList.toggle('is-filled', !!quoteDateEl.value);
-    }
-    quoteDateEl.addEventListener('input', syncQuoteDatePlaceholder);
-    quoteDateEl.addEventListener('change', syncQuoteDatePlaceholder);
-    syncQuoteDatePlaceholder();
   }
 
   if (quoteForm && quoteSubmitBtn) {
@@ -1136,15 +936,21 @@
         return;
       }
 
+      var suburb = (fd.get('suburb') || '').trim();
+      if (!suburb) {
+        quoteErrorEl.textContent = 'Suburb is required.';
+        quoteErrorEl.classList.add('is-visible');
+        return;
+      }
+
       var payload = {
         company:        fd.get('company')        || '',
-        vehicle_type:   fd.get('vehicle_type')   || '',
         service:        fd.get('service')         || '',
         name:           fd.get('name')            || '',
         phone:          fd.get('phone')           || '',
         email:          fd.get('email')            || '',
+        suburb:         suburb,
         vehicle_model:  fd.get('vehicle_model')  || '',
-        preferred_date: fd.get('preferred_date') || '',
         notes:          fd.get('notes')           || '',
         addons:         addons,
         terms_accepted: true,
@@ -1166,7 +972,6 @@
           if (data && data.success) {
             if (window.posthog && typeof window.posthog.capture === 'function') {
               window.posthog.capture('quote_submitted', {
-                vehicle_type: payload.vehicle_type,
                 service: payload.service,
                 addon_count: payload.addons.length,
               });
