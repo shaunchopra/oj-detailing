@@ -4,7 +4,9 @@ import { esc, stripControlChars } from '../lib/utils.js';
 export function buildEmailSubject(quote: ResolvedQuote): string {
   const { payload, serviceData } = quote;
   const safeName = stripControlChars(payload.name);
-  return `New quote request, ${safeName}, ${serviceData.label}`;
+  const stage = process.env['STAGE']?.trim() || 'prod';
+  const prefix = stage === 'prod' ? '' : `[${stage.toUpperCase()}] `;
+  return `${prefix}New quote request, ${safeName}, ${serviceData.label}`;
 }
 
 export function buildEmailText(quote: ResolvedQuote): string {

@@ -20,18 +20,26 @@ service: oj-detailing-api
 
 frameworkVersion: '4'
 
+custom:
+  stage: ${opt:stage, 'prod'}
+  # Keep existing HTTP APIs (CloudFormation stacks were recreated against these IDs).
+  httpApiByStage:
+    prod:
+      id: cuvsx6p8fd
+    dev:
+      id: finqizix8b
+
 provider:
   name: aws
   runtime: nodejs24.x
   region: ap-southeast-2
-  stage: ${opt:stage, 'prod'}
+  stage: ${self:custom.stage}
   memorySize: 256
   timeout: 10
-  # Previous CloudFormation stack was deleted; keep the live HTTP API + custom domain.
-  httpApi:
-    id: cuvsx6p8fd
+  httpApi: ${self:custom.httpApiByStage.${self:custom.stage}}
   environment:
     NODE_ENV: production
+    STAGE: ${self:custom.stage}
     RESEND_API_KEY: ${env:RESEND_API_KEY}
     RESEND_FROM: ${env:RESEND_FROM}
     CLOUDFRONT_ORIGIN: ${env:CLOUDFRONT_ORIGIN, 'https://oj-auto-detailing.com.au'}

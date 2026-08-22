@@ -6,18 +6,31 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DIST="$ROOT/apps/web/dist"
 ENV_FILE="$ROOT/apps/web/.env"
 
-# Override via environment if needed
-S3_BUCKET="${S3_BUCKET:-oj-auto-detailing.com.au}"
+STAGE="${STAGE:-prod}"
 AWS_REGION="${AWS_REGION:-ap-southeast-2}"
-CLOUDFRONT_DISTRIBUTION_ID="${CLOUDFRONT_DISTRIBUTION_ID:-ETRVB9UY704LE}"
 
-echo "→ Building static site"
+if [[ "$STAGE" == "dev" ]]; then
+  S3_BUCKET="${S3_BUCKET:-dev.oj-auto-detailing.com.au}"
+  CLOUDFRONT_DISTRIBUTION_ID="${CLOUDFRONT_DISTRIBUTION_ID:-EYBMHD6EPXUMX}"
+  SITE_URL="https://dev.oj-auto-detailing.com.au"
+  SITE_ENV="${SITE_ENV:-development}"
+else
+  S3_BUCKET="${S3_BUCKET:-oj-auto-detailing.com.au}"
+  CLOUDFRONT_DISTRIBUTION_ID="${CLOUDFRONT_DISTRIBUTION_ID:-ETRVB9UY704LE}"
+  SITE_URL="https://oj-auto-detailing.com.au"
+  SITE_ENV="${SITE_ENV:-production}"
+fi
+
+export SITE_ENV
+
+echo "→ Building static site (stage: $STAGE)"
 if [[ -f "$ENV_FILE" ]]; then
   set -a
   # shellcheck disable=SC1090
   source "$ENV_FILE"
   set +a
 fi
+export SITE_ENV
 pnpm --filter @oj-detailing/web build
 
 if [[ ! -d "$DIST" ]]; then
@@ -63,5 +76,5 @@ INVALIDATION_ID="$(aws cloudfront create-invalidation \
   --output text)"
 
 echo "✓ Deploy complete"
-echo "  Site:    https://oj-auto-detailing.com.au"
+echo "  Site:    $SITE_URL"
 echo "  Invalidation: $INVALIDATION_ID (usually live within a few minutes)"

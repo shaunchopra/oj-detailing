@@ -6,11 +6,15 @@ import quoteRouter from './routes/quote.js';
 import { posthog } from './lib/posthog.js';
 
 function getAllowedOrigins(): string[] {
-  const origins = new Set([
-    'https://oj-auto-detailing.com.au',
-    'https://www.oj-auto-detailing.com.au',
-    'http://localhost:8080',
-  ]);
+  const stage = process.env['STAGE']?.trim() || 'prod';
+  const origins = new Set(['http://localhost:8080']);
+
+  if (stage === 'dev') {
+    origins.add('https://dev.oj-auto-detailing.com.au');
+  } else {
+    origins.add('https://oj-auto-detailing.com.au');
+    origins.add('https://www.oj-auto-detailing.com.au');
+  }
 
   const cloudfrontOrigin = process.env['CLOUDFRONT_ORIGIN']?.trim();
   if (cloudfrontOrigin) {

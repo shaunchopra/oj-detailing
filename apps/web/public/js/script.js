@@ -7,6 +7,9 @@
     if (host === 'localhost' || host === '127.0.0.1') {
       return 'http://localhost:3001/api/quote';
     }
+    if (host === 'dev.oj-auto-detailing.com.au') {
+      return 'https://api-dev.oj-auto-detailing.com.au/api/quote';
+    }
     return 'https://api.oj-auto-detailing.com.au/api/quote';
   })();
 
