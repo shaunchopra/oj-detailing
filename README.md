@@ -12,6 +12,13 @@ Monorepo for the [OJ Auto Detailing](https://oj-auto-detailing.com.au) marketing
 - Site: https://oj-auto-detailing.com.au
 - API: https://api.oj-auto-detailing.com.au
 
+**Staging (dev)**
+
+- Site: https://dev.oj-auto-detailing.com.au
+- API: https://api-dev.oj-auto-detailing.com.au
+
+Push to the `dev` branch to deploy staging. Merge `dev` into `main` (or push to `main`) to deploy production.
+
 ## Prerequisites
 
 - [pnpm](https://pnpm.io/) (see `packageManager` in root `package.json`)
@@ -37,7 +44,7 @@ pnpm dev
 | Web | http://localhost:8080 | Astro dev server |
 | API | http://localhost:3001 | Express dev server; quote endpoint at `/api/quote` |
 
-The quote form on localhost posts to `http://localhost:3001/api/quote`. In production it uses `https://api.oj-auto-detailing.com.au/api/quote`.
+The quote form on localhost posts to `http://localhost:3001/api/quote`. On staging it uses `https://api-dev.oj-auto-detailing.com.au/api/quote`. In production it uses `https://api.oj-auto-detailing.com.au/api/quote`.
 
 Run a single app:
 
@@ -103,11 +110,18 @@ DRY_RUN=1 pnpm deploy
 
 Or deploy individually with `pnpm deploy:api` / `pnpm deploy:web`.
 
-### GitHub Actions (production)
+### GitHub Actions
 
-Push or merge to `main` deploys the API and web in parallel via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). You can also run **Actions → Deploy → Run workflow**.
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) deploys from two branches:
 
-Add these repository secrets (**Settings → Secrets and variables → Actions**):
+| Branch | GitHub environment | Site | API |
+| --- | --- | --- | --- |
+| `dev` | `development` | https://dev.oj-auto-detailing.com.au | https://api-dev.oj-auto-detailing.com.au |
+| `main` | `production` | https://oj-auto-detailing.com.au | https://api.oj-auto-detailing.com.au |
+
+Typical flow: commit on `dev` → check staging → open a PR / merge into `main` to go live.
+
+Add the same secrets on **both** environments (**Settings → Environments → production / development**):
 
 | Secret | Required | Used by |
 | --- | --- | --- |
@@ -121,14 +135,15 @@ Add these repository secrets (**Settings → Secrets and variables → Actions**
 | `POSTHOG_PROJECT_TOKEN` | no | Web analytics at build time |
 | `POSTHOG_API_HOST` | no | Web (defaults to `https://us.i.posthog.com`) |
 
-The IAM user needs permission to deploy Lambda/API Gateway via Serverless (CloudFormation, Lambda, S3 deployment bucket, logs) plus `s3:PutObject` / `s3:DeleteObject` / `s3:ListBucket` on `oj-auto-detailing.com.au` and `cloudfront:CreateInvalidation` on distribution `ETRVB9UY704LE`. Create a [Serverless access key](https://app.serverless.com) for `SERVERLESS_ACCESS_KEY`.
+The IAM user needs permission to deploy Lambda/API Gateway via Serverless (CloudFormation, Lambda, S3 deployment bucket, logs) plus S3/CloudFront access for both `oj-auto-detailing.com.au` (`ETRVB9UY704LE`) and `dev.oj-auto-detailing.com.au` (`EYBMHD6EPXUMX`). Create a [Serverless access key](https://app.serverless.com) for `SERVERLESS_ACCESS_KEY`.
 
 ### Web (S3 + CloudFront)
 
-The static site deploys to the `oj-auto-detailing.com.au` S3 bucket in `ap-southeast-2`, fronted by CloudFront distribution `ETRVB9UY704LE`.
+The static site deploys to S3 in `ap-southeast-2`, fronted by CloudFront. `STAGE=prod` (default) uses `oj-auto-detailing.com.au` / `ETRVB9UY704LE`. `STAGE=dev` uses `dev.oj-auto-detailing.com.au` / `EYBMHD6EPXUMX`.
 
 ```sh
 pnpm deploy:web
+STAGE=dev pnpm deploy:web
 ```
 
 This builds the site (loading `apps/web/.env` if present), syncs `apps/web/dist/` to S3, and invalidates the CloudFront cache.
@@ -171,6 +186,7 @@ Override stage or region:
 
 ```sh
 STAGE=prod AWS_REGION=ap-southeast-2 pnpm deploy:api
+STAGE=dev pnpm deploy:api
 ```
 
 Remove the stack:
@@ -194,4 +210,4 @@ apps/api/bruno/  API request collection (local + production)
 
 ## API testing
 
-Import the Bruno collection from `apps/api/bruno/`. Switch environments to hit local dev (`localhost:3001`) or production (`api.oj-auto-detailing.com.au`).
+Import the Bruno collection from `apps/api/bruno/`. Switch environments to hit local (`localhost:3001`), staging (`api-dev.oj-auto-detailing.com.au`), or production (`api.oj-auto-detailing.com.au`).

@@ -2,11 +2,11 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   workflow_dispatch:
 
 concurrency:
-  group: deploy-production
+  group: deploy-${{ github.ref_name }}
   cancel-in-progress: false
 
 permissions:
@@ -14,17 +14,18 @@ permissions:
 
 env:
   AWS_REGION: ap-southeast-2
-  STAGE: prod
+  STAGE: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
 
 jobs:
   deploy-api:
     name: Deploy API
+    if: github.ref_name == 'main' || github.ref_name == 'dev'
     runs-on: ubuntu-latest
-    environment: production
+    environment: ${{ github.ref_name == 'main' && 'production' || 'development' }}
     env:
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || vars.RESEND_API_KEY }}
       RESEND_FROM: ${{ secrets.RESEND_FROM || vars.RESEND_FROM }}
-      CLOUDFRONT_ORIGIN: https://oj-auto-detailing.com.au
+      CLOUDFRONT_ORIGIN: ${{ github.ref_name == 'main' && 'https://oj-auto-detailing.com.au' || 'https://dev.oj-auto-detailing.com.au' }}
       POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY || vars.POSTHOG_API_KEY }}
       POSTHOG_HOST: ${{ secrets.POSTHOG_HOST || vars.POSTHOG_HOST }}
       SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY || vars.SERVERLESS_ACCESS_KEY }}
@@ -52,13 +53,13 @@ jobs:
 
   deploy-web:
     name: Deploy web
+    if: github.ref_name == 'main' || github.ref_name == 'dev'
     runs-on: ubuntu-latest
-    environment: production
+    environment: ${{ github.ref_name == 'main' && 'production' || 'development' }}
     env:
       POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN || vars.POSTHOG_PROJECT_TOKEN }}
       POSTHOG_API_HOST: ${{ secrets.POSTHOG_API_HOST || vars.POSTHOG_API_HOST }}
-      S3_BUCKET: oj-auto-detailing.com.au
-      CLOUDFRONT_DISTRIBUTION_ID: ETRVB9UY704LE
+      SITE_ENV: ${{ github.ref_name == 'main' && 'production' || 'development' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -78,6 +79,7 @@ jobs:
           POSTHOG_PROJECT_TOKEN=${POSTHOG_PROJECT_TOKEN}
           POSTHOG_API_HOST=${POSTHOG_API_HOST:-https://us.i.posthog.com}
           ASSET_VERSION=${{ github.sha }}
+          SITE_ENV=${SITE_ENV}
           EOF
 
       - uses: aws-actions/configure-aws-credentials@v4

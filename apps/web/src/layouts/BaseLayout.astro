@@ -20,6 +20,7 @@ const {
 const posthogToken = import.meta.env.POSTHOG_PROJECT_TOKEN?.trim() ?? '';
 const posthogHost = import.meta.env.POSTHOG_API_HOST?.trim() || 'https://us.i.posthog.com';
 const assetVersion = import.meta.env.ASSET_VERSION?.trim() || 'dev';
+const isStaging = (process.env.SITE_ENV ?? import.meta.env.SITE_ENV ?? '').trim() === 'development';
 ---
 
 <!DOCTYPE html>
@@ -46,7 +47,8 @@ const assetVersion = import.meta.env.ASSET_VERSION?.trim() || 'dev';
     )}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content={description}>
-    <title>{title}</title>
+    {isStaging && <meta name="robots" content="noindex, nofollow">}
+    <title>{isStaging ? `[DEV] ${title}` : title}</title>
     <link rel="icon" href="/favicon.ico" sizes="any">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
