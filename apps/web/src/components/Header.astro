@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import ojLogo from '../assets/images/oj-logo.png';
+
 interface Props {
   home?: boolean;
 }
@@ -19,10 +22,13 @@ const prefix = home ? '' : '/';
       class="flex shrink-0 items-center gap-2 rounded hover:text-text focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-text"
       aria-label="OJ Auto Detailing home"
     >
-      <img
+      <Image
         class="block size-10 shrink-0 rounded-lg object-cover transition-opacity duration-200 ease-out group-hover:opacity-[0.88]"
-        src="/images/oj-logo.png"
+        src={ojLogo}
         alt="OJ Auto Detailing logo"
+        width={40}
+        height={40}
+        densities={[1, 2]}
       />
       <div class="logo-wordmark text-base">
         OJ Auto

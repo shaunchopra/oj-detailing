@@ -1,5 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Picture } from 'astro:assets';
+import mercCar from '../assets/images/merc-car.png';
+import kiaBefore from '../assets/images/kia-before.png';
+import kiaThirtyThree from '../assets/images/kia-trans-thirty-three.png';
+import kiaSixtySix from '../assets/images/kia-trans-sixty-six.png';
+import kiaAfter from '../assets/images/kia-after.png';
+import landCruiserBefore from '../assets/images/Land-Cruiser-Before.png';
+import landCruiserAfter from '../assets/images/Land-Cruiser-After.png';
+import skodaBefore from '../assets/images/skoda-before.png';
+import skodaThirtyThree from '../assets/images/skoda-trans-thirty-three.png';
+import skodaSixtySix from '../assets/images/skoda-trans-sixty-six.png';
+import skodaAfter from '../assets/images/skoda-after.png';
+import glcBefore from '../assets/images/glc-merc-before.png';
+import glcThirtyThree from '../assets/images/glc-merc-thirty-three.png';
+import glcSixtySix from '../assets/images/glc-merc-sixty-six.png';
+import glcAfter from '../assets/images/glc-merc-after.png';
+
+const sliderSizes = '(min-width: 768px) 40vw, 100vw';
 ---
 
 <BaseLayout
@@ -10,7 +28,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 >
   <main id="main">
 <section class="hero" id="hero" aria-labelledby="hero-title">
-      <img class="hero__bg" src="/images/merc-car.png" alt="" aria-hidden="true" draggable="false">
+      <Picture
+        class="hero__bg"
+        src={mercCar}
+        formats={['avif', 'webp']}
+        widths={[640, 960, 1280, 1672]}
+        sizes="100vw"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        aria-hidden="true"
+        draggable="false"
+      />
       <div class="hero__overlay" aria-hidden="true"></div>
       <div class="hero__content">
         <p class="hero__rating hero-in hero-in--1">
@@ -53,16 +82,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <div class="progress-slider__frame">
 
                 <!-- ① STAGE 0, dirtiest -->
-                <img class="progress-slider__layer" src="/images/kia-before.png" alt="Kia before detail, dirtiest condition">
+                <Picture
+                  class="progress-slider__layer"
+                  src={kiaBefore}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 973]}
+                  sizes={sliderSizes}
+                  alt="Kia before detail, dirtiest condition"
+                />
 
                 <!-- ② STAGE 1, 33% clean -->
-                <img class="progress-slider__layer" src="/images/kia-trans-thirty-three.png" alt="Kia detail stage 2, starting to clean">
+                <Picture
+                  class="progress-slider__layer"
+                  src={kiaThirtyThree}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 972]}
+                  sizes={sliderSizes}
+                  alt="Kia detail stage 2, starting to clean"
+                />
 
                 <!-- ③ STAGE 2, 66% clean -->
-                <img class="progress-slider__layer" src="/images/kia-trans-sixty-six.png" alt="Kia detail stage 3, nearly there">
+                <Picture
+                  class="progress-slider__layer"
+                  src={kiaSixtySix}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 971]}
+                  sizes={sliderSizes}
+                  alt="Kia detail stage 3, nearly there"
+                />
 
                 <!-- ④ STAGE 3, fully detailed -->
-                <img class="progress-slider__layer" src="/images/kia-after.png" alt="Kia after detail, OJ level clean">
+                <Picture
+                  class="progress-slider__layer"
+                  src={kiaAfter}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 972]}
+                  sizes={sliderSizes}
+                  alt="Kia after detail, OJ level clean"
+                />
               </div>
 
               <!-- ── Drag controls ────────────────────────────────────── -->
@@ -88,10 +145,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <a href="#service-transformation-detail" class="work-badge" aria-label="See Transformation Detail package">Transformation Detail</a>
             <div class="work-card__media" data-view="before">
               <div class="work-card__slot work-card__slot--before is-active">
-                <img src="/images/Land-Cruiser-Before.png" alt="Land Cruiser before exterior detail">
+                <Picture
+                  src={landCruiserBefore}
+                  formats={['avif', 'webp']}
+                  widths={[400, 800, 1088]}
+                  sizes={sliderSizes}
+                  alt="Land Cruiser before exterior detail"
+                />
               </div>
               <div class="work-card__slot work-card__slot--after">
-                <img src="/images/Land-Cruiser-After.png" alt="Land Cruiser after exterior detail">
+                <Picture
+                  src={landCruiserAfter}
+                  formats={['avif', 'webp']}
+                  widths={[400, 800, 1170]}
+                  sizes={sliderSizes}
+                  alt="Land Cruiser after exterior detail"
+                />
               </div>
             </div>
             <div class="work-card__toggle" role="group" aria-label="Land Cruiser exterior detail, before or after">
@@ -118,13 +187,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <!-- ── Image stack ─────────────────────────────────────── -->
               <div class="progress-slider__frame">
 
-                <img class="progress-slider__layer" src="/images/skoda-before.png" alt="Skoda before detail, dirtiest condition">
+                <Picture
+                  class="progress-slider__layer"
+                  src={skodaBefore}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 1033]}
+                  sizes={sliderSizes}
+                  alt="Skoda before detail, dirtiest condition"
+                />
 
-                <img class="progress-slider__layer" src="/images/skoda-trans-thirty-three.png" alt="Skoda detail stage 2, starting to clean">
+                <Picture
+                  class="progress-slider__layer"
+                  src={skodaThirtyThree}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 1033]}
+                  sizes={sliderSizes}
+                  alt="Skoda detail stage 2, starting to clean"
+                />
 
-                <img class="progress-slider__layer" src="/images/skoda-trans-sixty-six.png" alt="Skoda detail stage 3, nearly there">
+                <Picture
+                  class="progress-slider__layer"
+                  src={skodaSixtySix}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 1033]}
+                  sizes={sliderSizes}
+                  alt="Skoda detail stage 3, nearly there"
+                />
 
-                <img class="progress-slider__layer" src="/images/skoda-after.png" alt="Skoda after detail, OJ level clean">
+                <Picture
+                  class="progress-slider__layer"
+                  src={skodaAfter}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 1034]}
+                  sizes={sliderSizes}
+                  alt="Skoda after detail, OJ level clean"
+                />
               </div>
 
               <!-- ── Drag controls ────────────────────────────────────── -->
@@ -162,20 +259,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <div class="progress-slider__frame">
 
                 <!-- ① STAGE 1, dirtiest -->
-                <img class="progress-slider__layer" src="/images/glc-merc-before.png"
-                  alt="GLC interior before detail, where we started">
+                <Picture
+                  class="progress-slider__layer"
+                  src={glcBefore}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 852]}
+                  sizes={sliderSizes}
+                  alt="GLC interior before detail, where we started"
+                />
 
                 <!-- ② STAGE 2, mid dirty -->
-                <img class="progress-slider__layer" src="/images/glc-merc-thirty-three.png"
-                  alt="GLC interior detail stage 2, better but still grubby">
+                <Picture
+                  class="progress-slider__layer"
+                  src={glcThirtyThree}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 852]}
+                  sizes={sliderSizes}
+                  alt="GLC interior detail stage 2, better but still grubby"
+                />
 
                 <!-- ③ STAGE 3, nearly clean -->
-                <img class="progress-slider__layer" src="/images/glc-merc-sixty-six.png"
-                  alt="GLC interior detail stage 3, way cleaner now">
+                <Picture
+                  class="progress-slider__layer"
+                  src={glcSixtySix}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 852]}
+                  sizes={sliderSizes}
+                  alt="GLC interior detail stage 3, way cleaner now"
+                />
 
                 <!-- ④ STAGE 4, fully detailed -->
-                <img class="progress-slider__layer" src="/images/glc-merc-after.png"
-                  alt="GLC interior after detail, OJ level cleaned">
+                <Picture
+                  class="progress-slider__layer"
+                  src={glcAfter}
+                  formats={['avif', 'webp']}
+                  widths={[400, 640, 852]}
+                  sizes={sliderSizes}
+                  alt="GLC interior after detail, OJ level cleaned"
+                />
               </div>
 
               <!-- ── Drag controls ────────────────────────────────────── -->

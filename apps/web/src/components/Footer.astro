@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import ojLogo from '../assets/images/oj-logo.png';
+
 interface Props {
   home?: boolean;
 }
@@ -20,10 +23,13 @@ const footerLink =
         class="flex items-center gap-2 hover:text-text focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-text"
         aria-label="OJ Auto Detailing home"
       >
-        <img
+        <Image
           class="block size-[34px] shrink-0 rounded-[7px] object-cover transition-opacity duration-200 ease-out group-hover:opacity-[0.88]"
-          src="/images/oj-logo.png"
+          src={ojLogo}
           alt="OJ Auto Detailing logo"
+          width={34}
+          height={34}
+          densities={[1, 2]}
         />
         <div class="logo-wordmark text-[0.9375rem] leading-tight [&_span]:mt-px">
           OJ Auto
