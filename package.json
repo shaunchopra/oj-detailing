@@ -8,7 +8,9 @@
     "lint": "turbo lint",
     "deploy": "bash scripts/deploy.sh",
     "deploy:web": "bash scripts/deploy-web.sh",
-    "deploy:api": "bash scripts/deploy-api.sh"
+    "deploy:api": "bash scripts/deploy-api.sh",
+    "deploy:api:dev": "bash scripts/deploy-api.sh --stage dev",
+    "deploy:api:prod": "bash scripts/deploy-api.sh --stage prod"
   },
   "devDependencies": {
     "turbo": "latest"

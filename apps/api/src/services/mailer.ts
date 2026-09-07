@@ -36,3 +36,15 @@ export async function sendQuoteEmail(quote: ResolvedQuote): Promise<void> {
     throw new Error(error.message);
   }
 }
+
+export async function sendDynamoFailureAlert( error: unknown): Promise<void> {
+  try {
+    await getResend().emails.send({ from: getFromAddress(),
+      to: ['shaunchopra08@gmail.com'],
+      subject: `[ALERT] Quote not saved`,
+      text: `Dynamo write failed: ${String(error)}`,
+    });
+  } catch (error) {
+    console.error('[mailer] failed to send dynamo alert:', error);
+  }
+}
