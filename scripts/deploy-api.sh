@@ -21,7 +21,7 @@ fi
 
 if [[ -f "$ENV_FILE" ]]; then
   eval "$(cd "$API_DIR" && DOTENV_CONFIG_PATH="$ENV_FILE" node -r dotenv/config -e "
-    for (const key of ['RESEND_API_KEY', 'RESEND_FROM', 'CLOUDFRONT_ORIGIN', 'POSTHOG_API_KEY', 'POSTHOG_HOST']) {
+    for (const key of ['RESEND_API_KEY', 'RESEND_FROM', 'CLOUDFRONT_ORIGIN', 'POSTHOG_API_KEY', 'POSTHOG_HOST', 'ALERT_EMAIL']) {
       const value = process.env[key];
       if (value) console.log('export ' + key + '=' + JSON.stringify(value));
     }
@@ -31,7 +31,7 @@ fi
 CLOUDFRONT_ORIGIN="${CLOUDFRONT_ORIGIN:-$DEFAULT_ORIGIN}"
 
 missing=()
-for var in RESEND_API_KEY RESEND_FROM; do
+for var in RESEND_API_KEY RESEND_FROM ALERT_EMAIL; do
   if [[ -z "${!var:-}" ]]; then
     missing+=("$var")
   fi

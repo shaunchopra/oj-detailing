@@ -5,6 +5,7 @@
 #   2. Export secrets before deploy:
 #        export RESEND_API_KEY=re_...
 #        export RESEND_FROM="OJ Auto Detailing <quotes@oj-auto-detailing.com.au>"
+#        export ALERT_EMAIL=you@example.com
 #        export CLOUDFRONT_ORIGIN=https://dxxxxxxxx.cloudfront.net
 #   3. Build the bundle: pnpm --filter @oj-detailing/api build
 #
@@ -40,11 +41,11 @@ provider:
   iam:
     role:
       statements:
-        - Effect: Deny
+        - Effect: Allow
           Action:
             - dynamodb:PutItem
           Resource: !GetAtt QuotesTable.Arn
-            
+
   environment:
     NODE_ENV: production
     STAGE: ${self:custom.stage}
@@ -87,3 +88,74 @@ resources:
         KeySchema:
           - AttributeName: quoteId
             KeyType: HASH
+
+    # CloudWatch → SNS is the native alert path (not app-sent email).
+    # After first deploy, confirm the SNS subscription in your inbox.
+    AlertTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: oj-detailing-api-alerts-${self:custom.stage}
+        DisplayName: OJ Detailing API ${self:custom.stage}
+
+    AlertEmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        TopicArn: !Ref AlertTopic
+        Protocol: email
+        Endpoint: ${env:ALERT_EMAIL}
+
+    AlertTopicPolicy:
+      Type: AWS::SNS::TopicPolicy
+      Properties:
+        Topics:
+          - !Ref AlertTopic
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: AllowCloudWatchAlarms
+              Effect: Allow
+              Principal:
+                Service: cloudwatch.amazonaws.com
+              Action: sns:Publish
+              Resource: !Ref AlertTopic
+              Condition:
+                ArnLike:
+                  aws:SourceArn: !Sub arn:aws:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm:*
+
+    ApiLambdaErrorsAlarm:
+      Type: AWS::CloudWatch::Alarm
+      Properties:
+        AlarmName: oj-detailing-api-lambda-errors-${self:custom.stage}
+        AlarmDescription: API Lambda Errors (unhandled throws, e.g. DynamoDB write failures)
+        Namespace: AWS/Lambda
+        MetricName: Errors
+        Dimensions:
+          - Name: FunctionName
+            Value: !Ref ApiLambdaFunction
+        Statistic: Sum
+        Period: 60
+        EvaluationPeriods: 1
+        Threshold: 1
+        ComparisonOperator: GreaterThanOrEqualToThreshold
+        TreatMissingData: notBreaching
+        AlarmActions:
+          - !Ref AlertTopic
+
+    HttpApi5xxAlarm:
+      Type: AWS::CloudWatch::Alarm
+      Properties:
+        AlarmName: oj-detailing-api-5xx-${self:custom.stage}
+        AlarmDescription: HTTP API 5xx (includes handled 500s such as quote email send failure)
+        Namespace: AWS/ApiGateway
+        MetricName: 5xx
+        Dimensions:
+          - Name: ApiId
+            Value: ${self:custom.httpApiByStage.${self:custom.stage}.id}
+        Statistic: Sum
+        Period: 60
+        EvaluationPeriods: 1
+        Threshold: 1
+        ComparisonOperator: GreaterThanOrEqualToThreshold
+        TreatMissingData: notBreaching
+        AlarmActions:
+          - !Ref AlertTopic

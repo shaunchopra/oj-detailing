@@ -9,8 +9,8 @@
     "deploy": "bash scripts/deploy.sh",
     "deploy:web": "bash scripts/deploy-web.sh",
     "deploy:api": "bash scripts/deploy-api.sh",
-    "deploy:api:dev": "bash scripts/deploy-api.sh --stage dev",
-    "deploy:api:prod": "bash scripts/deploy-api.sh --stage prod"
+    "deploy:api:dev": "STAGE=dev bash scripts/deploy-api.sh",
+    "deploy:api:prod": "STAGE=prod bash scripts/deploy-api.sh"
   },
   "devDependencies": {
     "turbo": "latest"

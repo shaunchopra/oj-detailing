@@ -3,7 +3,7 @@ import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 
 import { SERVICES, ADDONS } from "../data/pricing.js";
 import { coerceStringArray } from "../lib/utils.js";
-import { sendQuoteEmail, sendDynamoFailureAlert } from "./mailer.js";
+import { sendQuoteEmail } from "./mailer.js";
 import { QuotePayload, ResolvedQuote } from "../types/index.js";
 import { QuoteRequestInput } from "../schemas/quote.js";
 import { posthog } from "../lib/posthog.js";
@@ -73,7 +73,7 @@ export async function handleQuoteRequest(
     );
   } catch (error) {
     console.error("DynamoDB write failed:", error);
-    throw error
+    throw error;
   }
 
   try {

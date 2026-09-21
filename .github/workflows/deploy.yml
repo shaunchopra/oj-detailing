@@ -28,6 +28,7 @@ jobs:
       CLOUDFRONT_ORIGIN: ${{ github.ref_name == 'main' && 'https://oj-auto-detailing.com.au' || 'https://dev.oj-auto-detailing.com.au' }}
       POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY || vars.POSTHOG_API_KEY }}
       POSTHOG_HOST: ${{ secrets.POSTHOG_HOST || vars.POSTHOG_HOST }}
+      ALERT_EMAIL: ${{ secrets.ALERT_EMAIL || vars.ALERT_EMAIL || 'shaunchopra08@gmail.com' }}
       SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY || vars.SERVERLESS_ACCESS_KEY }}
     steps:
       - uses: actions/checkout@v4
